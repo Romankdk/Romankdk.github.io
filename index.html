@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Yogendra Khadka | SOC Analyst Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --bg: #0d1117;
+  --surface: #161b22;
+  --surface2: #21262d;
+  --border: #30363d;
+  --green: #3fb950;
+  --blue: #58a6ff;
+  --orange: #f0883e;
+  --red: #ff7b72;
+  --purple: #d2a8ff;
+  --yellow: #e3b341;
+  --text: #e6edf3;
+  --muted: #8b949e;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 14px;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  background: rgba(13,17,23,0.95);
+  border-bottom: 1px solid var(--border);
+  backdrop-filter: blur(8px);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 32px; height: 52px;
+}
+.nav-brand { color: var(--green); font-size: 13px; font-weight: 600; }
+.nav-brand span { color: var(--muted); font-weight: 400; }
+.nav-links { display: flex; gap: 24px; list-style: none; }
+.nav-links a { color: var(--muted); text-decoration: none; font-size: 12px; transition: color 0.2s; }
+.nav-links a:hover { color: var(--green); }
+.status-dot { display: flex; align-items: center; gap: 8px; font-size: 11px; color: var(--muted); }
+.dot { width: 7px; height: 7px; border-radius: 50%; background: var(--green); animation: blink 2s infinite; }
+.hero {
+  min-height: 100vh;
+  display: flex; align-items: center; justify-content: center;
+  padding: 80px 32px 40px;
+}
+.terminal {
+  width: 100%; max-width: 780px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 32px 80px rgba(0,0,0,0.5);
+  animation: fadeIn 0.6s ease;
+}
+.terminal-bar {
+  background: var(--surface2);
+  padding: 10px 16px;
+  display: flex; align-items: center; gap: 8px;
+  border-bottom: 1px solid var(--border);
+}
+.btn-r { width: 12px; height: 12px; border-radius: 50%; background: #ff5f57; }
+.btn-y { width: 12px; height: 12px; border-radius: 50%; background: #febc2e; }
+.btn-g { width: 12px; height: 12px; border-radius: 50%; background: #28c840; }
+.terminal-title { flex: 1; text-align: center; font-size: 11px; color: var(--muted); }
+.terminal-body { padding: 28px 32px; min-height: 400px; }
+.ascii { color: var(--green); font-size: 11px; line-height: 1.3; display: block; margin-bottom: 16px; }
+.line { margin-bottom: 4px; }
+.prompt { color: var(--green); margin-right: 8px; }
+.cmd { color: var(--blue); }
+.arg { color: var(--orange); }
+.out { color: var(--text); display: block; margin: 1px 0; }
+.out-dim { color: var(--muted); display: block; margin: 1px 0; }
+.out-green { color: var(--green); display: block; margin: 1px 0; }
+.out-purple { color: var(--purple); display: block; }
+.out-yellow { color: var(--yellow); display: block; }
+.sp { display: block; height: 12px; }
+.cursor { display: inline-block; width: 8px; height: 14px; background: var(--green); animation: blink 1s infinite; vertical-align: middle; margin-left: 2px; }
+.main { max-width: 900px; margin: 0 auto; padding: 0 32px 80px; }
+.section { padding: 64px 0; border-top: 1px solid var(--border); }
+.section-header { display: flex; align-items: center; gap: 12px; margin-bottom: 40px; }
+.section-num { color: var(--green); font-size: 12px; font-weight: 600; }
+.section-title { color: var(--text); font-size: 18px; font-weight: 600; font-family: 'Inter', sans-serif; }
+.section-line { flex: 1; height: 1px; background: var(--border); }
+.about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+.block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 24px; }
+.block-title { color: var(--muted); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 16px; }
+.about-text { color: var(--muted); font-family: 'Inter', sans-serif; font-size: 14px; line-height: 1.8; }
+.about-text strong { color: var(--text); }
+.cert-row { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--border); }
+.cert-row:last-child { border-bottom: none; }
+.cert-icon { color: var(--yellow); }
+.cert-name { font-family: 'Inter', sans-serif; font-size: 13px; color: var(--text); flex: 1; }
+.cert-badge { font-size: 10px; color: var(--muted); background: var(--surface2); padding: 2px 8px; border-radius: 4px; white-space: nowrap; }
+.exp-item { display: grid; grid-template-columns: 180px 1fr; gap: 32px; padding: 32px 0; border-bottom: 1px solid var(--border); }
+.exp-item:last-child { border-bottom: none; }
+.exp-date { font-size: 11px; color: var(--green); font-weight: 600; margin-bottom: 4px; }
+.exp-loc { font-size: 11px; color: var(--muted); }
+.exp-role { font-family: 'Inter', sans-serif; font-size: 16px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
+.exp-org { font-size: 12px; color: var(--blue); margin-bottom: 16px; }
+.exp-bullets { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+.exp-bullets li { font-family: 'Inter', sans-serif; font-size: 13px; color: var(--muted); line-height: 1.7; padding-left: 18px; position: relative; }
+.exp-bullets li::before { content: '▸'; position: absolute; left: 0; color: var(--green); font-size: 10px; top: 3px; }
+.exp-bullets li strong { color: var(--text); }
+.projects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; }
+.project-card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 24px; transition: border-color 0.2s, transform 0.2s; display: flex; flex-direction: column; gap: 12px; }
+.project-card:hover { border-color: var(--green); transform: translateY(-2px); }
+.project-top { display: flex; justify-content: space-between; align-items: flex-start; }
+.folder { color: var(--blue); font-size: 22px; }
+.proj-link { color: var(--muted); text-decoration: none; font-size: 12px; transition: color 0.2s; }
+.proj-link:hover { color: var(--text); }
+.proj-name { font-family: 'Inter', sans-serif; font-size: 15px; font-weight: 600; color: var(--text); }
+.proj-desc { font-family: 'Inter', sans-serif; font-size: 13px; color: var(--muted); line-height: 1.7; flex: 1; }
+.proj-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+.p-tag { font-size: 11px; color: var(--muted); }
+.skills-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px; }
+.skill-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; }
+.skill-title { font-size: 11px; color: var(--green); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 12px; }
+.skill-title::before { content: '// '; color: var(--border); }
+.skill-list { display: flex; flex-direction: column; gap: 6px; }
+.skill-item { font-family: 'Inter', sans-serif; font-size: 13px; color: var(--muted); display: flex; align-items: center; gap: 8px; }
+.skill-item::before { content: ''; width: 4px; height: 4px; border-radius: 50%; background: var(--green); flex-shrink: 0; }
+.contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+.contact-terminal { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+.ct-bar { background: var(--surface2); padding: 8px 16px; border-bottom: 1px solid var(--border); display: flex; gap: 6px; }
+.ct-body { padding: 20px; }
+.contact-link { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--border); text-decoration: none; transition: color 0.2s; }
+.contact-link:last-child { border-bottom: none; }
+.ck { color: var(--blue); font-size: 12px; width: 80px; flex-shrink: 0; }
+.cv { color: var(--muted); font-family: 'Inter', sans-serif; font-size: 13px; transition: color 0.2s; }
+.contact-link:hover .cv { color: var(--green); }
+.avail-block { background: rgba(63,185,80,0.05); border: 1px solid rgba(63,185,80,0.2); border-radius: 8px; padding: 28px; display: flex; flex-direction: column; gap: 16px; justify-content: center; }
+.avail-title { font-family: 'Inter', sans-serif; font-size: 20px; font-weight: 600; color: var(--text); }
+.avail-desc { font-family: 'Inter', sans-serif; font-size: 13px; color: var(--muted); line-height: 1.7; }
+.avail-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(63,185,80,0.1); border: 1px solid rgba(63,185,80,0.3); color: var(--green); padding: 8px 16px; border-radius: 6px; font-size: 12px; font-weight: 600; width: fit-content; }
+footer { border-top: 1px solid var(--border); padding: 24px 32px; max-width: 900px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+footer p { font-size: 11px; color: var(--muted); }
+footer span { color: var(--green); }
+@keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+@media (max-width: 700px) {
+  .nav-links { display: none; }
+  .hero { padding: 70px 16px 32px; }
+  .terminal-body { padding: 20px; }
+  .main { padding: 0 16px 60px; }
+  .about-grid, .contact-grid { grid-template-columns: 1fr; }
+  .exp-item { grid-template-columns: 1fr; gap: 8px; }
+  footer { flex-direction: column; gap: 8px; text-align: center; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-brand">~/Romankdk <span>▸ portfolio</span></div>
+  <ul class="nav-links">
+    <li><a href="#about">about</a></li>
+    <li><a href="#experience">experience</a></li>
+    <li><a href="#projects">projects</a></li>
+    <li><a href="#skills">skills</a></li>
+    <li><a href="#contact">contact</a></li>
+  </ul>
+  <div class="status-dot"><span class="dot"></span>open to work</div>
+</nav>
+
+<div class="hero">
+  <div class="terminal">
+    <div class="terminal-bar">
+      <div class="btn-r"></div><div class="btn-y"></div><div class="btn-g"></div>
+      <div class="terminal-title">yogendra@khadka: ~/portfolio — bash</div>
+    </div>
+    <div class="terminal-body">
+<span class="ascii"> ██╗   ██╗██╗  ██╗
+ ╚██╗ ██╔╝██║ ██╔╝
+  ╚████╔╝ █████╔╝   Yogendra Khadka
+   ╚██╔╝  ██╔═██╗   SOC Analyst · Cybersecurity
+    ██║   ██║  ██╗
+    ╚═╝   ╚═╝  ╚═╝</span>
+
+<div class="line"><span class="prompt">yogendra@portfolio:~$</span><span class="cmd"> whoami</span></div>
+<span class="out-green">▸ SOC Analyst Intern | Cybersecurity Student | CUNY John Jay College</span>
+<span class="sp"></span>
+
+<div class="line"><span class="prompt">yogendra@portfolio:~$</span><span class="cmd"> cat</span><span class="arg"> profile.txt</span></div>
+<span class="out">Name    : Yogendra Khadka</span>
+<span class="out">Role    : GRC & Cybersecurity Intern → SOC Analyst</span>
+<span class="out">School  : CUNY John Jay College of Criminal Justice</span>
+<span class="out">Degree  : B.S. Computer Science & Information Security (2026)</span>
+<span class="out">Based   : New York, NY</span>
+<span class="sp"></span>
+
+<div class="line"><span class="prompt">yogendra@portfolio:~$</span><span class="cmd"> ls</span><span class="arg"> --certs</span></div>
+<span class="out-purple">CompTIA_Security+.cert &nbsp;&nbsp; Google_Cybersecurity_Pro.cert</span>
+<span class="sp"></span>
+
+<div class="line"><span class="prompt">yogendra@portfolio:~$</span><span class="cmd"> grep</span><span class="arg"> -r "impact" ./experience/</span></div>
+<span class="out-dim">DSS/phishing_training.log  → 15,000+ employees trained</span>
+<span class="out-dim">DSS/splunk_dashboards.log  → log analysis for security leadership</span>
+<span class="out-dim">Norwich/security_audit.log → 30% reduction in security incidents</span>
+<span class="sp"></span>
+
+<div class="line"><span class="prompt">yogendra@portfolio:~$</span><span class="cmd"> ./find_internship</span><span class="arg"> --role SOC --location NYC</span></div>
+<span class="out-green">[✓] Scanning opportunities...</span>
+<span class="out-yellow">[!] Actively seeking Summer 2026 internships</span>
+<span class="out-green">[✓] Available immediately</span>
+<span class="sp"></span>
+
+<div class="line"><span class="prompt">yogendra@portfolio:~$</span><span class="cursor"></span></div>
+    </div>
+  </div>
+</div>
+
+<div class="main">
+
+  <section class="section" id="about">
+    <div class="section-header">
+      <span class="section-num">01.</span>
+      <h2 class="section-title">about_me</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="about-grid">
+      <div class="block">
+        <p class="block-title">// background</p>
+        <p class="about-text">I'm a <strong>cybersecurity student</strong> at CUNY John Jay College focused on <strong>SOC operations and defensive security</strong>. I started at LaGuardia Community College (Dean's List) and transferred to specialize in Information Security.<br><br>My internship at the <strong>NYC Department of Social Services</strong> gave me hands-on exposure to Splunk, GRC, phishing awareness at scale, and AI-driven compliance tooling. I also run a personal <strong>VirtualBox home lab</strong> for continuous practice.</p>
+      </div>
+      <div class="block">
+        <p class="block-title">// certifications & education</p>
+        <div class="cert-row"><span class="cert-icon">★</span><span class="cert-name">CompTIA Security+</span><span class="cert-badge">COMPTIA</span></div>
+        <div class="cert-row"><span class="cert-icon">★</span><span class="cert-name">Google Professional Cybersecurity</span><span class="cert-badge">GOOGLE</span></div>
+        <div class="cert-row"><span class="cert-icon">◆</span><span class="cert-name">B.S. CS & Info Security — John Jay</span><span class="cert-badge">2026</span></div>
+        <div class="cert-row"><span class="cert-icon">◆</span><span class="cert-name">A.S. Computer Science — LaGuardia CC</span><span class="cert-badge">Dean's List</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="experience">
+    <div class="section-header">
+      <span class="section-num">02.</span>
+      <h2 class="section-title">work_experience</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="exp-item">
+      <div>
+        <p class="exp-date">Jun 2025 – Aug 2025</p>
+        <p class="exp-loc">New York, NY</p>
+      </div>
+      <div>
+        <p class="exp-role">GRC & Cybersecurity Intern</p>
+        <p class="exp-org">NYC Department of Social Services — HQ Office of Security</p>
+        <ul class="exp-bullets">
+          <li>Built phishing awareness training modules for <strong>15,000+ DSS employees</strong> covering phishing, smishing, and incident reporting.</li>
+          <li>Used <strong>Splunk</strong> to analyze email logs and training data — built dashboards for security leadership and flagged non-compliant users.</li>
+          <li>Contributed to the <strong>ANYTHING LLM</strong> project curating datasets and validating AI output for compliance reporting.</li>
+          <li>Coordinated <strong>Azure DevOps</strong> work items supporting security awareness campaign rollouts.</li>
+          <li>Executed internal security assessments, <strong>vulnerability scanning</strong>, and compliance checks using structured frameworks.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="exp-item">
+      <div>
+        <p class="exp-date">Jan 2022 – May 2022</p>
+        <p class="exp-loc">Northfield, VT</p>
+      </div>
+      <div>
+        <p class="exp-role">Student Technician</p>
+        <p class="exp-org">Norwich University — ITS Department</p>
+        <ul class="exp-bullets">
+          <li>Provided IT support to <strong>500+ users</strong> on Windows and Linux, specializing in troubleshooting and system optimization.</li>
+          <li>Reduced security incidents by <strong>30%</strong> through targeted vulnerability scanning and mitigation strategies.</li>
+          <li>Maintained hardware and software inventory through asset tracking and documentation.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="projects">
+    <div class="section-header">
+      <span class="section-num">03.</span>
+      <h2 class="section-title">projects</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="projects-grid">
+      <div class="project-card">
+        <div class="project-top"><span class="folder">📁</span><a href="https://github.com/Romankdk" target="_blank" class="proj-link">↗ github</a></div>
+        <p class="proj-name">Cloud Security Scanner</p>
+        <p class="proj-desc">Web-based tool for uploading and analyzing suspicious files. Deployed on AWS EC2 with ClamAV malware scanning and VirusTotal API integration. Built report visualizations with Pandas and Matplotlib.</p>
+        <div class="proj-tags"><span class="p-tag">Python</span> · <span class="p-tag">AWS EC2</span> · <span class="p-tag">ClamAV</span> · <span class="p-tag">VirusTotal</span></div>
+      </div>
+      <div class="project-card">
+        <div class="project-top"><span class="folder">📁</span><a href="https://github.com/Romankdk" target="_blank" class="proj-link">↗ github</a></div>
+        <p class="proj-name">VirtualBox Home SOC Lab</p>
+        <p class="proj-desc">Self-hosted Ubuntu lab for practicing Linux sysadmin, networking, and security. Configured Pi-hole for network-wide ad blocking, Jellyfin media server, personal cloud storage, and firewall rules.</p>
+        <div class="proj-tags"><span class="p-tag">Ubuntu</span> · <span class="p-tag">VirtualBox</span> · <span class="p-tag">Pi-hole</span> · <span class="p-tag">Linux</span></div>
+      </div>
+      <div class="project-card">
+        <div class="project-top"><span class="folder">📁</span><a href="https://github.com/Romankdk" target="_blank" class="proj-link">↗ github</a></div>
+        <p class="proj-name">AES Password Manager</p>
+        <p class="proj-desc">Team-built secure password manager with AES encryption for password storage. Focused on application architecture design and security best practices throughout development.</p>
+        <div class="proj-tags"><span class="p-tag">AES Encryption</span> · <span class="p-tag">Python</span> · <span class="p-tag">Security Design</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="skills">
+    <div class="section-header">
+      <span class="section-num">04.</span>
+      <h2 class="section-title">skills_&_tools</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="skills-grid">
+      <div class="skill-block"><p class="skill-title">SIEM & Monitoring</p><div class="skill-list"><span class="skill-item">Splunk</span><span class="skill-item">Log Analysis</span><span class="skill-item">Dashboard Building</span><span class="skill-item">Alert Triage</span></div></div>
+      <div class="skill-block"><p class="skill-title">Security Ops</p><div class="skill-list"><span class="skill-item">Vulnerability Scanning</span><span class="skill-item">Threat Detection</span><span class="skill-item">Incident Response</span><span class="skill-item">Phishing Analysis</span></div></div>
+      <div class="skill-block"><p class="skill-title">GRC</p><div class="skill-list"><span class="skill-item">Compliance</span><span class="skill-item">Risk Management</span><span class="skill-item">Security Frameworks</span><span class="skill-item">Azure DevOps</span></div></div>
+      <div class="skill-block"><p class="skill-title">Operating Systems</p><div class="skill-list"><span class="skill-item">Linux (Ubuntu)</span><span class="skill-item">Windows</span><span class="skill-item">VirtualBox</span><span class="skill-item">Virtualization</span></div></div>
+      <div class="skill-block"><p class="skill-title">Development</p><div class="skill-list"><span class="skill-item">Python</span><span class="skill-item">AWS EC2</span><span class="skill-item">Pandas / Matplotlib</span><span class="skill-item">VirusTotal API</span></div></div>
+      <div class="skill-block"><p class="skill-title">Networking</p><div class="skill-list"><span class="skill-item">TCP/IP</span><span class="skill-item">Firewall Rules</span><span class="skill-item">Pi-hole / DNS</span><span class="skill-item">Network Tools</span></div></div>
+    </div>
+  </section>
+
+  <section class="section" id="contact">
+    <div class="section-header">
+      <span class="section-num">05.</span>
+      <h2 class="section-title">contact</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="contact-grid">
+      <div class="contact-terminal">
+        <div class="ct-bar"><div class="btn-r"></div><div class="btn-y"></div><div class="btn-g"></div></div>
+        <div class="ct-body">
+          <a href="mailto:yogendra.khadka@jjay.cuny.edu" class="contact-link"><span class="ck">email</span><span class="cv">yogendra.khadka@jjay.cuny.edu</span></a>
+          <a href="tel:+18022250240" class="contact-link"><span class="ck">phone</span><span class="cv">+1 802-225-0240</span></a>
+          <a href="https://linkedin.com" target="_blank" class="contact-link"><span class="ck">linkedin</span><span class="cv">linkedin.com/in/yogendra-khadka</span></a>
+          <a href="https://github.com/Romankdk" target="_blank" class="contact-link"><span class="ck">github</span><span class="cv">github.com/Romankdk</span></a>
+          <a class="contact-link" style="cursor:default;"><span class="ck">location</span><span class="cv">New York, NY</span></a>
+        </div>
+      </div>
+      <div class="avail-block">
+        <p class="avail-title">Open to Opportunities</p>
+        <p class="avail-desc">Actively seeking SOC Analyst internships for Summer 2026. Available for full-time roles starting August 2026 upon graduation from CUNY John Jay.</p>
+        <div class="avail-badge"><span class="dot"></span>Available for Internships</div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<footer>
+  <p>Built by <span>Yogendra Khadka</span></p>
+  <p>yogendra.khadka@jjay.cuny.edu · New York, NY</p>
+</footer>
+
+</body>
+</html>
