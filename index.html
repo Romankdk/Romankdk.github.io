@@ -324,6 +324,74 @@ section{padding-block:72px;border-bottom:1px solid var(--line)}
 @media (max-width:460px){.flips{grid-template-columns:1fr}}
 @media (prefers-reduced-motion: reduce){.flip .in{transition:none}}
 
+
+/* ===== card scene effects ===== */
+.front .fx{position:absolute;inset:0;pointer-events:none;overflow:hidden;border-radius:inherit}
+.front > svg,.front > span:not(.fx){position:relative;z-index:1}
+.ring{position:absolute;left:41px;top:41px;width:10px;height:10px;margin:-5px 0 0 -5px;border:1.5px solid var(--navy);border-radius:50%;opacity:0;animation:ring 3s ease-out infinite}
+@keyframes ring{0%{transform:scale(.6);opacity:.45}100%{transform:scale(11);opacity:0}}
+.trail{position:absolute;height:2px;width:70px;border-radius:2px;background:linear-gradient(90deg,transparent,var(--gold));opacity:0;animation:trail 3.4s ease-in infinite}
+@keyframes trail{0%{transform:translate(-120px,0) rotate(-18deg);opacity:0}15%{opacity:.9}60%{opacity:.9}100%{transform:translate(320px,-90px) rotate(-18deg);opacity:0}}
+.cloud{position:absolute;height:22px;border-radius:30px;background:color-mix(in srgb,var(--navy) 14%,#fff);filter:blur(1px);opacity:.75;animation:drift linear infinite}
+.cloud::before,.cloud::after{content:"";position:absolute;background:inherit;border-radius:50%}
+.cloud::before{width:26px;height:26px;left:10px;top:-12px}.cloud::after{width:20px;height:20px;left:28px;top:-8px}
+@keyframes drift{from{transform:translateX(-90px)}to{transform:translateX(320px)}}
+.bird{position:absolute;width:12px;height:6px;border-top:2px solid var(--muted);border-radius:50% 50% 0 0;animation:fly linear infinite}
+.bird::after{content:"";position:absolute;left:10px;top:-2px;width:12px;height:6px;border-top:2px solid var(--muted);border-radius:50% 50% 0 0}
+@keyframes fly{0%{transform:translate(-40px,0)}50%{transform:translate(140px,-14px)}100%{transform:translate(320px,4px)}}
+.shape{position:absolute;bottom:-30px;border:2px solid var(--navy);opacity:.0;animation:rise linear infinite}
+.shape.c{border-radius:50%}.shape.g{border-color:var(--gold)}
+.shape.t{width:0!important;height:0!important;border:0;border-left:9px solid transparent;border-right:9px solid transparent;border-bottom:16px solid var(--gold)}
+@keyframes rise{0%{transform:translateY(0) rotate(0);opacity:0}15%{opacity:.7}100%{transform:translateY(-260px) rotate(320deg);opacity:0}}
+:root[data-theme="dark"] .cloud{background:color-mix(in srgb,#fff 18%,transparent)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .cloud{background:color-mix(in srgb,#fff 18%,transparent)}}
+
+/* ===== experience ===== */
+.xp{position:relative;display:grid;gap:22px;padding-left:28px}
+.xp::before{content:"";position:absolute;left:9px;top:8px;bottom:8px;width:2px;background:linear-gradient(var(--navy),var(--gold),var(--line))}
+.xcard{position:relative;background:var(--paper);border:1px solid var(--line);border-radius:16px;overflow:hidden;transition:transform .3s,box-shadow .3s}
+.xcard:hover{transform:translateY(-3px);box-shadow:0 18px 40px -22px color-mix(in srgb,var(--navy) 55%,transparent)}
+.xcard::before{content:"";position:absolute;left:-28px;top:26px;width:20px;height:20px;border-radius:50%;background:var(--paper);border:3px solid var(--navy);transform:translateX(-1px)}
+.xcard.first::after{content:"";position:absolute;left:-28px;top:26px;width:20px;height:20px;border-radius:50%;border:3px solid var(--navy);animation:ping 2.4s ease-out infinite;transform:translateX(-1px)}
+@keyframes ping{0%{transform:translateX(-1px) scale(1);opacity:.7}100%{transform:translateX(-1px) scale(2.2);opacity:0}}
+.xp{overflow:visible}.xcard{overflow:visible}
+.xhead{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:16px;align-items:center;padding:20px 22px;border-bottom:1px solid var(--line)}
+.mono{width:52px;height:52px;border-radius:12px;display:grid;place-items:center;font-weight:800;font-size:.95rem;color:#fff;background:linear-gradient(135deg,var(--navy),color-mix(in srgb,var(--navy) 55%,var(--gold)))}
+.mono.alt{background:linear-gradient(135deg,#7A1F2B,#B5485A)}
+.xhead h3{font-size:1.2rem}
+.xhead .org{color:var(--navy);font-weight:600;font-size:.95rem}
+.xhead .when{font-size:.86rem;color:var(--muted);text-align:right;line-height:1.4}
+.xhead .kind{display:inline-block;margin-top:4px;font-size:.75rem;font-weight:600;padding:2px 8px;border-radius:999px;background:var(--gold-soft);color:var(--gold)}
+.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border-bottom:1px solid var(--line)}
+.stat{padding:16px 22px;border-right:1px solid var(--line)}
+.stat:last-child{border-right:0}
+.stat b{display:block;font-size:1.6rem;font-weight:800;font-stretch:90%;color:var(--navy);line-height:1.1;font-variant-numeric:tabular-nums}
+.stat span{display:block;font-size:.84rem;line-height:1.4;color:var(--muted);margin-top:4px}
+.xbody{padding:16px 22px 20px}
+.xbody ul{margin:0;padding-left:1.1rem;display:grid;gap:7px;max-width:72ch}
+.xbody .tools{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
+@media (max-width:640px){.xhead{grid-template-columns:auto 1fr}.xhead .when{grid-column:1/-1;text-align:left}.stats{grid-template-columns:1fr}.stat{border-right:0;border-bottom:1px solid var(--line)}.stat:last-child{border-bottom:0}}
+
+/* ===== projects ===== */
+.pj{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.3fr);background:var(--paper);border:1px solid var(--line);border-radius:16px;overflow:hidden;transition:transform .3s,box-shadow .3s}
+.pj:hover{transform:translateY(-3px);box-shadow:0 18px 40px -22px color-mix(in srgb,var(--navy) 55%,transparent)}
+.pj + .pj{margin-top:16px}
+.viz{position:relative;min-height:220px;background:linear-gradient(160deg,#0E1A2E,#1B3A6B);overflow:hidden}
+.viz svg{position:absolute;inset:0;width:100%;height:100%}
+.viz .cap{position:absolute;left:14px;bottom:12px;font-family:var(--mono);font-size:.7rem;color:#9fe6f2;opacity:.85}
+.pj-body{padding:22px 24px;display:grid;gap:10px;align-content:start}
+.pj-top{display:flex;justify-content:space-between;gap:12px;align-items:start}
+.pj-body h3{font-size:1.3rem}
+.pj-body p{max-width:62ch}
+.pj-body ul{margin:0;padding-left:1.1rem;color:var(--muted);display:grid;gap:5px}
+.pj-body .tools{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}
+.pj-body .tools .tag{margin:0}
+.scanbeam{animation:scan 2.8s ease-in-out infinite}
+@keyframes scan{0%,100%{transform:translateX(0)}50%{transform:translateX(230px)}}
+.blink{animation:blink 1.4s steps(2) infinite}
+@keyframes blink{50%{opacity:.25}}
+@media (max-width:760px){.pj{grid-template-columns:1fr}.viz{min-height:180px}}
+
 footer{padding-block:28px;font-size:.88rem;color:var(--muted)}
 footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
 </style>
@@ -440,33 +508,64 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
   <section id="projects">
     <div class="wrap sec">
       <div class="sec-label"><h2>Projects</h2><p>Work I built outside of assignments, plus lab work from my forensics course.</p></div>
-      <div class="projects">
-        <article class="project">
-          <div><h3>Home security lab</h3><p class="meta">Raspberry Pi · Linux · Pi-hole · ntopng · Grafana · Cowrie</p></div>
-          <span class="pill on">Ongoing</span>
-          <p>A Raspberry Pi that works as a small monitoring setup for my home network.</p>
-          <ul>
-            <li>Runs Pi-hole for network-wide DNS filtering, with ntopng and Grafana to watch traffic.</li>
-            <li>Includes a Cowrie SSH honeypot that records real login attempts and attacker commands, which I map to MITRE ATT&amp;CK.</li>
-          </ul>
+      <div>
+        <article class="pj">
+          <div class="viz" aria-hidden="true">
+            <svg viewBox="0 0 320 220" preserveAspectRatio="xMidYMid meet">
+              <g stroke="#3d5f93" stroke-width="1.5" fill="none"><path id="l1" d="M60 110 L160 60"/><path id="l2" d="M60 110 L160 160"/><path id="l3" d="M160 60 L260 110"/><path id="l4" d="M160 160 L260 110"/><path d="M160 60 L160 160"/></g>
+              <g fill="#9fe6f2"><circle r="3"><animateMotion dur="2.4s" repeatCount="indefinite"><mpath href="#l1"/></animateMotion></circle><circle r="3"><animateMotion dur="3s" repeatCount="indefinite" begin="1s"><mpath href="#l4"/></animateMotion></circle><circle r="3"><animateMotion dur="2.7s" repeatCount="indefinite" begin=".5s"><mpath href="#l2"/></animateMotion></circle></g>
+              <g font-family="IBM Plex Mono, monospace" font-size="9" fill="#cfe0f5" text-anchor="middle">
+                <circle cx="60" cy="110" r="16" fill="#16294a" stroke="#9fe6f2"/><text x="60" y="140">router</text>
+                <circle cx="160" cy="60" r="16" fill="#16294a" stroke="#9fe6f2"/><text x="160" y="38">Pi-hole</text>
+                <circle cx="160" cy="160" r="16" fill="#16294a" stroke="#9fe6f2"/><text x="160" y="192">ntopng</text>
+                <circle cx="260" cy="110" r="18" fill="#3a1a19" stroke="#ff8a80" class="blink"/><text x="260" y="142" fill="#ffb3ad">honeypot</text>
+              </g>
+            </svg><span class="cap">live traffic · ssh attempts</span>
+          </div>
+          <div class="pj-body">
+            <div class="pj-top"><h3>Home security lab</h3><span class="pill on">Ongoing</span></div>
+            <p>A Raspberry Pi that works as a small monitoring setup for my home network.</p>
+            <ul><li>Pi-hole filters DNS for the whole network; ntopng and Grafana show the traffic.</li><li>A Cowrie SSH honeypot records real login attempts and attacker commands, which I map to MITRE ATT&amp;CK.</li></ul>
+            <div class="tools"><span class="tag">Raspberry Pi</span><span class="tag">Linux</span><span class="tag">Pi-hole</span><span class="tag">ntopng</span><span class="tag">Grafana</span><span class="tag">Cowrie</span></div>
+          </div>
         </article>
-        <article class="project">
-          <div><h3>Cloud malware scanner</h3><p class="meta">Python · AWS EC2 · ClamAV · VirusTotal API · Pandas</p></div>
-          <span class="pill done">2024</span>
-          <p>A Python tool hosted on AWS EC2 that checks suspicious files and writes up the results.</p>
-          <ul>
-            <li>Hashes each file, scans it with ClamAV, and looks up the hash on VirusTotal.</li>
-            <li>Generates a short risk report with charts built in Pandas and Matplotlib.</li>
-          </ul>
+        <article class="pj">
+          <div class="viz" aria-hidden="true">
+            <svg viewBox="0 0 320 220" preserveAspectRatio="xMidYMid meet">
+              <g stroke="#9fe6f2" stroke-width="1.5" fill="#16294a">
+                <path d="M40 60h40l16 16v74H40z"/><path d="M140 60h40l16 16v74h-56z"/><path d="M240 60h40l16 16v74h-56z" stroke="#ff8a80" fill="#3a1a19"/>
+              </g>
+              <g font-family="IBM Plex Mono, monospace" font-size="9" text-anchor="middle"><text x="68" y="172" fill="#9fe3b8">clean</text><text x="168" y="172" fill="#9fe3b8">clean</text><text x="268" y="172" fill="#ffb3ad" class="blink">flagged</text></g>
+              <rect class="scanbeam" x="30" y="50" width="6" height="110" fill="#e2b84f" opacity=".8"/>
+            </svg><span class="cap">hash → ClamAV → VirusTotal</span>
+          </div>
+          <div class="pj-body">
+            <div class="pj-top"><h3>Cloud malware scanner</h3><span class="pill done">2024</span></div>
+            <p>A Python tool hosted on AWS EC2 that checks suspicious files and writes up the results.</p>
+            <ul><li>Hashes each file, scans it with ClamAV, and looks up the hash on VirusTotal.</li><li>Generates a short risk report with charts built in Pandas and Matplotlib.</li></ul>
+            <div class="tools"><span class="tag">Python</span><span class="tag">AWS EC2</span><span class="tag">ClamAV</span><span class="tag">VirusTotal API</span><span class="tag">Pandas</span></div>
+          </div>
         </article>
-        <article class="project">
-          <div><h3>Windows forensics labs</h3><p class="meta">CSCI 411 · Autopsy · JumpList Explorer · ShellBags Explorer</p></div>
-          <span class="pill done">2026</span>
-          <p>Course labs reconstructing what a user did on a Windows machine.</p>
-          <ul>
-            <li>Parsed Jump Lists and ShellBags to see which files were opened and which folders were browsed.</li>
-            <li>Analyzed disk images in Autopsy to recover deleted files and build an evidence timeline.</li>
-          </ul>
+        <article class="pj">
+          <div class="viz" aria-hidden="true">
+            <svg viewBox="0 0 320 220" preserveAspectRatio="xMidYMid meet">
+              <path d="M30 120 H290" stroke="#3d5f93" stroke-width="2"/>
+              <g fill="#9fe6f2">
+                <circle cx="60" cy="120" r="6"><animate attributeName="r" values="0;6;6" dur="4s" repeatCount="indefinite"/></circle>
+                <circle cx="120" cy="120" r="6"><animate attributeName="r" values="0;0;6;6" keyTimes="0;.2;.3;1" dur="4s" repeatCount="indefinite"/></circle>
+                <circle cx="180" cy="120" r="6"><animate attributeName="r" values="0;0;6;6" keyTimes="0;.4;.5;1" dur="4s" repeatCount="indefinite"/></circle>
+                <circle cx="240" cy="120" r="7" fill="#ff8a80"><animate attributeName="r" values="0;0;7;7" keyTimes="0;.6;.7;1" dur="4s" repeatCount="indefinite"/></circle>
+              </g>
+              <g font-family="IBM Plex Mono, monospace" font-size="9" fill="#cfe0f5" text-anchor="middle"><text x="60" y="100">USB in</text><text x="120" y="150">file opened</text><text x="180" y="100">folder browsed</text><text x="240" y="150" fill="#ffb3ad">deleted copy</text></g>
+              <g stroke="#e2b84f" stroke-width="2.5" fill="none"><circle cx="0" cy="0" r="14"/><path d="M10 10 L22 22"/><animateTransform attributeName="transform" type="translate" values="40 60;250 60;40 60" dur="6s" repeatCount="indefinite"/></g>
+            </svg><span class="cap">artifact timeline</span>
+          </div>
+          <div class="pj-body">
+            <div class="pj-top"><h3>Windows forensics labs</h3><span class="pill done">2026</span></div>
+            <p>Course labs in CSCI 411 reconstructing what a user did on a Windows machine.</p>
+            <ul><li>Parsed Jump Lists and ShellBags to see which files were opened and which folders were browsed.</li><li>Analyzed disk images in Autopsy to recover deleted files and build an evidence timeline.</li></ul>
+            <div class="tools"><span class="tag">Autopsy</span><span class="tag">JumpList Explorer</span><span class="tag">ShellBags Explorer</span></div>
+          </div>
         </article>
       </div>
     </div>
@@ -475,33 +574,48 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
   <section id="experience">
     <div class="wrap sec">
       <div class="sec-label"><h2>Experience</h2><p>Where I've used what I study.</p></div>
-      <div class="jobs">
-        <div class="job">
-          <span class="when">Jun 2025 – Aug 2025</span>
-          <div>
-            <h3>Cybersecurity Analyst Intern</h3>
-            <p class="org">NYC Department of Social Services</p>
+      <div class="xp">
+        <article class="xcard first">
+          <div class="xhead">
+            <div class="mono" aria-hidden="true">DSS</div>
+            <div><h3>Cybersecurity Analyst Intern</h3><div class="org">NYC Department of Social Services</div></div>
+            <div class="when">Jun – Aug 2025<br>New York, NY<br><span class="kind">Internship</span></div>
+          </div>
+          <div class="stats">
+            <div class="stat"><b data-count="15000" data-suffix="+">15,000+</b><span>employees covered by the logs I monitored</span></div>
+            <div class="stat"><b>NIST</b><span>CSF and SP 800-53 control checks</span></div>
+            <div class="stat"><b>Splunk</b><span>dashboards presented to senior leadership</span></div>
+          </div>
+          <div class="xbody">
             <ul>
-              <li>Monitored and triaged security events in Splunk SIEM for an agency of 15,000+ employees.</li>
-              <li>Ran vulnerability assessments and control checks against NIST CSF and NIST SP 800-53, and wrote risk-ranked remediation reports.</li>
+              <li>Monitored and triaged security events in Splunk SIEM, flagging threats and unusual user activity.</li>
+              <li>Ran vulnerability assessments and control checks, and wrote risk-ranked remediation reports.</li>
               <li>Analyzed phishing threats and built incident response training for staff.</li>
-              <li>Built Splunk dashboards and presented findings to senior leadership.</li>
               <li>Tracked remediation in Azure DevOps and evaluated an AI tool (AnythingLLM) for compliance work.</li>
             </ul>
+            <div class="tools"><span class="tag">Splunk</span><span class="tag">NIST CSF</span><span class="tag">NIST 800-53</span><span class="tag">Azure DevOps</span><span class="tag">Phishing analysis</span><span class="tag">GRC</span></div>
           </div>
-        </div>
-        <div class="job">
-          <span class="when">Jan 2022 – May 2022</span>
-          <div>
-            <h3>Student IT Technician</h3>
-            <p class="org">Norwich University IT Services</p>
+        </article>
+        <article class="xcard">
+          <div class="xhead">
+            <div class="mono alt" aria-hidden="true">NU</div>
+            <div><h3>Student IT Technician</h3><div class="org">Norwich University IT Services</div></div>
+            <div class="when">Jan – May 2022<br>Northfield, VT<br><span class="kind">Student job</span></div>
+          </div>
+          <div class="stats">
+            <div class="stat"><b data-count="500" data-suffix="+">500+</b><span>Windows and Linux machines supported</span></div>
+            <div class="stat"><b data-count="30" data-suffix="%">30%</b><span>fewer security incidents after scanning and fixes</span></div>
+            <div class="stat"><b>Tier 1–2</b><span>help desk support for students and staff</span></div>
+          </div>
+          <div class="xbody">
             <ul>
-              <li>Provided help desk support on 500+ Windows and Linux machines.</li>
-              <li>Ran vulnerability scans and fixed the issues they found, which cut security incidents by 30%.</li>
+              <li>Provided first- and second-line help desk support across campus machines.</li>
+              <li>Ran vulnerability scans and fixed the issues they found.</li>
               <li>Handled user access changes and kept the hardware and software inventory current.</li>
             </ul>
+            <div class="tools"><span class="tag">Windows</span><span class="tag">Linux</span><span class="tag">Vulnerability scanning</span><span class="tag">Access control</span></div>
           </div>
-        </div>
+        </article>
       </div>
     </div>
   </section>
@@ -560,7 +674,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
         <div class="flips">
           <button class="flip" type="button" aria-pressed="false" aria-label="FPV drones: tap to read more">
             <span class="in">
-              <span class="face front"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><circle cx="37" cy="11" r="7"/><circle cx="11" cy="37" r="7"/><circle cx="37" cy="37" r="7"/><path d="M16 16l5 5M32 16l-5 5M16 32l5-5M32 32l-5-5"/><rect x="19" y="19" width="10" height="10" rx="2"/></svg><span><b>FPV drones</b><br><small>Tap or hover to flip</small></span></span>
+              <span class="face front" id="fpvFace"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><circle cx="37" cy="11" r="7"/><circle cx="11" cy="37" r="7"/><circle cx="37" cy="37" r="7"/><path d="M16 16l5 5M32 16l-5 5M16 32l5-5M32 32l-5-5"/><rect x="19" y="19" width="10" height="10" rx="2"/></svg><span><b>FPV drones</b><br><small>Tap or hover to flip</small></span></span>
               <span class="face back"><b>Flying and building</b>I fly a DJI Avata and a DJI FPV, and I'm learning acro (manual) mode in the Uncrashed simulator. I also build my own quads from parts.</span>
             </span>
           </button>
@@ -572,13 +686,13 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
           </button>
           <button class="flip" type="button" aria-pressed="false" aria-label="Hiking and backpacking: tap to read more">
             <span class="in">
-              <span class="face front"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M4 40 18 16l8 12 6-8 12 20z"/><path d="M15 21l3 3 3-3"/><circle cx="36" cy="10" r="4"/></svg><span><b>Hiking &amp; backpacking</b><br><small>Tap or hover to flip</small></span></span>
+              <span class="face front" id="hikeFace"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M4 40 18 16l8 12 6-8 12 20z"/><path d="M15 21l3 3 3-3"/><circle cx="36" cy="10" r="4"/></svg><span><b>Hiking &amp; backpacking</b><br><small>Tap or hover to flip</small></span></span>
               <span class="face back"><b>Trips with friends</b>Whenever I can get away. Planning gear, routes and weather is its own kind of risk assessment.</span>
             </span>
           </button>
           <button class="flip" type="button" aria-pressed="false" aria-label="Design and video: tap to read more">
             <span class="in">
-              <span class="face front"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M24 6 38 32H10z"/><circle cx="24" cy="24" r="3"/><path d="M14 40h20"/></svg><span><b>Design &amp; video</b><br><small>Tap or hover to flip</small></span></span>
+              <span class="face front" id="designFace"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M24 6 38 32H10z"/><circle cx="24" cy="24" r="3"/><path d="M14 40h20"/></svg><span><b>Design &amp; video</b><br><small>Tap or hover to flip</small></span></span>
               <span class="face back"><b>Creative tools</b>Photoshop, Illustrator and Premiere from my design and video courses. Handy for editing flight footage.</span>
             </span>
           </button>
@@ -667,6 +781,19 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
   const sf=$('#snowFace'); if(sf&&!reduce){for(let i=0;i<18;i++){const d=document.createElement('i'); d.style.left=(Math.random()*100)+'%'; d.style.animationDuration=(3+Math.random()*4)+'s'; d.style.animationDelay=(-Math.random()*6)+'s'; const z=2+Math.random()*4; d.style.width=d.style.height=z+'px'; sf.appendChild(d);}}
   /* flight clock */
   const fc=$('#flyClock'), tg=$('#flyToggle'); let secs=0; setInterval(()=>{ if(tg&&tg.checked){secs++; fc.textContent=String(Math.floor(secs/60)).padStart(2,'0')+':'+String(secs%60).padStart(2,'0');}},1000);
+
+  /* scene effects inside the hobby cards */
+  const mk=(host,cls,css)=>{const e=document.createElement('i'); e.className=cls; Object.assign(e.style,css); host.appendChild(e); return e;};
+  const fx=id=>{const f=$(id); if(!f) return null; const box=document.createElement('span'); box.className='fx'; f.prepend(box); return box;};
+  if(!reduce){
+    const fp=fx('#fpvFace'); if(fp){ for(let i=0;i<3;i++) mk(fp,'ring',{animationDelay:i+'s'}); for(let i=0;i<3;i++) mk(fp,'trail',{top:(70+i*38)+'px',animationDelay:(i*1.1)+'s'}); }
+    const hk=fx('#hikeFace'); if(hk){ for(let i=0;i<3;i++) mk(hk,'cloud',{width:(48+i*14)+'px',top:(18+i*30)+'px',animationDuration:(14+i*5)+'s',animationDelay:(-i*5)+'s'}); for(let i=0;i<2;i++) mk(hk,'bird',{top:(60+i*22)+'px',animationDuration:(9+i*3)+'s',animationDelay:(-i*4)+'s'}); }
+    const dg=fx('#designFace'); if(dg){ const k=['c','','t','c g','',' g']; for(let i=0;i<10;i++){const z=10+Math.random()*14; mk(dg,'shape '+k[i%k.length],{left:(Math.random()*90)+'%',width:z+'px',height:z+'px',animationDuration:(6+Math.random()*5)+'s',animationDelay:(-Math.random()*8)+'s'});} }
+  } else { $$('.viz svg').forEach(s=>s.pauseAnimations&&s.pauseAnimations()); }
+  /* count-up stats when experience scrolls into view */
+  const cs=$$('[data-count]');
+  if(!reduce && cs.length){const io2=new IntersectionObserver(es=>es.forEach(e=>{if(!e.isIntersecting)return; io2.unobserve(e.target); const el=e.target, n=+el.dataset.count, suf=el.dataset.suffix||''; const t0=performance.now();
+    const st=t=>{const p=Math.min(1,(t-t0)/1200); el.textContent=Math.round(n*(1-Math.pow(1-p,3))).toLocaleString()+suf; if(p<1) requestAnimationFrame(st);}; requestAnimationFrame(st);}),{threshold:.6}); cs.forEach(c=>io2.observe(c));}
   /* capstone lab sequence */
   const L=[['Week 1','Environment variables & Set-UID',true],['Week 4','Autopsy forensics project'],['Week 5','Meltdown'],['Week 6','Spectre'],['Week 7','TLS'],['Week 8','PKI'],['Week 9','RSA encryption & signatures'],['Week 10','MD5 collision'],['Week 11','Hash length extension'],['Week 12','Secret-key encryption'],['Week 13','Random numbers & Heartbleed'],['Week 14','Android repackaging & rooting']];
   const ck='<svg class="ck" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8.5"/><path d="M6 10.5l2.6 2.6L14 7.6"/></svg>';
@@ -735,16 +862,16 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
     const root=new T.Group(); const parts={}; const base={};
     const P=(k)=>{ if(!parts[k]){ parts[k]=new T.Group(); parts[k].name=k; root.add(parts[k]); } return parts[k]; };
     const mat={
-      carbon:new T.MeshStandardMaterial({map:carbonTexture(),color:0x6d737b,roughness:.42,metalness:.35}),
+      carbon:new T.MeshStandardMaterial({map:carbonTexture(),color:0x7a818a,roughness:.32,metalness:.25,envMapIntensity:1.1}),
       alu:new T.MeshStandardMaterial({color:new T.Color(accent()),roughness:.28,metalness:.85}),
-      bell:new T.MeshStandardMaterial({color:0x22262c,roughness:.3,metalness:.9}),
+      bell:new T.MeshStandardMaterial({color:0x2b3038,roughness:.22,metalness:1,envMapIntensity:1.4}),
       stator:new T.MeshStandardMaterial({color:0x8a5a2b,roughness:.5,metalness:.6}),
       steel:new T.MeshStandardMaterial({color:0xc9ced4,roughness:.25,metalness:1}),
       pcb:new T.MeshStandardMaterial({map:pcbTexture(),roughness:.6,metalness:.1}),
       chip:new T.MeshStandardMaterial({color:0x111214,roughness:.4,metalness:.3}),
       black:new T.MeshStandardMaterial({color:0x0f1113,roughness:.55,metalness:.2}),
       glass:new T.MeshStandardMaterial({color:0x0a1a2a,roughness:.05,metalness:1,emissive:0x0b2236,emissiveIntensity:.6}),
-      prop:new T.MeshStandardMaterial({color:new T.Color(accent()),roughness:.35,metalness:.05,transparent:true,opacity:.88}),
+      prop:new T.MeshStandardMaterial({color:new T.Color(accent()),roughness:.18,metalness:0,transparent:true,opacity:.9,envMapIntensity:1.2}),
       blur:new T.MeshBasicMaterial({color:new T.Color(accent()),transparent:true,opacity:.0,depthWrite:false,side:T.DoubleSide}),
       battery:new T.MeshStandardMaterial({map:labelTexture(),roughness:.5,metalness:.1}),
       shrink:new T.MeshStandardMaterial({color:0x1a1d21,roughness:.7,metalness:.05}),
@@ -758,28 +885,43 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
     const add=(k,geo,m,x,y,z,rx=0,ry=0,rz=0)=>{const me=new T.Mesh(geo,m); me.position.set(x,y,z); me.rotation.set(rx,ry,rz); me.castShadow=true; me.userData.part=k; P(k).add(me); return me;};
     const M=[[8,8],[-8,8],[8,-8],[-8,-8]]; // motor x,z (z = forward)
 
-    /* frame: bottom plate arms + center plate + top plate + standoffs */
-    for(const [x,z] of M){
-      const len=Math.hypot(x,z)+1.6, ang=Math.atan2(x,z);
-      add('frame',new T.BoxGeometry(1.7,.5,len),mat.carbon,x/2,0,z/2,0,ang,0);
-      add('frame',new T.CylinderGeometry(1.5,1.5,.5,28),mat.carbon,x,0,z);
-      add('frame',new T.BoxGeometry(.25,.12,len*.55),mat.led,x*.45,-.3,z*.45,0,ang,0);
-    }
-    add('frame',new T.BoxGeometry(4.6,.5,9.4),mat.carbon,0,0,0);
-    add('frame',new T.BoxGeometry(4.2,.3,8.6),mat.carbon,0,2.85,0);
-    for(const [x,z] of [[1.9,4],[-1.9,4],[1.9,-4],[-1.9,-4]]) add('frame',new T.CylinderGeometry(.22,.22,2.6,12),mat.alu,x,1.45,z);
+    /* helpers for machined, bevelled parts */
+    const rr=(w,h,r)=>{const sh=new T.Shape(),x=-w/2,y=-h/2; sh.moveTo(x+r,y); sh.lineTo(x+w-r,y); sh.quadraticCurveTo(x+w,y,x+w,y+r); sh.lineTo(x+w,y+h-r); sh.quadraticCurveTo(x+w,y+h,x+w-r,y+h); sh.lineTo(x+r,y+h); sh.quadraticCurveTo(x,y+h,x,y+h-r); sh.lineTo(x,y+r); sh.quadraticCurveTo(x,y,x+r,y); return sh;};
+    const hole=(cx,cy,w,h,r)=>{const sh=rr(w,h,r); const pth=new T.Path(); pth.setFromPoints(sh.getPoints(8).map(v=>new T.Vector2(v.x+cx,v.y+cy))); return pth;};
+    const plate=(shape,th)=>{const g=new T.ExtrudeGeometry(shape,{depth:th,bevelEnabled:true,bevelThickness:.06,bevelSize:.06,bevelSegments:2,curveSegments:10}); g.rotateX(-Math.PI/2); g.translate(0,-th/2,0); return g;};
+    const screw=(k,x,y,z)=>{add(k,new T.CylinderGeometry(.2,.2,.12,12),mat.steel,x,y,z); add(k,new T.BoxGeometry(.22,.03,.05),mat.black,x,y+.07,z);};
 
-    /* motors */
-    const propGroups=[];
+    /* frame: bevelled carbon arms with lightening slots, center and top plates, anodized standoffs */
     for(const [x,z] of M){
-      add('motors',new T.CylinderGeometry(1.25,1.25,.25,32),mat.bell,x,.38,z);
-      add('motors',new T.CylinderGeometry(1.1,1.1,.7,32),mat.stator,x,.85,z);
-      add('motors',new T.CylinderGeometry(1.2,1.2,.9,40,1,true),mat.bell,x,1.15,z);
-      add('motors',new T.CylinderGeometry(1.2,1.2,.12,40),mat.bell,x,1.6,z);
-      add('motors',new T.TorusGeometry(1.0,.07,8,40),mat.alu,x,1.67,z,Math.PI/2);
-      add('motors',new T.CylinderGeometry(.18,.18,1.1,12),mat.steel,x,2.1,z);
+      const len=Math.hypot(x,z)+1.8, ang=Math.atan2(x,z);
+      const arm=rr(1.9,len,.9); arm.holes.push(hole(0,len*.12,.55,len*.32,.27));
+      const g=plate(arm,.42); const me=add('frame',g,mat.carbon,x/2,0,z/2,0,ang,0);
+      add('frame',new T.CylinderGeometry(1.55,1.55,.42,36),mat.carbon,x,0,z);
+      for(let a=0;a<4;a++){const t=a*Math.PI/2+Math.PI/4; screw('frame',x+Math.cos(t)*.85,-.28,z+Math.sin(t)*.85);}
+      add('frame',new T.BoxGeometry(.28,.1,len*.5),mat.led,x*.45,-.28,z*.45,0,ang,0);
+    }
+    add('frame',plate(rr(4.8,9.6,1.1),.42),mat.carbon,0,0,0);
+    const top=rr(4.4,8.8,1.0); top.holes.push(hole(0,2.4,2.2,1.4,.5)); top.holes.push(hole(0,-2.4,2.2,1.4,.5));
+    add('frame',plate(top,.26),mat.carbon,0,2.85,0);
+    for(const [x,z] of [[1.9,4],[-1.9,4],[1.9,-4],[-1.9,-4]]){
+      add('frame',new T.CylinderGeometry(.24,.24,2.6,6),mat.alu,x,1.45,z);
+      screw('frame',x,3.03,z);
+    }
+
+    /* motors: lathed bell with cooling vents, stator windings, mount screws */
+    const propGroups=[];
+    const bellProfile=[[0,1.62],[.35,1.62],[.95,1.6],[1.18,1.5],[1.24,1.38],[1.24,.6],[1.2,.55],[0,.55]].map(([r,y])=>new T.Vector2(r,y));
+    const bellGeo=new T.LatheGeometry(bellProfile,48);
+    for(const [x,z] of M){
+      add('motors',new T.CylinderGeometry(1.15,1.25,.3,40),mat.bell,x,.38,z);
+      add('motors',new T.CylinderGeometry(1.02,1.02,.5,24),mat.stator,x,.8,z);
+      add('motors',bellGeo,mat.bell,x,0,z);
+      for(let v=0;v<6;v++){const t=v*Math.PI/3; add('motors',new T.BoxGeometry(.42,.06,.16),mat.black,x+Math.cos(t)*.62,1.63,z+Math.sin(t)*.62,0,-t,0);}
+      add('motors',new T.TorusGeometry(1.0,.06,8,48),mat.alu,x,1.4,z,Math.PI/2);
+      add('motors',new T.CylinderGeometry(.16,.16,1.2,16),mat.steel,x,2.15,z);
+      add('motors',new T.CylinderGeometry(.38,.42,.28,6),mat.alu,x,2.62,z);
       /* props: tri-blade, alternate spin direction */
-      const pg=new T.Group(); pg.position.set(x,2.15,z); pg.userData.dir=(x*z>0)?1:-1; P('props').add(pg);
+      const pg=new T.Group(); pg.position.set(x,2.3,z); pg.userData.dir=(x*z>0)?1:-1; P('props').add(pg);
       const hub=new T.Mesh(new T.CylinderGeometry(.55,.6,.45,24),mat.prop); hub.userData.part='props'; pg.add(hub);
       for(let b=0;b<3;b++){
         const shape=new T.Shape(); shape.moveTo(0,-.35); shape.bezierCurveTo(2,-.75,4.6,-.55,6.2,-.12); shape.quadraticCurveTo(6.45,0,6.2,.18); shape.bezierCurveTo(4.6,.5,2,.55,0,.35);
@@ -875,13 +1017,27 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
     try{ renderer=new T.WebGLRenderer({canvas,antialias:true,alpha:true,powerPreference:'high-performance'}); }
     catch(e){ canvas.closest('[data-3d]')?.classList.add('no-webgl'); return null; }
     renderer.setPixelRatio(Math.min(devicePixelRatio||1,2));
-    renderer.outputEncoding=T.sRGBEncoding; renderer.toneMapping=T.ACESFilmicToneMapping; renderer.toneMappingExposure=1.15;
+    renderer.shadowMap.enabled=true; renderer.shadowMap.type=T.PCFSoftShadowMap;
+    renderer.outputEncoding=T.sRGBEncoding; renderer.toneMapping=T.ACESFilmicToneMapping; renderer.toneMappingExposure=.95;
     const scene=new T.Scene();
     const camera=new T.PerspectiveCamera(opts.fov||32,1,.1,500);
     const drone=buildDrone(); const rig=new T.Group(); rig.add(drone); scene.add(rig);
     const shadow=contactShadow(); shadow.position.y=-4.5; scene.add(shadow);
-    scene.add(new T.HemisphereLight(0xcfe8ff,0x0b1622,.85));
-    const key=new T.DirectionalLight(0xffffff,1.6); key.position.set(14,22,16); scene.add(key);
+    /* studio environment: gradient dome + softbox panels, baked to a PMREM for realistic metal and carbon reflections */
+    try{
+      const env=new T.Scene();
+      const dome=new T.Mesh(new T.SphereGeometry(60,32,16),new T.MeshBasicMaterial({side:T.BackSide,vertexColors:true}));
+      const pos=dome.geometry.attributes.position, col=[]; const cTop=new T.Color(0x6f86a6), cBot=new T.Color(0x0b1220);
+      for(let i=0;i<pos.count;i++){const k=(pos.getY(i)/60+1)/2; const c=cBot.clone().lerp(cTop,Math.pow(k,1.6)); col.push(c.r,c.g,c.b);}
+      dome.geometry.setAttribute('color',new T.Float32BufferAttribute(col,3)); env.add(dome);
+      const box=(w,h,x,y,z,c)=>{const m=new T.Mesh(new T.PlaneGeometry(w,h),new T.MeshBasicMaterial({color:c,side:T.DoubleSide})); m.position.set(x,y,z); m.lookAt(0,0,0); env.add(m);};
+      box(40,14,0,45,10,0xffffff); box(22,22,40,15,25,0xdfe9ff); box(18,30,-42,10,-10,new T.Color(accent()).multiplyScalar(.9));
+      const pm=new T.PMREMGenerator(renderer); scene.environment=pm.fromScene(env,.04).texture; pm.dispose();
+    }catch(e){}
+    scene.add(new T.HemisphereLight(0xcfe8ff,0x0b1622,.45));
+    const ground=new T.Mesh(new T.PlaneGeometry(120,120),new T.ShadowMaterial({opacity:.16})); ground.rotation.x=-Math.PI/2; ground.position.y=-4.6; ground.receiveShadow=true; scene.add(ground);
+    const key=new T.DirectionalLight(0xffffff,1.5); key.position.set(14,26,16); key.castShadow=true;
+    key.shadow.mapSize.set(1024,1024); key.shadow.radius=6; key.shadow.bias=-.0008; Object.assign(key.shadow.camera,{left:-22,right:22,top:22,bottom:-22,near:1,far:80}); scene.add(key);
     const rim=new T.DirectionalLight(new T.Color(accent()),1.1); rim.position.set(-18,8,-14); scene.add(rim);
     const fill=new T.DirectionalLight(0x7ce3f0,.45); fill.position.set(-10,-6,12); scene.add(fill);
 
