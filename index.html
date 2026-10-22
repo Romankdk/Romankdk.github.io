@@ -16,7 +16,7 @@
   --navy:#1B3A6B; --navy-soft:#E8EEF7; --gold:#B88A1B; --gold-soft:#F7EFD9; --ok:#1F6F43; --ok-soft:#E5F3EB;
   --f:"Archivo",system-ui,-apple-system,"Segoe UI",sans-serif;
   --mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
-  --r:10px; color-scheme:light;
+  --r:10px; --accent:#D4A02F; color-scheme:light;
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
   --bg:#0D1420; --paper:#141D2B; --ink:#E8EDF4; --muted:#A3AFC0; --line:#253246;
@@ -34,6 +34,7 @@ a{color:var(--navy);text-underline-offset:3px;text-decoration-thickness:1px}
 h1,h2,h3{margin:0;line-height:1.1;text-wrap:balance}
 p{margin:0}
 .wrap{max-width:1120px;margin:0 auto;padding-inline:20px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
 .code{font-family:var(--mono);font-size:.78rem;letter-spacing:0}
 
 /* header */
@@ -220,6 +221,109 @@ section{padding-block:72px;border-bottom:1px solid var(--line)}
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .btn.solid{color:#0D1420}}
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .contact{background:#16294A}}
 @media (max-width:760px){.contact{grid-template-columns:1fr;padding:26px}}
+
+/* ===== uiverse-style elements ===== */
+/* icon buttons with pop tooltip */
+.icons{display:flex;gap:10px;margin-top:18px}
+.ibtn{position:relative;width:46px;height:46px;border-radius:50%;display:grid;place-items:center;background:var(--paper);border:1px solid var(--line);color:var(--ink);text-decoration:none;box-shadow:4px 4px 10px color-mix(in srgb,#000 8%,transparent),-4px -4px 10px color-mix(in srgb,#fff 70%,transparent);transition:transform .25s cubic-bezier(.3,1.6,.6,1),background .25s,color .25s}
+.ibtn svg{width:20px;height:20px}
+.ibtn:hover,.ibtn:focus-visible{transform:translateY(-4px);background:var(--navy);color:#fff}
+.ibtn::after{content:attr(data-tip);position:absolute;bottom:calc(100% + 10px);left:50%;transform:translate(-50%,6px) scale(.85);opacity:0;pointer-events:none;white-space:nowrap;font-size:.78rem;font-weight:600;padding:5px 9px;border-radius:6px;background:var(--ink);color:var(--paper);transition:all .25s cubic-bezier(.3,1.6,.6,1)}
+.ibtn:hover::after,.ibtn:focus-visible::after{opacity:1;transform:translate(-50%,0) scale(1)}
+:root[data-theme="dark"] .ibtn{box-shadow:none}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .ibtn{box-shadow:none}}
+
+/* glow-follow border on course cards */
+.course{position:relative;isolation:isolate}
+.course::before{content:"";position:absolute;inset:-1px;border-radius:inherit;padding:1.5px;z-index:-1;opacity:0;transition:opacity .3s;
+  background:radial-gradient(220px circle at var(--x,50%) var(--y,50%),var(--navy),var(--gold) 40%,transparent 70%);
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude}
+.course:hover::before{opacity:1}
+.course:hover{border-color:transparent}
+
+/* animated check for completed labs */
+.labs .ck{width:20px;height:20px;flex:none;align-self:center}
+.labs li{grid-template-columns:24px 62px 1fr!important}
+.ck circle{fill:none;stroke:var(--line);stroke-width:2}
+.labs li.done .ck circle{stroke:var(--ok);fill:var(--ok-soft)}
+.ck path{fill:none;stroke:var(--ok);stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:16;stroke-dashoffset:16}
+.labs li.done .ck path{animation:draw .7s .4s forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+.labs li.now{background:var(--gold-soft)}
+.labs li.now .wk{color:var(--gold);font-weight:600}
+.labs li.now .ck circle{stroke:var(--gold);stroke-dasharray:3 3;animation:spin 6s linear infinite;transform-origin:center;transform-box:fill-box}
+
+/* spinning gradient border on project cards */
+.project{position:relative;isolation:isolate;overflow:hidden;border:0;padding:25px}
+.project::before{content:"";position:absolute;inset:-60%;z-index:-2;background:conic-gradient(from 0deg,var(--line) 0 70%,var(--navy) 80%,var(--gold) 90%,var(--line) 100%);animation:spin 5s linear infinite;animation-play-state:paused;opacity:.0;transition:opacity .4s}
+.project::after{content:"";position:absolute;inset:1.5px;border-radius:13px;background:var(--paper);z-index:-1}
+.project{background:var(--line)}
+.project:hover::before{opacity:1;animation-play-state:running}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* loader dots on in-progress pills */
+.pill.prog{display:inline-flex;align-items:center;gap:8px}
+.dots3{display:inline-flex;gap:3px}
+.dots3 i{width:5px;height:5px;border-radius:50%;background:currentColor;animation:bounce 1.2s infinite ease-in-out}
+.dots3 i:nth-child(2){animation-delay:.15s}.dots3 i:nth-child(3){animation-delay:.3s}
+@keyframes bounce{0%,80%,100%{transform:translateY(0);opacity:.4}40%{transform:translateY(-4px);opacity:1}}
+
+/* badge shine sweep */
+.badge-wrap{position:relative;overflow:hidden;border-radius:14px}
+.badge-wrap::after{content:"";position:absolute;top:0;left:-60%;width:40%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.55),transparent);transform:skewX(-18deg);animation:sweep 4.5s ease-in-out infinite}
+@keyframes sweep{0%,60%{left:-60%}100%{left:130%}}
+
+/* skill chips lift */
+.skill .tag{transition:transform .2s,background .2s,color .2s;cursor:default}
+.skill .tag:hover{transform:translateY(-2px);background:var(--navy);color:#fff}
+
+/* copied tooltip */
+.copy{position:relative}
+.copy::after{content:"Copied!";position:absolute;bottom:calc(100% + 8px);left:50%;transform:translate(-50%,6px);opacity:0;pointer-events:none;font-size:.75rem;padding:4px 8px;border-radius:6px;background:var(--gold);color:#1A1406;transition:all .25s cubic-bezier(.3,1.6,.6,1)}
+.copy.ok::after{opacity:1;transform:translate(-50%,0)}
+
+/* outside class */
+.outside{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:16px;align-items:stretch}
+.flycard{position:relative;border-radius:16px;overflow:hidden;min-height:420px;background:
+  radial-gradient(ellipse at 50% 110%,color-mix(in srgb,var(--navy) 35%,transparent),transparent 60%),
+  linear-gradient(180deg,#0E1A2E,#16294A 70%,#1F3560);color:#fff;display:flex;flex-direction:column}
+.flycard canvas{flex:1;width:100%;min-height:330px;display:block;cursor:grab;touch-action:pan-y}
+.flycard canvas:active{cursor:grabbing}
+.flycard .bar2{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:14px 18px;border-top:1px solid rgba(255,255,255,.12);flex-wrap:wrap}
+.flycard .bar2 b{font-size:1rem}
+.flycard .bar2 span{font-size:.85rem;opacity:.75}
+.flycard .osd2{position:absolute;top:14px;left:16px;right:16px;display:flex;justify-content:space-between;font-family:var(--mono);font-size:.72rem;color:#9fe6f2;pointer-events:none}
+.no-3d .flycard canvas{display:none}
+/* uiverse-style toggle */
+.tgl{display:inline-flex;align-items:center;gap:10px;cursor:pointer;font-size:.88rem;font-weight:600}
+.tgl input{position:absolute;opacity:0;width:1px;height:1px}
+.tgl .tr{width:50px;height:28px;border-radius:999px;background:rgba(255,255,255,.18);position:relative;transition:background .3s;flex:none}
+.tgl .tr::after{content:"";position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:#fff;box-shadow:0 2px 6px rgba(0,0,0,.3);transition:transform .35s cubic-bezier(.3,1.6,.6,1)}
+.tgl input:checked + .tr{background:var(--gold)}
+.tgl input:checked + .tr::after{transform:translateX(22px)}
+.tgl input:focus-visible + .tr{outline:2px solid var(--gold);outline-offset:3px}
+/* flip cards */
+.flips{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.flip{all:unset;box-sizing:border-box;cursor:pointer;perspective:900px;min-height:200px;display:block;width:100%;height:100%;border-radius:14px;text-align:left}
+.flip:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+.flip .in{display:block;position:relative;width:100%;height:100%;min-height:200px;transform-style:preserve-3d;transition:transform .7s cubic-bezier(.3,1.3,.5,1)}
+.flip:hover .in,.flip[aria-pressed="true"] .in{transform:rotateY(180deg)}
+.face{position:absolute;inset:0;border-radius:14px;padding:18px;backface-visibility:hidden;-webkit-backface-visibility:hidden;display:flex;flex-direction:column;overflow:hidden}
+.front{background:var(--paper);border:1px solid var(--line);justify-content:space-between}
+.front svg{width:46px;height:46px;color:var(--navy)}
+.front b{font-size:1.1rem}
+.front small{font-size:.8rem;color:var(--muted)}
+.back{transform:rotateY(180deg);background:var(--navy);color:#fff;justify-content:center;gap:8px;font-size:.92rem;line-height:1.5}
+.back b{font-size:1rem}
+:root[data-theme="dark"] .back{background:#1F3560}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .back{background:#1F3560}}
+.snow .front{background:linear-gradient(180deg,var(--paper),color-mix(in srgb,var(--navy-soft) 70%,var(--paper)))}
+.snow .front i{position:absolute;top:-10px;width:5px;height:5px;border-radius:50%;background:color-mix(in srgb,var(--navy) 35%,#fff);animation:fall linear infinite;opacity:.8}
+@keyframes fall{to{transform:translateY(230px)}}
+@media (max-width:900px){.outside{grid-template-columns:1fr}}
+@media (max-width:460px){.flips{grid-template-columns:1fr}}
+@media (prefers-reduced-motion: reduce){.flip .in{transition:none}}
+
 footer{padding-block:28px;font-size:.88rem;color:var(--muted)}
 footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
 </style>
@@ -252,8 +356,11 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
         <div class="actions">
           <a class="btn solid" href="Yogendra_Khadka_Resume.pdf" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h6"/></svg>View resume</a>
           <a class="btn" href="#coursework">See my coursework</a>
-          <a class="btn" href="https://www.linkedin.com/in/roman-khadka1/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-1 1.83-2.05 3.77-2.05C20.6 8.65 21 11 21 14v7h-4v-6.2c0-1.48-.03-3.38-2.06-3.38-2.06 0-2.38 1.6-2.38 3.27V21H9z"/></svg>LinkedIn</a>
-          <a class="btn" href="https://github.com/Romankdk" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.11-1.47-1.11-1.47-.9-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.9 1.52 2.34 1.08 2.91.83.09-.65.35-1.08.63-1.33-2.22-.25-4.55-1.11-4.55-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.64 0 0 .84-.27 2.75 1.02a9.56 9.56 0 0 1 5 0c1.91-1.29 2.75-1.02 2.75-1.02.55 1.37.2 2.39.1 2.64.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.85v2.74c0 .27.18.58.69.48A10 10 0 0 0 12 2z"/></svg>GitHub</a>
+        </div>
+        <div class="icons" aria-label="Profiles and email">
+          <a class="ibtn" data-tip="LinkedIn" aria-label="LinkedIn" href="https://www.linkedin.com/in/roman-khadka1/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-1 1.83-2.05 3.77-2.05C20.6 8.65 21 11 21 14v7h-4v-6.2c0-1.48-.03-3.38-2.06-3.38-2.06 0-2.38 1.6-2.38 3.27V21H9z"/></svg></a>
+          <a class="ibtn" data-tip="GitHub" aria-label="GitHub" href="https://github.com/Romankdk" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.11-1.47-1.11-1.47-.9-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.9 1.52 2.34 1.08 2.91.83.09-.65.35-1.08.63-1.33-2.22-.25-4.55-1.11-4.55-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.64 0 0 .84-.27 2.75 1.02a9.56 9.56 0 0 1 5 0c1.91-1.29 2.75-1.02 2.75-1.02.55 1.37.2 2.39.1 2.64.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.85v2.74c0 .27.18.58.69.48A10 10 0 0 0 12 2z"/></svg></a>
+          <a class="ibtn" data-tip="Email me" aria-label="Contact details" href="#contact"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></a>
         </div>
       </div>
       <aside class="degree" aria-label="Degree progress">
@@ -416,9 +523,9 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
         <div class="cert-list">
           <div class="cert-row"><div><b>Google Cybersecurity Professional Certificate</b><span>Google, via Coursera</span></div><span class="pill done">Earned</span></div>
           <div class="cert-row"><div><b>Introduction to Cybersecurity</b><span>Cisco Networking Academy, September 2026</span></div><span class="pill done">Earned</span></div>
-          <div class="cert-row"><div><b>CompTIA Security+</b><span>Studying now</span></div><span class="pill prog">In progress</span></div>
-          <div class="cert-row"><div><b>Ethical Hacker</b><span>Cisco Networking Academy</span></div><span class="pill prog">In progress</span></div>
-          <div class="cert-row"><div><b>SOC Level 1 path</b><span>TryHackMe</span></div><span class="pill prog">In progress</span></div>
+          <div class="cert-row"><div><b>CompTIA Security+</b><span>Studying now</span></div><span class="pill prog"><span class="dots3" aria-hidden="true"><i></i><i></i><i></i></span>In progress</span></div>
+          <div class="cert-row"><div><b>Ethical Hacker</b><span>Cisco Networking Academy</span></div><span class="pill prog"><span class="dots3" aria-hidden="true"><i></i><i></i><i></i></span>In progress</span></div>
+          <div class="cert-row"><div><b>SOC Level 1 path</b><span>TryHackMe</span></div><span class="pill prog"><span class="dots3" aria-hidden="true"><i></i><i></i><i></i></span>In progress</span></div>
         </div>
       </div>
     </div>
@@ -440,11 +547,42 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
 
   <section id="beyond">
     <div class="wrap sec">
-      <div class="sec-label"><h2>Outside class</h2><p>What I do when I'm not studying.</p></div>
-      <div class="beyond">
-        <div><b>FPV drones</b><span>I fly a DJI Avata and a DJI FPV, I'm learning acro (manual) mode in the Uncrashed simulator, and I build my own quads.</span></div>
-        <div><b>Hiking &amp; backpacking</b><span>Trips with friends whenever I can get away. Planning gear and routes is its own kind of risk assessment.</span></div>
-        <div><b>Design &amp; video</b><span>Photoshop, Illustrator and Premiere from my design and video courses. Handy for editing flight footage.</span></div>
+      <div class="sec-label"><h2>Outside class</h2><p>What I do when I'm not studying. Drag the quad to change the view.</p></div>
+      <div class="outside">
+        <figure class="flycard" style="margin:0" data-3d>
+          <div class="osd2" aria-hidden="true"><span>MODE ACRO</span><span id="flyClock">00:00</span></div>
+          <canvas id="droneFly" aria-label="3D model of an FPV quad flying a figure-eight. Drag to change the view."></canvas>
+          <figcaption class="bar2">
+            <div><b>FPV drones</b><br><span>DJI Avata, DJI FPV, and quads I build myself</span></div>
+            <label class="tgl" for="flyToggle"><input id="flyToggle" type="checkbox" checked><span class="tr"></span>Flying</label>
+          </figcaption>
+        </figure>
+        <div class="flips">
+          <button class="flip" type="button" aria-pressed="false" aria-label="FPV drones: tap to read more">
+            <span class="in">
+              <span class="face front"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><circle cx="37" cy="11" r="7"/><circle cx="11" cy="37" r="7"/><circle cx="37" cy="37" r="7"/><path d="M16 16l5 5M32 16l-5 5M16 32l5-5M32 32l-5-5"/><rect x="19" y="19" width="10" height="10" rx="2"/></svg><span><b>FPV drones</b><br><small>Tap or hover to flip</small></span></span>
+              <span class="face back"><b>Flying and building</b>I fly a DJI Avata and a DJI FPV, and I'm learning acro (manual) mode in the Uncrashed simulator. I also build my own quads from parts.</span>
+            </span>
+          </button>
+          <button class="flip snow" type="button" aria-pressed="false" aria-label="Snowboarding: tap to read more">
+            <span class="in">
+              <span class="face front" id="snowFace"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M8 34 40 18"/><rect x="5" y="23" width="40" height="7" rx="3.5" transform="rotate(-26 25 26.5)"/><circle cx="30" cy="9" r="3"/><path d="M22 28l4-8 6 3 4-5"/></svg><span><b>Snowboarding</b><br><small>Tap or hover to flip</small></span></span>
+              <span class="face back"><b>Winter weekends</b>When there's snow, I'd rather be on a board. It's the same mix as flying: read the terrain, commit, and adjust fast.</span>
+            </span>
+          </button>
+          <button class="flip" type="button" aria-pressed="false" aria-label="Hiking and backpacking: tap to read more">
+            <span class="in">
+              <span class="face front"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M4 40 18 16l8 12 6-8 12 20z"/><path d="M15 21l3 3 3-3"/><circle cx="36" cy="10" r="4"/></svg><span><b>Hiking &amp; backpacking</b><br><small>Tap or hover to flip</small></span></span>
+              <span class="face back"><b>Trips with friends</b>Whenever I can get away. Planning gear, routes and weather is its own kind of risk assessment.</span>
+            </span>
+          </button>
+          <button class="flip" type="button" aria-pressed="false" aria-label="Design and video: tap to read more">
+            <span class="in">
+              <span class="face front"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M24 6 38 32H10z"/><circle cx="24" cy="24" r="3"/><path d="M14 40h20"/></svg><span><b>Design &amp; video</b><br><small>Tap or hover to flip</small></span></span>
+              <span class="face back"><b>Creative tools</b>Photoshop, Illustrator and Premiere from my design and video courses. Handy for editing flight footage.</span>
+            </span>
+          </button>
+        </div>
       </div>
     </div>
   </section>
@@ -520,9 +658,19 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
   tabs.addEventListener('keydown',e=>{if(!['ArrowLeft','ArrowRight'].includes(e.key))return; const i=F.findIndex(f=>f[0]===cur); const n=F[(i+(e.key==='ArrowRight'?1:-1)+F.length)%F.length][0]; cur=n; render(); $(`[data-k="${n}"]`,tabs).focus();});
   render();
 
+
+  /* glow-follow on course cards */
+  document.getElementById('cwList').addEventListener('pointermove',e=>{const c=e.target.closest('.course'); if(!c)return; const r=c.getBoundingClientRect(); c.style.setProperty('--x',(e.clientX-r.left)+'px'); c.style.setProperty('--y',(e.clientY-r.top)+'px');});
+  /* flip cards: tap/keyboard toggles */
+  $$('.flip').forEach(f=>f.addEventListener('click',()=>f.setAttribute('aria-pressed',f.getAttribute('aria-pressed')!=='true')));
+  /* snowfall on the snowboarding card */
+  const sf=$('#snowFace'); if(sf&&!reduce){for(let i=0;i<18;i++){const d=document.createElement('i'); d.style.left=(Math.random()*100)+'%'; d.style.animationDuration=(3+Math.random()*4)+'s'; d.style.animationDelay=(-Math.random()*6)+'s'; const z=2+Math.random()*4; d.style.width=d.style.height=z+'px'; sf.appendChild(d);}}
+  /* flight clock */
+  const fc=$('#flyClock'), tg=$('#flyToggle'); let secs=0; setInterval(()=>{ if(tg&&tg.checked){secs++; fc.textContent=String(Math.floor(secs/60)).padStart(2,'0')+':'+String(secs%60).padStart(2,'0');}},1000);
   /* capstone lab sequence */
   const L=[['Week 1','Environment variables & Set-UID',true],['Week 4','Autopsy forensics project'],['Week 5','Meltdown'],['Week 6','Spectre'],['Week 7','TLS'],['Week 8','PKI'],['Week 9','RSA encryption & signatures'],['Week 10','MD5 collision'],['Week 11','Hash length extension'],['Week 12','Secret-key encryption'],['Week 13','Random numbers & Heartbleed'],['Week 14','Android repackaging & rooting']];
-  $('#labs').innerHTML=L.map(l=>`<li class="${l[2]?'done':''}"><span class="wk">${l[0]}</span><span>${l[1]}</span></li>`).join('');
+  const ck='<svg class="ck" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8.5"/><path d="M6 10.5l2.6 2.6L14 7.6"/></svg>';
+  $('#labs').innerHTML=L.map(l=>`<li class="${l[2]?'done':''}">${ck}<span class="wk">${l[0]}</span><span>${l[1]}${l[2]?'<span class="sr"> (completed)</span>':''}</span></li>`).join('');
 
   /* active section in nav */
   const links=$$('.top nav a'); const map=new Map(links.map(a=>[a.getAttribute('href').slice(1),a]));
@@ -538,11 +686,290 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
     document.body.appendChild(lb); lb.querySelector('button').focus();});
 
   /* copy buttons */
-  $$('.copy').forEach(b=>b.addEventListener('click',()=>{const done=t=>{b.textContent=t; setTimeout(()=>b.textContent='Copy',1600);};
+  $$('.copy').forEach(b=>b.addEventListener('click',()=>{const done=t=>{b.textContent=t; b.classList.toggle('ok',t==='Copied'); setTimeout(()=>{b.textContent='Copy';b.classList.remove('ok');},1600);};
     try{navigator.clipboard.writeText(b.dataset.copy).then(()=>done('Copied'),()=>{selectText(b);done('Selected');});}catch(e){selectText(b);done('Selected');}}));
   function selectText(b){const r=document.createRange(); r.selectNodeContents(b.previousElementSibling); const s=getSelection(); s.removeAllRanges(); s.addRange(r);}
 })();
 </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+/* 3D FPV quad: procedural model built with Three.js (r128). Used in the hero and the inspect viewer. */
+(function(){
+  if(!window.THREE){ document.documentElement.classList.add('no-3d'); return; }
+  const T=THREE;
+  const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const accent=()=>getComputedStyle(document.documentElement).getPropertyValue('--accent').trim()||'#FFB224';
+
+  /* ---------- textures ---------- */
+  function carbonTexture(){
+    const c=document.createElement('canvas'); c.width=c.height=128; const g=c.getContext('2d');
+    g.fillStyle='#16181b'; g.fillRect(0,0,128,128);
+    for(let y=0;y<128;y+=16) for(let x=0;x<128;x+=16){
+      const h=((x+y)/16)%2===0;
+      const grd=h?g.createLinearGradient(x,y,x+16,y):g.createLinearGradient(x,y,x,y+16);
+      grd.addColorStop(0,'#1d2024'); grd.addColorStop(.5,'#2f3339'); grd.addColorStop(1,'#1a1c1f');
+      g.fillStyle=grd; g.fillRect(x+1,y+1,14,14);
+    }
+    const t=new T.CanvasTexture(c); t.wrapS=t.wrapT=T.RepeatWrapping; t.repeat.set(3,3); t.anisotropy=4; return t;
+  }
+  function labelTexture(){
+    const c=document.createElement('canvas'); c.width=512; c.height=256; const g=c.getContext('2d');
+    const grd=g.createLinearGradient(0,0,512,0); grd.addColorStop(0,'#111418'); grd.addColorStop(1,'#1b2027');
+    g.fillStyle=grd; g.fillRect(0,0,512,256);
+    g.fillStyle=accent(); g.fillRect(0,0,22,256);
+    g.fillStyle='#e9eff5'; g.font='bold 74px Archivo, Arial, sans-serif'; g.fillText('6S',56,112);
+    g.font='600 40px Archivo, Arial, sans-serif'; g.fillStyle='#93a4b5'; g.fillText('1300 mAh · 120C',56,176);
+    g.font='28px monospace'; g.fillStyle='#7ce3f0'; g.fillText('LiPo · 22.2V',56,224);
+    return new T.CanvasTexture(c);
+  }
+  function pcbTexture(){
+    const c=document.createElement('canvas'); c.width=c.height=128; const g=c.getContext('2d');
+    g.fillStyle='#173d2c'; g.fillRect(0,0,128,128); g.strokeStyle='#2c6b4b'; g.lineWidth=1.5;
+    for(let i=0;i<22;i++){g.beginPath(); const x=Math.random()*128,y=Math.random()*128; g.moveTo(x,y); g.lineTo(x+(Math.random()-.5)*60,y); g.lineTo(x+(Math.random()-.5)*60,y+(Math.random()-.5)*60); g.stroke();}
+    g.fillStyle='#c9a64a'; for(let i=0;i<14;i++){g.fillRect(Math.random()*120,Math.random()*120,5,5);}
+    return new T.CanvasTexture(c);
+  }
+
+  /* ---------- model ---------- */
+  function buildDrone(){
+    const root=new T.Group(); const parts={}; const base={};
+    const P=(k)=>{ if(!parts[k]){ parts[k]=new T.Group(); parts[k].name=k; root.add(parts[k]); } return parts[k]; };
+    const mat={
+      carbon:new T.MeshStandardMaterial({map:carbonTexture(),color:0x6d737b,roughness:.42,metalness:.35}),
+      alu:new T.MeshStandardMaterial({color:new T.Color(accent()),roughness:.28,metalness:.85}),
+      bell:new T.MeshStandardMaterial({color:0x22262c,roughness:.3,metalness:.9}),
+      stator:new T.MeshStandardMaterial({color:0x8a5a2b,roughness:.5,metalness:.6}),
+      steel:new T.MeshStandardMaterial({color:0xc9ced4,roughness:.25,metalness:1}),
+      pcb:new T.MeshStandardMaterial({map:pcbTexture(),roughness:.6,metalness:.1}),
+      chip:new T.MeshStandardMaterial({color:0x111214,roughness:.4,metalness:.3}),
+      black:new T.MeshStandardMaterial({color:0x0f1113,roughness:.55,metalness:.2}),
+      glass:new T.MeshStandardMaterial({color:0x0a1a2a,roughness:.05,metalness:1,emissive:0x0b2236,emissiveIntensity:.6}),
+      prop:new T.MeshStandardMaterial({color:new T.Color(accent()),roughness:.35,metalness:.05,transparent:true,opacity:.88}),
+      blur:new T.MeshBasicMaterial({color:new T.Color(accent()),transparent:true,opacity:.0,depthWrite:false,side:T.DoubleSide}),
+      battery:new T.MeshStandardMaterial({map:labelTexture(),roughness:.5,metalness:.1}),
+      shrink:new T.MeshStandardMaterial({color:0x1a1d21,roughness:.7,metalness:.05}),
+      red:new T.MeshStandardMaterial({color:0xc0392b,roughness:.5}),
+      wire:new T.MeshStandardMaterial({color:0x111111,roughness:.6}),
+      strap:new T.MeshStandardMaterial({color:new T.Color(accent()),roughness:.8}),
+      led:new T.MeshBasicMaterial({color:0x7ce3f0}),
+      antenna:new T.MeshStandardMaterial({color:0x14171a,roughness:.6}),
+      tip:new T.MeshStandardMaterial({color:0xe9eff5,roughness:.5})
+    };
+    const add=(k,geo,m,x,y,z,rx=0,ry=0,rz=0)=>{const me=new T.Mesh(geo,m); me.position.set(x,y,z); me.rotation.set(rx,ry,rz); me.castShadow=true; me.userData.part=k; P(k).add(me); return me;};
+    const M=[[8,8],[-8,8],[8,-8],[-8,-8]]; // motor x,z (z = forward)
+
+    /* frame: bottom plate arms + center plate + top plate + standoffs */
+    for(const [x,z] of M){
+      const len=Math.hypot(x,z)+1.6, ang=Math.atan2(x,z);
+      add('frame',new T.BoxGeometry(1.7,.5,len),mat.carbon,x/2,0,z/2,0,ang,0);
+      add('frame',new T.CylinderGeometry(1.5,1.5,.5,28),mat.carbon,x,0,z);
+      add('frame',new T.BoxGeometry(.25,.12,len*.55),mat.led,x*.45,-.3,z*.45,0,ang,0);
+    }
+    add('frame',new T.BoxGeometry(4.6,.5,9.4),mat.carbon,0,0,0);
+    add('frame',new T.BoxGeometry(4.2,.3,8.6),mat.carbon,0,2.85,0);
+    for(const [x,z] of [[1.9,4],[-1.9,4],[1.9,-4],[-1.9,-4]]) add('frame',new T.CylinderGeometry(.22,.22,2.6,12),mat.alu,x,1.45,z);
+
+    /* motors */
+    const propGroups=[];
+    for(const [x,z] of M){
+      add('motors',new T.CylinderGeometry(1.25,1.25,.25,32),mat.bell,x,.38,z);
+      add('motors',new T.CylinderGeometry(1.1,1.1,.7,32),mat.stator,x,.85,z);
+      add('motors',new T.CylinderGeometry(1.2,1.2,.9,40,1,true),mat.bell,x,1.15,z);
+      add('motors',new T.CylinderGeometry(1.2,1.2,.12,40),mat.bell,x,1.6,z);
+      add('motors',new T.TorusGeometry(1.0,.07,8,40),mat.alu,x,1.67,z,Math.PI/2);
+      add('motors',new T.CylinderGeometry(.18,.18,1.1,12),mat.steel,x,2.1,z);
+      /* props: tri-blade, alternate spin direction */
+      const pg=new T.Group(); pg.position.set(x,2.15,z); pg.userData.dir=(x*z>0)?1:-1; P('props').add(pg);
+      const hub=new T.Mesh(new T.CylinderGeometry(.55,.6,.45,24),mat.prop); hub.userData.part='props'; pg.add(hub);
+      for(let b=0;b<3;b++){
+        const shape=new T.Shape(); shape.moveTo(0,-.35); shape.bezierCurveTo(2,-.75,4.6,-.55,6.2,-.12); shape.quadraticCurveTo(6.45,0,6.2,.18); shape.bezierCurveTo(4.6,.5,2,.55,0,.35);
+        const geo=new T.ExtrudeGeometry(shape,{depth:.06,bevelEnabled:true,bevelThickness:.03,bevelSize:.03,bevelSegments:1,curveSegments:12});
+        const bl=new T.Mesh(geo,mat.prop); bl.rotation.x=-Math.PI/2+0.28*pg.userData.dir; const holder=new T.Group(); holder.rotation.y=b*Math.PI*2/3; holder.add(bl); bl.userData.part='props'; bl.castShadow=true; pg.add(holder);
+      }
+      const disc=new T.Mesh(new T.RingGeometry(.8,6.4,48),mat.blur); disc.rotation.x=-Math.PI/2; disc.userData.part='props'; pg.add(disc); pg.userData.disc=disc;
+      propGroups.push(pg);
+    }
+
+    /* ESC (bottom of stack) and FC */
+    add('esc',new T.BoxGeometry(3.4,.18,3.4),mat.pcb,0,.55,0);
+    for(const [x,z] of [[1.1,1.1],[-1.1,1.1],[1.1,-1.1],[-1.1,-1.1]]) add('esc',new T.BoxGeometry(.7,.2,.7),mat.chip,x,.72,z);
+    add('esc',new T.CylinderGeometry(.45,.45,1,18),mat.black,0,.3,-2.6,Math.PI/2);
+    add('fc',new T.BoxGeometry(3.1,.16,3.1),mat.pcb,0,1.55,0);
+    add('fc',new T.BoxGeometry(1.0,.22,1.0),mat.chip,0,1.73,0);
+    add('fc',new T.BoxGeometry(.35,.15,.35),mat.led,1.1,1.7,1.1);
+    for(const [x,z] of [[1.3,1.3],[-1.3,1.3],[1.3,-1.3],[-1.3,-1.3]]) add('fc',new T.CylinderGeometry(.12,.12,1,10),mat.alu,x,1.05,z);
+
+    /* camera at the front, tilted up */
+    const cam=new T.Group(); cam.position.set(0,1.5,4.1); cam.rotation.x=-.42; P('cam').add(cam);
+    const cm=(g,m,x,y,z,rx=0)=>{const me=new T.Mesh(g,m); me.position.set(x,y,z); me.rotation.x=rx; me.userData.part='cam'; me.castShadow=true; cam.add(me);};
+    cm(new T.BoxGeometry(1.9,1.9,1.6),mat.black,0,0,0);
+    cm(new T.CylinderGeometry(.75,.8,1.0,32),mat.bell,0,0,1.15,Math.PI/2);
+    cm(new T.CylinderGeometry(.55,.55,.05,32),mat.glass,0,0,1.67,Math.PI/2);
+    for(const s of [1,-1]){const side=new T.Mesh(new T.BoxGeometry(.15,2.4,2.2),mat.alu); side.position.set(1.15*s,1.35,4.0); side.userData.part='cam'; P('cam').add(side);}
+
+    /* VTX + lollipop antenna at the back */
+    add('vtx',new T.BoxGeometry(2.2,.5,1.8),mat.pcb,0,1.0,-3.4);
+    add('vtx',new T.BoxGeometry(2.2,.25,1.8),mat.bell,0,1.35,-3.4);
+    const ant=new T.CylinderGeometry(.13,.13,4.2,10);
+    add('vtx',ant,mat.antenna,0,3.0,-5.6,-.75);
+    add('vtx',new T.SphereGeometry(.62,24,16),mat.antenna,0,4.55,-7.15).scale.set(1,1,.55);
+
+    /* receiver + T-antennas */
+    add('rx',new T.BoxGeometry(1.1,.3,1.3),mat.pcb,0,2.4,-2.6);
+    for(const s of [1,-1]){
+      add('rx',new T.CylinderGeometry(.07,.07,3.4,8),mat.antenna,1.3*s,2.4,-5.4,-.9,0,.55*s);
+      add('rx',new T.CylinderGeometry(.09,.09,.9,8),mat.tip,2.15*s,3.55,-6.55,-.9,0,.55*s);
+    }
+
+    /* battery on top plate with strap and XT60 leads */
+    add('bat',new T.BoxGeometry(3.5,3.1,7.6),mat.shrink,0,4.6,-.2);
+    const lab=add('bat',new T.PlaneGeometry(7.4,3.0),mat.battery,1.76,4.6,-.2,0,Math.PI/2,0);
+    const lab2=add('bat',new T.PlaneGeometry(7.4,3.0),mat.battery,-1.76,4.6,-.2,0,-Math.PI/2,0);
+    for(const z of [2.2,-2.6]) add('bat',new T.BoxGeometry(3.75,3.35,.9),mat.strap,0,4.5,z);
+    for(const [m,x] of [[mat.red,.5],[mat.wire,-.5]]){
+      const curve=new T.CatmullRomCurve3([new T.Vector3(x,5.2,-4.0),new T.Vector3(x*1.4,5.6,-5.2),new T.Vector3(x*2.2,3.8,-5.6),new T.Vector3(x*1.2,1.8,-4.6)]);
+      add('bat',new T.TubeGeometry(curve,24,.2,8,false),m,0,0,0);
+    }
+    add('bat',new T.BoxGeometry(1.6,.8,1.0),new T.MeshStandardMaterial({color:0xd9b44a,roughness:.5}),0,1.6,-4.7);
+
+    /* explode directions per part */
+    const ex={frame:[0,0,0],motors:[0,0,0],props:[0,6,0],esc:[0,-3.2,0],fc:[0,3.2,0],cam:[0,1,6],vtx:[0,1.4,-6],rx:[0,4,-4],bat:[0,8,0]};
+    for(const k in parts){ base[k]=parts[k].position.clone(); }
+    /* motors and props slide out along their arms */
+    root.userData={parts,base,ex,propGroups,mat};
+    root.traverse(o=>{ if(o.isMesh){ o.receiveShadow=false; } });
+    return root;
+  }
+
+  function setExplode(drone,amt){
+    const {parts,base,ex,propGroups}=drone.userData;
+    for(const k in parts){ const d=ex[k]||[0,0,0]; parts[k].position.set(base[k].x+d[0]*amt,base[k].y+d[1]*amt,base[k].z+d[2]*amt); }
+    /* radial outward for motors and props */
+    const r=1+amt*0.35;
+    parts.motors.scale.set(r,1,r);
+    propGroups.forEach((pg,i)=>{ const o=pg.userData.o||(pg.userData.o=pg.position.clone()); pg.position.set(o.x*r,o.y,o.z*r); });
+  }
+
+  function highlight(drone,key){
+    drone.traverse(o=>{
+      if(!o.isMesh) return;
+      if(!o.userData.baseMat){ o.userData.baseMat=o.material; }
+      if(key && o.userData.part===key){
+        if(!o.userData.hiMat){ const m=o.userData.baseMat.clone(); if(m.emissive){ m.emissive=new T.Color(accent()); m.emissiveIntensity=.55; } else { m.color=new T.Color(accent()); } o.userData.hiMat=m; }
+        o.material=o.userData.hiMat;
+      } else o.material=o.userData.baseMat;
+    });
+  }
+
+  function contactShadow(){
+    const c=document.createElement('canvas'); c.width=c.height=256; const g=c.getContext('2d');
+    const grd=g.createRadialGradient(128,128,10,128,128,128); grd.addColorStop(0,'rgba(0,0,0,.55)'); grd.addColorStop(1,'rgba(0,0,0,0)');
+    g.fillStyle=grd; g.fillRect(0,0,256,256);
+    const m=new T.Mesh(new T.PlaneGeometry(30,30),new T.MeshBasicMaterial({map:new T.CanvasTexture(c),transparent:true,depthWrite:false}));
+    m.rotation.x=-Math.PI/2; return m;
+  }
+
+  /* ---------- viewer ---------- */
+  function mount(canvas,opts={}){
+    let renderer;
+    try{ renderer=new T.WebGLRenderer({canvas,antialias:true,alpha:true,powerPreference:'high-performance'}); }
+    catch(e){ canvas.closest('[data-3d]')?.classList.add('no-webgl'); return null; }
+    renderer.setPixelRatio(Math.min(devicePixelRatio||1,2));
+    renderer.outputEncoding=T.sRGBEncoding; renderer.toneMapping=T.ACESFilmicToneMapping; renderer.toneMappingExposure=1.15;
+    const scene=new T.Scene();
+    const camera=new T.PerspectiveCamera(opts.fov||32,1,.1,500);
+    const drone=buildDrone(); const rig=new T.Group(); rig.add(drone); scene.add(rig);
+    const shadow=contactShadow(); shadow.position.y=-4.5; scene.add(shadow);
+    scene.add(new T.HemisphereLight(0xcfe8ff,0x0b1622,.85));
+    const key=new T.DirectionalLight(0xffffff,1.6); key.position.set(14,22,16); scene.add(key);
+    const rim=new T.DirectionalLight(new T.Color(accent()),1.1); rim.position.set(-18,8,-14); scene.add(rim);
+    const fill=new T.DirectionalLight(0x7ce3f0,.45); fill.position.set(-10,-6,12); scene.add(fill);
+
+    let flying=!!opts.fly, ft=0, prevH=0, bankS=0; let yaw=opts.yaw??-.6, pitch=opts.pitch??.42, dist=opts.dist||42, targetYaw=yaw, targetPitch=pitch;
+    let mx=0,my=0, drag=null, explode=0, targetExplode=0, idle=0, visible=true, spin=opts.spin??1;
+    const resize=()=>{const r=canvas.getBoundingClientRect(); const w=Math.max(1,r.width), h=Math.max(1,r.height); renderer.setSize(w,h,false); camera.aspect=w/h; camera.updateProjectionMatrix();};
+    resize(); new ResizeObserver(resize).observe(canvas);
+    new IntersectionObserver(e=>visible=e[0].isIntersecting).observe(canvas);
+
+    canvas.addEventListener('pointerdown',e=>{drag={x:e.clientX,y:e.clientY,yaw:targetYaw,pitch:targetPitch,moved:false}; canvas.setPointerCapture(e.pointerId);});
+    canvas.addEventListener('pointermove',e=>{
+      const r=canvas.getBoundingClientRect(); mx=(e.clientX-r.left)/r.width-.5; my=(e.clientY-r.top)/r.height-.5;
+      if(drag){const dx=e.clientX-drag.x, dy=e.clientY-drag.y; if(Math.abs(dx)+Math.abs(dy)>3) drag.moved=true; targetYaw=drag.yaw+dx*.008; targetPitch=Math.max(-.2,Math.min(1.2,drag.pitch+dy*.006)); idle=0;}
+    });
+    const ray=new T.Raycaster(), v2=new T.Vector2();
+    canvas.addEventListener('pointerup',e=>{
+      if(drag && !drag.moved && opts.onPick){
+        const r=canvas.getBoundingClientRect(); v2.set(((e.clientX-r.left)/r.width)*2-1,-((e.clientY-r.top)/r.height)*2+1);
+        ray.setFromCamera(v2,camera); const hit=ray.intersectObject(drone,true).find(h=>h.object.userData.part && h.object.material!==drone.userData.mat.blur);
+        if(hit) opts.onPick(hit.object.userData.part);
+      }
+      drag=null;
+    });
+    canvas.addEventListener('pointerleave',()=>{mx=0;my=0;});
+
+    const clock=new T.Clock(); let t=0;
+    function frame(){
+      const dt=Math.min(clock.getDelta(),.05); t+=dt; idle+=dt;
+      if(!drag && opts.autoRotate && idle>2.5) targetYaw+=dt*.18;
+      yaw+=(targetYaw-yaw)*.08; pitch+=(targetPitch-pitch)*.08; explode+=(targetExplode-explode)*.1;
+      setExplode(drone,explode);
+      camera.position.set(Math.sin(yaw)*Math.cos(pitch)*dist,Math.sin(pitch)*dist+1,Math.cos(yaw)*Math.cos(pitch)*dist);
+      camera.lookAt(0,1.5+explode*2,0);
+      /* hover + bank toward the pointer */
+      if(opts.fly){
+        if(flying) ft+=dt*.5;
+        const R=opts.range||10, x=Math.sin(ft)*R, z=Math.sin(ft*2)*R*.45, dx=Math.cos(ft)*R, dz=Math.cos(ft*2)*R*.9;
+        const h=Math.atan2(dx,dz); let dh=h-prevH; if(dh>Math.PI)dh-=2*Math.PI; if(dh<-Math.PI)dh+=2*Math.PI; prevH=h;
+        bankS+=((flying?-dh/Math.max(dt,1e-3)*.22:0)-bankS)*.08;
+        rig.position.set(flying?x:rig.position.x*.97, Math.sin(t*1.6)*.45+(flying?Math.sin(ft*2)*1.2:0), flying?z:rig.position.z*.97);
+        rig.rotation.order='YXZ'; rig.rotation.y=h; rig.rotation.z=Math.max(-.6,Math.min(.6,bankS)); rig.rotation.x=flying?.2:0;
+        shadow.position.x=rig.position.x; shadow.position.z=rig.position.z;
+      } else {
+      rig.position.y=Math.sin(t*1.6)*.45; rig.rotation.z=(-mx*.35)+Math.sin(t*.9)*.03; rig.rotation.x=(my*.25)+Math.cos(t*1.1)*.02;
+      }
+      const s=spin*(reduce?0:1);
+      drone.userData.propGroups.forEach(pg=>{pg.rotation.y+=pg.userData.dir*dt*38*s; pg.userData.disc.material.opacity=.05*s;
+        pg.children.forEach(c=>{ if(c.isGroup) c.children[0].material.opacity=s>0.5?.35:.88; });});
+      renderer.render(scene,camera);
+    }
+    if(reduce){ frame(); }
+    else { (function loop(){ if(visible) frame(); requestAnimationFrame(loop); })(); }
+    return {
+      setFly:v=>{flying=v;},
+      setExplode:v=>{targetExplode=v; if(reduce) {explode=v; frame();}},
+      highlight:k=>{highlight(drone,k); if(reduce) frame();},
+      setSpin:v=>{spin=v; if(reduce) frame();},
+      reset:()=>{targetYaw=opts.yaw??-.6; targetPitch=opts.pitch??.42; idle=0;}
+    };
+  }
+
+  window.FPV3D={mount};
+
+  /* hero */
+  const hero=document.getElementById('droneHero');
+  if(hero) mount(hero,{autoRotate:true,dist:58,yaw:-.7,pitch:.36});
+
+  /* inspector */
+  const fly=document.getElementById('droneFly');
+  if(fly){
+    const v=mount(fly,{fly:true,dist:62,yaw:-.5,pitch:.5,range:9});
+    const sw=document.getElementById('flyToggle');
+    if(v&&sw) sw.addEventListener('change',()=>v.setFly(sw.checked));
+  }
+  const insp=document.getElementById('droneInspect');
+  if(insp){
+    const v=mount(insp,{dist:56,yaw:-.55,pitch:.5,spin:0,onPick:k=>window.__pickPart&&window.__pickPart(k)});
+    if(v){
+      window.__highlight=k=>v.highlight(k);
+      const ex=document.getElementById('explode'); ex&&ex.addEventListener('input',()=>v.setExplode(ex.value/100));
+      const sp=document.getElementById('spinToggle'); sp&&sp.addEventListener('click',()=>{const on=sp.getAttribute('aria-pressed')!=='true'; sp.setAttribute('aria-pressed',on); sp.textContent=on?'Stop motors':'Spin up motors'; v.setSpin(on?1:0);});
+      const rs=document.getElementById('resetView'); rs&&rs.addEventListener('click',()=>v.reset());
+      if(window.__currentPart) v.highlight(window.__currentPart);
+    }
+  }
+})();
+</script>
+
 
 </body>
 </html>
