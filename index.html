@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Yogendra (Roman) Khadka - entry-level SOC Analyst in New York. Hands-on labs: honeypot alert triage, phishing analysis, malware scanning, Windows forensics. FPV drone pilot.">
+<meta name="description" content="Yogendra (Roman) Khadka - entry-level SOC Analyst in New York. Hands-on labs: honeypot alert triage, phishing analysis, malware scanning, Windows forensics. FPV drone pilot and builder.">
 <title>Yogendra Khadka Portfolio</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -12,8 +12,8 @@
 /* Layout: an analyst's case file. Quick facts and a working terminal up top, then experience, then each project as a hands-on lab with a build journal. */
 :root{
   /* Night-flight palette: dark-first, OSD amber for signal, HUD cyan for telemetry */
-  --bg:#0A1016; --surface:#111A23; --ink:#E9EFF5; --muted:#93A4B5; --line:#203040;
-  --accent:#FFB224; --accent-soft:#2B2210; --on-accent:#1A1204; --navy:#7CC4E8; --code-bg:#070C11; --hud:#7CE3F0;
+  --bg:#0B1622; --surface:#112131; --ink:#E9EFF5; --muted:#95A8BB; --line:#213549;
+  --accent:#FFB224; --accent-soft:#2B2210; --on-accent:#1A1204; --navy:#7CC4E8; --code-bg:#08111B; --hud:#7CE3F0;
   --term-bg:#060A0E; --term-fg:#DCE6F0; --term-dim:#7F93A8; --term-acc:#FFB224;
   --sev-high:#FF8A80; --sev-high-bg:#3A1A19; --sev-med:#F5C451; --sev-med-bg:#352B12;
   --sev-low:#6FD39A; --sev-low-bg:#132E20; --info:#8DB8E8; --info-bg:#15263A;
@@ -46,7 +46,7 @@ h1,h2,h3,h4{font-family:var(--f-display);text-wrap:balance;margin:0;line-height:
 h2{font-size:clamp(2rem,5vw,3.4rem);font-weight:800;font-stretch:112%;letter-spacing:-.02em;line-height:1.02}
 h3{font-size:1.25rem;font-weight:700;font-stretch:90%}
 p{margin:0}
-.eyebrow{font-family:var(--f-mono);font-size:.74rem;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);font-weight:500}
+.eyebrow{font-family:var(--f-body);font-size:.95rem;font-weight:600;color:var(--accent);letter-spacing:0}
 .muted{color:var(--muted)}
 .mono{font-family:var(--f-mono);font-size:.86em}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
@@ -395,8 +395,8 @@ main,footer,.nav,.hero{position:relative;z-index:1}
 .mega .l2{display:block;color:transparent;-webkit-text-stroke:1.5px var(--ink)}
 @keyframes widen{from{font-stretch:62%;letter-spacing:.02em}to{font-stretch:125%;letter-spacing:-.035em}}
 .hero-sub{display:grid;grid-template-columns:1.2fr 1fr;gap:32px;margin-top:30px;align-items:end}
-.hero-sub .tag-line{font-family:var(--f-display);font-size:clamp(1.15rem,2.2vw,1.6rem);font-weight:600;font-stretch:100%;line-height:1.25;max-width:30ch}
-.hero-sub .tag-line em{font-style:normal;color:var(--accent)}
+.hero-copy .tag-line{margin-top:26px;font-family:var(--f-display);font-size:clamp(1.15rem,2.2vw,1.6rem);font-weight:600;font-stretch:100%;line-height:1.25;max-width:30ch}
+
 .hero-sub .lede{margin-top:0;font-size:1rem;color:var(--muted)}
 @media (max-width:860px){.hero-sub{grid-template-columns:1fr}.osd.tr,.osd.br{display:none}.hero-inner{padding-top:150px}}
 .facts-strip{display:grid;grid-template-columns:repeat(6,1fr);border-bottom:1px solid var(--line)}
@@ -423,6 +423,19 @@ main,footer,.nav,.hero{position:relative;z-index:1}
 @media (pointer:fine){.reticle{display:block}}
 @media (prefers-reduced-motion: reduce){.reticle{display:none!important}}
 
+.drone-hero{position:absolute;right:0;top:0;width:54%;height:100%;display:block;cursor:grab;touch-action:pan-y}
+.drone-hero:active{cursor:grabbing}
+.hero-copy{max-width:min(560px,46vw)}
+.hero-copy .lede{margin-top:16px;font-size:1rem;color:var(--muted);max-width:52ch}
+.drag-hint{position:absolute;right:24px;bottom:64px;font-size:.8rem;color:var(--muted);pointer-events:none}
+@media (max-width:860px){.drone-hero{width:100%;height:330px;top:40px}.hero-copy{max-width:none}.hero-inner{padding-top:360px}.drag-hint{top:340px;bottom:auto;right:20px}}
+.viewer{position:relative;aspect-ratio:4/3.1;max-height:440px;width:100%}
+.viewer canvas{position:absolute;inset:0;width:100%;height:100%;display:block;cursor:grab;touch-action:pan-y}
+.viewer canvas:active{cursor:grabbing}
+.viewer-ui{display:flex;flex-wrap:wrap;align-items:center;gap:12px;padding:12px 14px;border-top:1px solid var(--line)}
+.viewer-ui label{display:flex;align-items:center;gap:10px;font-size:.88rem;flex:1;min-width:200px}
+.viewer-ui input[type=range]{flex:1;accent-color:var(--accent)}
+.no-webgl .viewer::after,.no-3d .viewer::after{content:"The 3D view needs WebGL. Use the part list below.";position:absolute;inset:0;display:grid;place-items:center;color:var(--muted);font-size:.9rem;padding:20px;text-align:center}
 /* certificate showcase */
 .showcase{display:grid;grid-template-columns:1fr 1.6fr;gap:22px;margin-bottom:26px}
 .tilt{position:relative;border-radius:16px;border:1px solid var(--line);background:var(--surface);overflow:hidden;transform-style:preserve-3d;transition:transform .25s ease;will-change:transform;min-width:0}
@@ -507,21 +520,21 @@ main,footer,.nav,.hero{position:relative;z-index:1}
     <div class="osd tr" aria-hidden="true">BAT <b id="osdBat">16.8V</b><br>MODE <b>ACRO</b></div>
     <div class="osd bl" aria-hidden="true">ALT <b id="osdAlt">012M</b> · SPD <b id="osdSpd">00KM/H</b><br>HDG <b id="osdHdg">045°</b></div>
     <div class="osd br" aria-hidden="true">FLIGHT TIME<br><b id="osdTime">00:00</b></div>
+    <canvas id="droneHero" class="drone-hero" aria-label="3D model of an FPV quad. Drag to rotate it."></canvas>
+    <p class="drag-hint" aria-hidden="true">Drag the quad to look around</p>
     <div class="wrap hero-inner">
       <span class="status"><i></i>Open to entry-level SOC Analyst roles</span>
       <p class="coord">40.7454° N · 73.9055° W · Queens, New York</p>
       <h1 class="mega">Yogendra<span class="l2">Khadka</span></h1>
-      <div class="hero-sub">
-        <div>
-          <p class="tag-line">"Roman." SOC analyst in training. I keep my eyes on the <em>telemetry</em>, whether it's a SIEM alert queue or a drone's flight display.</p>
-          <div class="cta">
-            <a class="btn primary" href="Yogendra_Khadka_Resume.pdf" target="_blank" rel="noopener">View resume (PDF)</a>
-            <a class="btn" href="#projects">Try the project labs</a>
-            <a class="btn" href="https://github.com/Romankdk" target="_blank" rel="noopener">GitHub</a>
-            <a class="btn" href="https://www.linkedin.com/in/roman-khadka1/" target="_blank" rel="noopener">LinkedIn</a>
-          </div>
+      <div class="hero-copy">
+        <p class="tag-line">"Roman." SOC analyst in training. I keep my eyes on the telemetry, whether it's a SIEM alert queue or a drone's flight display.</p>
+        <p class="lede">I triage alerts, read logs, and write up what happened. I've monitored Splunk SIEM events for an agency with 15,000+ employees, and I run my own SSH honeypot to study real attacker behavior.</p>
+        <div class="cta">
+          <a class="btn primary" href="Yogendra_Khadka_Resume.pdf" target="_blank" rel="noopener">View resume (PDF)</a>
+          <a class="btn" href="#projects">Try the project labs</a>
+          <a class="btn" href="https://github.com/Romankdk" target="_blank" rel="noopener">GitHub</a>
+          <a class="btn" href="https://www.linkedin.com/in/roman-khadka1/" target="_blank" rel="noopener">LinkedIn</a>
         </div>
-        <p class="lede">I triage alerts, read logs, and write up what happened. I've monitored Splunk SIEM events for an agency with 15,000+ employees, and I run my own SSH honeypot to study real attacker behavior. Every project below has a hands-on demo and a journal of what broke and how I fixed it.</p>
       </div>
     </div>
   </div>
@@ -545,7 +558,6 @@ main,footer,.nav,.hero{position:relative;z-index:1}
     </div>
   </div>
 </header>
-<div class="marquee" aria-hidden="true"><div class="track"><span>Splunk SIEM</span><i>✦</i><span>Alert triage</span><i>✦</i><span>Phishing analysis</span><i>✦</i><span>Incident response</span><i>✦</i><span>NIST 800-53</span><i>✦</i><span>Python</span><i>✦</i><span>AWS</span><i>✦</i><span>Digital forensics</span><i>✦</i><span>FPV pilot</span><i>✦</i><span>Splunk SIEM</span><i>✦</i><span>Alert triage</span><i>✦</i><span>Phishing analysis</span><i>✦</i><span>Incident response</span><i>✦</i><span>NIST 800-53</span><i>✦</i><span>Python</span><i>✦</i><span>AWS</span><i>✦</i><span>Digital forensics</span><i>✦</i><span>FPV pilot</span><i>✦</i></div></div>
 
 <main>
 <section id="experience">
@@ -836,25 +848,13 @@ Pick a file and press "Run scan".</pre></div>
           <div><b>03</b><span><strong>Stay calm when it goes wrong.</strong> Things fail at speed in the air. You stabilize first, then figure out why. Incident response works the same way.</span></div>
         </div>
       </div>
-      <div class="quad rv">
-        <div class="quad-bar"><span>Anatomy of a 5-inch build</span><span>Tap a part</span></div>
-        <svg viewBox="0 0 400 380" role="group" aria-label="Top-down diagram of an FPV quad with selectable parts">
-          <g class="pt" data-p="props" tabindex="0" role="button" aria-label="Propellers">
-            <circle class="prop" cx="95" cy="95" r="62"/><circle class="prop" cx="305" cy="95" r="62"/><circle class="prop" cx="95" cy="285" r="62"/><circle class="prop" cx="305" cy="285" r="62"/>
-            <circle class="hit" cx="95" cy="95" r="62"/><circle class="hit" cx="305" cy="285" r="62"/></g>
-          <g class="pt" data-p="frame" tabindex="0" role="button" aria-label="Frame">
-            <path class="ln" d="M95 95 L170 160 M305 95 L230 160 M95 285 L170 220 M305 285 L230 220" stroke-width="7" stroke-linecap="round"/>
-            <rect class="ln fill" x="150" y="140" width="100" height="100" rx="16"/></g>
-          <g class="pt" data-p="motors" tabindex="0" role="button" aria-label="Motors">
-            <circle class="ln fill" cx="95" cy="95" r="22"/><circle class="ln fill" cx="305" cy="95" r="22"/><circle class="ln fill" cx="95" cy="285" r="22"/><circle class="ln fill" cx="305" cy="285" r="22"/></g>
-          <g class="pt" data-p="esc" tabindex="0" role="button" aria-label="ESC"><rect class="ln" x="164" y="154" width="72" height="72" rx="6" stroke-dasharray="5 4"/></g>
-          <g class="pt" data-p="fc" tabindex="0" role="button" aria-label="Flight controller"><rect class="ln fill" x="178" y="168" width="44" height="44" rx="4"/><circle class="ln" cx="200" cy="190" r="6"/></g>
-          <g class="pt" data-p="cam" tabindex="0" role="button" aria-label="Camera"><rect class="ln fill" x="186" y="118" width="28" height="22" rx="4"/><circle class="ln" cx="200" cy="129" r="6"/></g>
-          <g class="pt" data-p="vtx" tabindex="0" role="button" aria-label="Video transmitter"><path class="ln" d="M200 240 L200 290"/><circle class="ln fill" cx="200" cy="298" r="9"/></g>
-          <g class="pt" data-p="rx" tabindex="0" role="button" aria-label="Receiver"><path class="ln" d="M182 240 L160 300 M218 240 L240 300"/><circle class="hit" cx="171" cy="270" r="14"/><circle class="hit" cx="229" cy="270" r="14"/></g>
-          <g class="pt" data-p="bat" tabindex="0" role="button" aria-label="Battery"><rect class="ln fill" x="150" y="330" width="100" height="30" rx="6"/><path class="ln" d="M200 330 L200 312"/></g>
-          <text x="200" y="374" text-anchor="middle">BATTERY</text><text x="200" y="108" text-anchor="middle">CAMERA</text>
-        </svg>
+      <div class="quad" data-3d>
+        <div class="viewer"><canvas id="droneInspect" aria-label="Interactive 3D model of a 5-inch FPV quad. Drag to rotate, tap a part to learn about it."></canvas></div>
+        <div class="viewer-ui">
+          <label for="explode">Exploded view <input id="explode" type="range" min="0" max="100" value="0"></label>
+          <button class="btn sm" id="spinToggle" type="button" aria-pressed="false">Spin up motors</button>
+          <button class="btn sm" id="resetView" type="button">Reset view</button>
+        </div>
         <div class="part-chips" id="partChips"></div>
         <div class="part-info" id="partInfo" aria-live="polite"></div>
       </div>
@@ -1259,11 +1259,6 @@ const JOURNALS = {
   const onScroll=()=>{const h=document.documentElement;const p=h.scrollTop/((h.scrollHeight-h.clientHeight)||1);bar.style.width=(p*100)+'%';};
   addEventListener('scroll',onScroll,{passive:true}); onScroll();
 
-  /* reveal (elements are visible by default; this only adds motion) */
-  if(!reduce && 'IntersectionObserver' in window){
-    const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}}),{threshold:.12});
-    $$('.rv').forEach(el=>{const r=el.getBoundingClientRect(); if(r.top>innerHeight) io.observe(el);});
-  }
 
   /* HUD canvas */
   const cv=$('#hudCanvas'), ctx=cv.getContext('2d'); let W=0,H=0,mx=0,my=0,t0=performance.now();
@@ -1278,18 +1273,12 @@ const JOURNALS = {
     for(let x=(t/60)%48;x<W;x+=48){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke();}
     for(let y=0;y<H;y+=48){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();}
     ctx.restore();
+    ctx.save(); ctx.translate(W/2,H*0.62+pitch*.6); ctx.rotate(roll*.6); ctx.strokeStyle=c; ctx.globalAlpha=.22; ctx.lineWidth=1.2;
+    ctx.beginPath(); ctx.moveTo(-W,0); ctx.lineTo(W,0); ctx.stroke(); ctx.restore();
     if(narrow) return;
-    ctx.save(); ctx.translate(cx,cy+pitch); ctx.rotate(roll); ctx.strokeStyle=c; ctx.fillStyle=c; ctx.globalAlpha=.55; ctx.lineWidth=1.5;
-    ctx.beginPath(); ctx.moveTo(-Math.min(W*.42,520),0); ctx.lineTo(-70,0); ctx.moveTo(70,0); ctx.lineTo(Math.min(W*.42,520),0); ctx.stroke();
-    ctx.font='10px "JetBrains Mono", monospace'; ctx.globalAlpha=.4;
-    for(const k of [-2,-1,1,2]){const y=k*-46; ctx.beginPath(); ctx.moveTo(-60,y); ctx.lineTo(-24,y); ctx.moveTo(24,y); ctx.lineTo(60,y); ctx.stroke(); ctx.fillText(String(Math.abs(k*10)),66,y+3);}
-    ctx.restore();
-    ctx.save(); ctx.translate(cx,cy); ctx.strokeStyle=css('--accent')||'#FFB224'; ctx.globalAlpha=.9; ctx.lineWidth=2;
-    ctx.beginPath(); ctx.moveTo(-28,0); ctx.lineTo(-10,0); ctx.lineTo(0,8); ctx.lineTo(10,0); ctx.lineTo(28,0); ctx.stroke();
-    ctx.globalAlpha=.35; ctx.beginPath(); ctx.arc(0,0,92,Math.PI*1.15,Math.PI*1.85); ctx.stroke(); ctx.restore();
     // heading tape
     ctx.save(); ctx.globalAlpha=.35; ctx.strokeStyle=c; ctx.fillStyle=c; ctx.font='10px "JetBrains Mono", monospace';
-    const hdg=(45+t/400)%360, tx=cx, ty=26;
+    const hdg=(45+t/400)%360, tx=W*0.71, ty=26;
     for(let d=-60; d<=60; d+=10){const v=Math.round((hdg+d)/10)*10; const x=tx+(v-hdg)*3; ctx.beginPath(); ctx.moveTo(x,ty); ctx.lineTo(x,ty+(v%30===0?10:5)); ctx.stroke(); if(v%30===0) ctx.fillText(String((v+360)%360).padStart(3,'0'),x-9,ty+22);}
     ctx.restore();
   }
@@ -1336,13 +1325,275 @@ const JOURNALS = {
   const order=['fc','esc','motors','props','frame','rx','vtx','cam','bat'];
   const info=$('#partInfo'), chips=$('#partChips');
   chips.innerHTML=order.map(k=>`<button class="chip pchip" data-p="${k}" aria-pressed="false">${PARTS[k][0]}</button>`).join('');
-  function pick(k){const p=PARTS[k]; info.innerHTML=`<h4>${p[0]}</h4><p>${p[1]}</p><p class="sec">${p[2]}</p>`;
-    $$('.quad .pt').forEach(g=>g.classList.toggle('on',g.dataset.p===k)); $$('.pchip',chips).forEach(b=>b.setAttribute('aria-pressed',b.dataset.p===k));}
-  $$('.quad .pt').forEach(g=>{g.addEventListener('click',()=>pick(g.dataset.p)); g.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();pick(g.dataset.p);}});});
+  function pick(k){window.__currentPart=k; window.__highlight&&window.__highlight(k); const p=PARTS[k]; info.innerHTML=`<h4>${p[0]}</h4><p>${p[1]}</p><p class="sec">${p[2]}</p>`;
+    $$('.pchip',chips).forEach(b=>b.setAttribute('aria-pressed',b.dataset.p===k));}
+  window.__pickPart=pick;
   chips.addEventListener('click',e=>{const b=e.target.closest('.pchip'); if(b) pick(b.dataset.p);});
   pick('vtx');
 })();
 </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+/* 3D FPV quad: procedural model built with Three.js (r128). Used in the hero and the inspect viewer. */
+(function(){
+  if(!window.THREE){ document.documentElement.classList.add('no-3d'); return; }
+  const T=THREE;
+  const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const accent=()=>getComputedStyle(document.documentElement).getPropertyValue('--accent').trim()||'#FFB224';
+
+  /* ---------- textures ---------- */
+  function carbonTexture(){
+    const c=document.createElement('canvas'); c.width=c.height=128; const g=c.getContext('2d');
+    g.fillStyle='#16181b'; g.fillRect(0,0,128,128);
+    for(let y=0;y<128;y+=16) for(let x=0;x<128;x+=16){
+      const h=((x+y)/16)%2===0;
+      const grd=h?g.createLinearGradient(x,y,x+16,y):g.createLinearGradient(x,y,x,y+16);
+      grd.addColorStop(0,'#1d2024'); grd.addColorStop(.5,'#2f3339'); grd.addColorStop(1,'#1a1c1f');
+      g.fillStyle=grd; g.fillRect(x+1,y+1,14,14);
+    }
+    const t=new T.CanvasTexture(c); t.wrapS=t.wrapT=T.RepeatWrapping; t.repeat.set(3,3); t.anisotropy=4; return t;
+  }
+  function labelTexture(){
+    const c=document.createElement('canvas'); c.width=512; c.height=256; const g=c.getContext('2d');
+    const grd=g.createLinearGradient(0,0,512,0); grd.addColorStop(0,'#111418'); grd.addColorStop(1,'#1b2027');
+    g.fillStyle=grd; g.fillRect(0,0,512,256);
+    g.fillStyle=accent(); g.fillRect(0,0,22,256);
+    g.fillStyle='#e9eff5'; g.font='bold 74px Archivo, Arial, sans-serif'; g.fillText('6S',56,112);
+    g.font='600 40px Archivo, Arial, sans-serif'; g.fillStyle='#93a4b5'; g.fillText('1300 mAh · 120C',56,176);
+    g.font='28px monospace'; g.fillStyle='#7ce3f0'; g.fillText('LiPo · 22.2V',56,224);
+    return new T.CanvasTexture(c);
+  }
+  function pcbTexture(){
+    const c=document.createElement('canvas'); c.width=c.height=128; const g=c.getContext('2d');
+    g.fillStyle='#173d2c'; g.fillRect(0,0,128,128); g.strokeStyle='#2c6b4b'; g.lineWidth=1.5;
+    for(let i=0;i<22;i++){g.beginPath(); const x=Math.random()*128,y=Math.random()*128; g.moveTo(x,y); g.lineTo(x+(Math.random()-.5)*60,y); g.lineTo(x+(Math.random()-.5)*60,y+(Math.random()-.5)*60); g.stroke();}
+    g.fillStyle='#c9a64a'; for(let i=0;i<14;i++){g.fillRect(Math.random()*120,Math.random()*120,5,5);}
+    return new T.CanvasTexture(c);
+  }
+
+  /* ---------- model ---------- */
+  function buildDrone(){
+    const root=new T.Group(); const parts={}; const base={};
+    const P=(k)=>{ if(!parts[k]){ parts[k]=new T.Group(); parts[k].name=k; root.add(parts[k]); } return parts[k]; };
+    const mat={
+      carbon:new T.MeshStandardMaterial({map:carbonTexture(),color:0x6d737b,roughness:.42,metalness:.35}),
+      alu:new T.MeshStandardMaterial({color:new T.Color(accent()),roughness:.28,metalness:.85}),
+      bell:new T.MeshStandardMaterial({color:0x22262c,roughness:.3,metalness:.9}),
+      stator:new T.MeshStandardMaterial({color:0x8a5a2b,roughness:.5,metalness:.6}),
+      steel:new T.MeshStandardMaterial({color:0xc9ced4,roughness:.25,metalness:1}),
+      pcb:new T.MeshStandardMaterial({map:pcbTexture(),roughness:.6,metalness:.1}),
+      chip:new T.MeshStandardMaterial({color:0x111214,roughness:.4,metalness:.3}),
+      black:new T.MeshStandardMaterial({color:0x0f1113,roughness:.55,metalness:.2}),
+      glass:new T.MeshStandardMaterial({color:0x0a1a2a,roughness:.05,metalness:1,emissive:0x0b2236,emissiveIntensity:.6}),
+      prop:new T.MeshStandardMaterial({color:new T.Color(accent()),roughness:.35,metalness:.05,transparent:true,opacity:.88}),
+      blur:new T.MeshBasicMaterial({color:new T.Color(accent()),transparent:true,opacity:.0,depthWrite:false,side:T.DoubleSide}),
+      battery:new T.MeshStandardMaterial({map:labelTexture(),roughness:.5,metalness:.1}),
+      shrink:new T.MeshStandardMaterial({color:0x1a1d21,roughness:.7,metalness:.05}),
+      red:new T.MeshStandardMaterial({color:0xc0392b,roughness:.5}),
+      wire:new T.MeshStandardMaterial({color:0x111111,roughness:.6}),
+      strap:new T.MeshStandardMaterial({color:new T.Color(accent()),roughness:.8}),
+      led:new T.MeshBasicMaterial({color:0x7ce3f0}),
+      antenna:new T.MeshStandardMaterial({color:0x14171a,roughness:.6}),
+      tip:new T.MeshStandardMaterial({color:0xe9eff5,roughness:.5})
+    };
+    const add=(k,geo,m,x,y,z,rx=0,ry=0,rz=0)=>{const me=new T.Mesh(geo,m); me.position.set(x,y,z); me.rotation.set(rx,ry,rz); me.castShadow=true; me.userData.part=k; P(k).add(me); return me;};
+    const M=[[8,8],[-8,8],[8,-8],[-8,-8]]; // motor x,z (z = forward)
+
+    /* frame: bottom plate arms + center plate + top plate + standoffs */
+    for(const [x,z] of M){
+      const len=Math.hypot(x,z)+1.6, ang=Math.atan2(x,z);
+      add('frame',new T.BoxGeometry(1.7,.5,len),mat.carbon,x/2,0,z/2,0,ang,0);
+      add('frame',new T.CylinderGeometry(1.5,1.5,.5,28),mat.carbon,x,0,z);
+      add('frame',new T.BoxGeometry(.25,.12,len*.55),mat.led,x*.45,-.3,z*.45,0,ang,0);
+    }
+    add('frame',new T.BoxGeometry(4.6,.5,9.4),mat.carbon,0,0,0);
+    add('frame',new T.BoxGeometry(4.2,.3,8.6),mat.carbon,0,2.85,0);
+    for(const [x,z] of [[1.9,4],[-1.9,4],[1.9,-4],[-1.9,-4]]) add('frame',new T.CylinderGeometry(.22,.22,2.6,12),mat.alu,x,1.45,z);
+
+    /* motors */
+    const propGroups=[];
+    for(const [x,z] of M){
+      add('motors',new T.CylinderGeometry(1.25,1.25,.25,32),mat.bell,x,.38,z);
+      add('motors',new T.CylinderGeometry(1.1,1.1,.7,32),mat.stator,x,.85,z);
+      add('motors',new T.CylinderGeometry(1.2,1.2,.9,40,1,true),mat.bell,x,1.15,z);
+      add('motors',new T.CylinderGeometry(1.2,1.2,.12,40),mat.bell,x,1.6,z);
+      add('motors',new T.TorusGeometry(1.0,.07,8,40),mat.alu,x,1.67,z,Math.PI/2);
+      add('motors',new T.CylinderGeometry(.18,.18,1.1,12),mat.steel,x,2.1,z);
+      /* props: tri-blade, alternate spin direction */
+      const pg=new T.Group(); pg.position.set(x,2.15,z); pg.userData.dir=(x*z>0)?1:-1; P('props').add(pg);
+      const hub=new T.Mesh(new T.CylinderGeometry(.55,.6,.45,24),mat.prop); hub.userData.part='props'; pg.add(hub);
+      for(let b=0;b<3;b++){
+        const shape=new T.Shape(); shape.moveTo(0,-.35); shape.bezierCurveTo(2,-.75,4.6,-.55,6.2,-.12); shape.quadraticCurveTo(6.45,0,6.2,.18); shape.bezierCurveTo(4.6,.5,2,.55,0,.35);
+        const geo=new T.ExtrudeGeometry(shape,{depth:.06,bevelEnabled:true,bevelThickness:.03,bevelSize:.03,bevelSegments:1,curveSegments:12});
+        const bl=new T.Mesh(geo,mat.prop); bl.rotation.x=-Math.PI/2+0.28*pg.userData.dir; const holder=new T.Group(); holder.rotation.y=b*Math.PI*2/3; holder.add(bl); bl.userData.part='props'; bl.castShadow=true; pg.add(holder);
+      }
+      const disc=new T.Mesh(new T.RingGeometry(.8,6.4,48),mat.blur); disc.rotation.x=-Math.PI/2; disc.userData.part='props'; pg.add(disc); pg.userData.disc=disc;
+      propGroups.push(pg);
+    }
+
+    /* ESC (bottom of stack) and FC */
+    add('esc',new T.BoxGeometry(3.4,.18,3.4),mat.pcb,0,.55,0);
+    for(const [x,z] of [[1.1,1.1],[-1.1,1.1],[1.1,-1.1],[-1.1,-1.1]]) add('esc',new T.BoxGeometry(.7,.2,.7),mat.chip,x,.72,z);
+    add('esc',new T.CylinderGeometry(.45,.45,1,18),mat.black,0,.3,-2.6,Math.PI/2);
+    add('fc',new T.BoxGeometry(3.1,.16,3.1),mat.pcb,0,1.55,0);
+    add('fc',new T.BoxGeometry(1.0,.22,1.0),mat.chip,0,1.73,0);
+    add('fc',new T.BoxGeometry(.35,.15,.35),mat.led,1.1,1.7,1.1);
+    for(const [x,z] of [[1.3,1.3],[-1.3,1.3],[1.3,-1.3],[-1.3,-1.3]]) add('fc',new T.CylinderGeometry(.12,.12,1,10),mat.alu,x,1.05,z);
+
+    /* camera at the front, tilted up */
+    const cam=new T.Group(); cam.position.set(0,1.5,4.1); cam.rotation.x=-.42; P('cam').add(cam);
+    const cm=(g,m,x,y,z,rx=0)=>{const me=new T.Mesh(g,m); me.position.set(x,y,z); me.rotation.x=rx; me.userData.part='cam'; me.castShadow=true; cam.add(me);};
+    cm(new T.BoxGeometry(1.9,1.9,1.6),mat.black,0,0,0);
+    cm(new T.CylinderGeometry(.75,.8,1.0,32),mat.bell,0,0,1.15,Math.PI/2);
+    cm(new T.CylinderGeometry(.55,.55,.05,32),mat.glass,0,0,1.67,Math.PI/2);
+    for(const s of [1,-1]){const side=new T.Mesh(new T.BoxGeometry(.15,2.4,2.2),mat.alu); side.position.set(1.15*s,1.35,4.0); side.userData.part='cam'; P('cam').add(side);}
+
+    /* VTX + lollipop antenna at the back */
+    add('vtx',new T.BoxGeometry(2.2,.5,1.8),mat.pcb,0,1.0,-3.4);
+    add('vtx',new T.BoxGeometry(2.2,.25,1.8),mat.bell,0,1.35,-3.4);
+    const ant=new T.CylinderGeometry(.13,.13,4.2,10);
+    add('vtx',ant,mat.antenna,0,3.0,-5.6,-.75);
+    add('vtx',new T.SphereGeometry(.62,24,16),mat.antenna,0,4.55,-7.15).scale.set(1,1,.55);
+
+    /* receiver + T-antennas */
+    add('rx',new T.BoxGeometry(1.1,.3,1.3),mat.pcb,0,2.4,-2.6);
+    for(const s of [1,-1]){
+      add('rx',new T.CylinderGeometry(.07,.07,3.4,8),mat.antenna,1.3*s,2.4,-5.4,-.9,0,.55*s);
+      add('rx',new T.CylinderGeometry(.09,.09,.9,8),mat.tip,2.15*s,3.55,-6.55,-.9,0,.55*s);
+    }
+
+    /* battery on top plate with strap and XT60 leads */
+    add('bat',new T.BoxGeometry(3.5,3.1,7.6),mat.shrink,0,4.6,-.2);
+    const lab=add('bat',new T.PlaneGeometry(7.4,3.0),mat.battery,1.76,4.6,-.2,0,Math.PI/2,0);
+    const lab2=add('bat',new T.PlaneGeometry(7.4,3.0),mat.battery,-1.76,4.6,-.2,0,-Math.PI/2,0);
+    for(const z of [2.2,-2.6]) add('bat',new T.BoxGeometry(3.75,3.35,.9),mat.strap,0,4.5,z);
+    for(const [m,x] of [[mat.red,.5],[mat.wire,-.5]]){
+      const curve=new T.CatmullRomCurve3([new T.Vector3(x,5.2,-4.0),new T.Vector3(x*1.4,5.6,-5.2),new T.Vector3(x*2.2,3.8,-5.6),new T.Vector3(x*1.2,1.8,-4.6)]);
+      add('bat',new T.TubeGeometry(curve,24,.2,8,false),m,0,0,0);
+    }
+    add('bat',new T.BoxGeometry(1.6,.8,1.0),new T.MeshStandardMaterial({color:0xd9b44a,roughness:.5}),0,1.6,-4.7);
+
+    /* explode directions per part */
+    const ex={frame:[0,0,0],motors:[0,0,0],props:[0,6,0],esc:[0,-3.2,0],fc:[0,3.2,0],cam:[0,1,6],vtx:[0,1.4,-6],rx:[0,4,-4],bat:[0,8,0]};
+    for(const k in parts){ base[k]=parts[k].position.clone(); }
+    /* motors and props slide out along their arms */
+    root.userData={parts,base,ex,propGroups,mat};
+    root.traverse(o=>{ if(o.isMesh){ o.receiveShadow=false; } });
+    return root;
+  }
+
+  function setExplode(drone,amt){
+    const {parts,base,ex,propGroups}=drone.userData;
+    for(const k in parts){ const d=ex[k]||[0,0,0]; parts[k].position.set(base[k].x+d[0]*amt,base[k].y+d[1]*amt,base[k].z+d[2]*amt); }
+    /* radial outward for motors and props */
+    const r=1+amt*0.35;
+    parts.motors.scale.set(r,1,r);
+    propGroups.forEach((pg,i)=>{ const o=pg.userData.o||(pg.userData.o=pg.position.clone()); pg.position.set(o.x*r,o.y,o.z*r); });
+  }
+
+  function highlight(drone,key){
+    drone.traverse(o=>{
+      if(!o.isMesh) return;
+      if(!o.userData.baseMat){ o.userData.baseMat=o.material; }
+      if(key && o.userData.part===key){
+        if(!o.userData.hiMat){ const m=o.userData.baseMat.clone(); if(m.emissive){ m.emissive=new T.Color(accent()); m.emissiveIntensity=.55; } else { m.color=new T.Color(accent()); } o.userData.hiMat=m; }
+        o.material=o.userData.hiMat;
+      } else o.material=o.userData.baseMat;
+    });
+  }
+
+  function contactShadow(){
+    const c=document.createElement('canvas'); c.width=c.height=256; const g=c.getContext('2d');
+    const grd=g.createRadialGradient(128,128,10,128,128,128); grd.addColorStop(0,'rgba(0,0,0,.55)'); grd.addColorStop(1,'rgba(0,0,0,0)');
+    g.fillStyle=grd; g.fillRect(0,0,256,256);
+    const m=new T.Mesh(new T.PlaneGeometry(30,30),new T.MeshBasicMaterial({map:new T.CanvasTexture(c),transparent:true,depthWrite:false}));
+    m.rotation.x=-Math.PI/2; return m;
+  }
+
+  /* ---------- viewer ---------- */
+  function mount(canvas,opts={}){
+    let renderer;
+    try{ renderer=new T.WebGLRenderer({canvas,antialias:true,alpha:true,powerPreference:'high-performance'}); }
+    catch(e){ canvas.closest('[data-3d]')?.classList.add('no-webgl'); return null; }
+    renderer.setPixelRatio(Math.min(devicePixelRatio||1,2));
+    renderer.outputEncoding=T.sRGBEncoding; renderer.toneMapping=T.ACESFilmicToneMapping; renderer.toneMappingExposure=1.15;
+    const scene=new T.Scene();
+    const camera=new T.PerspectiveCamera(opts.fov||32,1,.1,500);
+    const drone=buildDrone(); const rig=new T.Group(); rig.add(drone); scene.add(rig);
+    const shadow=contactShadow(); shadow.position.y=-4.5; scene.add(shadow);
+    scene.add(new T.HemisphereLight(0xcfe8ff,0x0b1622,.85));
+    const key=new T.DirectionalLight(0xffffff,1.6); key.position.set(14,22,16); scene.add(key);
+    const rim=new T.DirectionalLight(new T.Color(accent()),1.1); rim.position.set(-18,8,-14); scene.add(rim);
+    const fill=new T.DirectionalLight(0x7ce3f0,.45); fill.position.set(-10,-6,12); scene.add(fill);
+
+    let yaw=opts.yaw??-.6, pitch=opts.pitch??.42, dist=opts.dist||42, targetYaw=yaw, targetPitch=pitch;
+    let mx=0,my=0, drag=null, explode=0, targetExplode=0, idle=0, visible=true, spin=opts.spin??1;
+    const resize=()=>{const r=canvas.getBoundingClientRect(); const w=Math.max(1,r.width), h=Math.max(1,r.height); renderer.setSize(w,h,false); camera.aspect=w/h; camera.updateProjectionMatrix();};
+    resize(); new ResizeObserver(resize).observe(canvas);
+    new IntersectionObserver(e=>visible=e[0].isIntersecting).observe(canvas);
+
+    canvas.addEventListener('pointerdown',e=>{drag={x:e.clientX,y:e.clientY,yaw:targetYaw,pitch:targetPitch,moved:false}; canvas.setPointerCapture(e.pointerId);});
+    canvas.addEventListener('pointermove',e=>{
+      const r=canvas.getBoundingClientRect(); mx=(e.clientX-r.left)/r.width-.5; my=(e.clientY-r.top)/r.height-.5;
+      if(drag){const dx=e.clientX-drag.x, dy=e.clientY-drag.y; if(Math.abs(dx)+Math.abs(dy)>3) drag.moved=true; targetYaw=drag.yaw+dx*.008; targetPitch=Math.max(-.2,Math.min(1.2,drag.pitch+dy*.006)); idle=0;}
+    });
+    const ray=new T.Raycaster(), v2=new T.Vector2();
+    canvas.addEventListener('pointerup',e=>{
+      if(drag && !drag.moved && opts.onPick){
+        const r=canvas.getBoundingClientRect(); v2.set(((e.clientX-r.left)/r.width)*2-1,-((e.clientY-r.top)/r.height)*2+1);
+        ray.setFromCamera(v2,camera); const hit=ray.intersectObject(drone,true).find(h=>h.object.userData.part && h.object.material!==drone.userData.mat.blur);
+        if(hit) opts.onPick(hit.object.userData.part);
+      }
+      drag=null;
+    });
+    canvas.addEventListener('pointerleave',()=>{mx=0;my=0;});
+
+    const clock=new T.Clock(); let t=0;
+    function frame(){
+      const dt=Math.min(clock.getDelta(),.05); t+=dt; idle+=dt;
+      if(!drag && opts.autoRotate && idle>2.5) targetYaw+=dt*.18;
+      yaw+=(targetYaw-yaw)*.08; pitch+=(targetPitch-pitch)*.08; explode+=(targetExplode-explode)*.1;
+      setExplode(drone,explode);
+      camera.position.set(Math.sin(yaw)*Math.cos(pitch)*dist,Math.sin(pitch)*dist+1,Math.cos(yaw)*Math.cos(pitch)*dist);
+      camera.lookAt(0,1.5+explode*2,0);
+      /* hover + bank toward the pointer */
+      rig.position.y=Math.sin(t*1.6)*.45; rig.rotation.z=(-mx*.35)+Math.sin(t*.9)*.03; rig.rotation.x=(my*.25)+Math.cos(t*1.1)*.02;
+      const s=spin*(reduce?0:1);
+      drone.userData.propGroups.forEach(pg=>{pg.rotation.y+=pg.userData.dir*dt*38*s; pg.userData.disc.material.opacity=.05*s;
+        pg.children.forEach(c=>{ if(c.isGroup) c.children[0].material.opacity=s>0.5?.35:.88; });});
+      renderer.render(scene,camera);
+    }
+    if(reduce){ frame(); }
+    else { (function loop(){ if(visible) frame(); requestAnimationFrame(loop); })(); }
+    return {
+      setExplode:v=>{targetExplode=v; if(reduce) {explode=v; frame();}},
+      highlight:k=>{highlight(drone,k); if(reduce) frame();},
+      setSpin:v=>{spin=v; if(reduce) frame();},
+      reset:()=>{targetYaw=opts.yaw??-.6; targetPitch=opts.pitch??.42; idle=0;}
+    };
+  }
+
+  window.FPV3D={mount};
+
+  /* hero */
+  const hero=document.getElementById('droneHero');
+  if(hero) mount(hero,{autoRotate:true,dist:58,yaw:-.7,pitch:.36});
+
+  /* inspector */
+  const insp=document.getElementById('droneInspect');
+  if(insp){
+    const v=mount(insp,{dist:56,yaw:-.55,pitch:.5,spin:0,onPick:k=>window.__pickPart&&window.__pickPart(k)});
+    if(v){
+      window.__highlight=k=>v.highlight(k);
+      const ex=document.getElementById('explode'); ex&&ex.addEventListener('input',()=>v.setExplode(ex.value/100));
+      const sp=document.getElementById('spinToggle'); sp&&sp.addEventListener('click',()=>{const on=sp.getAttribute('aria-pressed')!=='true'; sp.setAttribute('aria-pressed',on); sp.textContent=on?'Stop motors':'Spin up motors'; v.setSpin(on?1:0);});
+      const rs=document.getElementById('resetView'); rs&&rs.addEventListener('click',()=>v.reset());
+      if(window.__currentPart) v.highlight(window.__currentPart);
+    }
+  }
+})();
+</script>
+
 
 </body>
 </html>
