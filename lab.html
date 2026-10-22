@@ -335,8 +335,8 @@ table.tl{width:100%;border-collapse:collapse;font-size:.83rem;min-width:540px}
 .lab summary b{font-size:.93rem}
 .lab summary .plus{font-family:var(--f-mono);color:var(--muted);transition:transform .2s}
 .lab[open] summary .plus{transform:rotate(45deg)}
-.lab .lb{padding:0 14px 14px;display:grid;gap:8px;font-size:.86rem}
-.lab .lb div b{font-family:var(--f-mono);font-size:.68rem;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);font-weight:500;display:block}
+.lab .lbd{padding:0 14px 14px;display:grid;gap:8px;font-size:.86rem}
+.lab .lbd div b{font-family:var(--f-mono);font-size:.68rem;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);font-weight:500;display:block}
 @media (max-width:760px){.labgrid{grid-template-columns:1fr}}
 
 /* journal */
@@ -1225,7 +1225,7 @@ const JOURNALS = {
   let sf='All';
   function renderSeed(){
     $('#seedFilter').innerHTML=['All','System','Crypto','Network','Forensics'].map(c=>`<button class="chip" data-c="${c}" aria-pressed="${c===sf}">${c}</button>`).join('');
-    $('#seedGrid').innerHTML=LABS.filter(l=>sf==='All'||l.cat===sf).map(l=>`<details class="lab"><summary><span class="wk">${l.wk}</span><b>${esc(l.name)}</b><span class="plus">+</span></summary><div class="lb"><div><b>The attack</b>${esc(l.atk)}</div><div><b>What the lab involves</b>${esc(l.did)}</div><div><b>Defense</b>${esc(l.def)}</div><div><b>How a SOC would spot it</b>${esc(l.det)}</div></div></details>`).join('');
+    $('#seedGrid').innerHTML=LABS.filter(l=>sf==='All'||l.cat===sf).map(l=>`<details class="lab"><summary><span class="wk">${l.wk}</span><b>${esc(l.name)}</b><span class="plus">+</span></summary><div class="lbd"><div><b>The attack</b>${esc(l.atk)}</div><div><b>What the lab involves</b>${esc(l.did)}</div><div><b>Defense</b>${esc(l.def)}</div><div><b>How a SOC would spot it</b>${esc(l.det)}</div></div></details>`).join('');
   }
   $('#seedFilter').addEventListener('click',e=>{const b=e.target.closest('.chip');if(b){sf=b.dataset.c;renderSeed();}});
   renderSeed();
