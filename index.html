@@ -3,36 +3,35 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Yogendra (Roman) Khadka - entry-level SOC Analyst in New York. Hands-on labs: honeypot alert triage, phishing analysis, malware scanning, Windows forensics.">
+<meta name="description" content="Yogendra (Roman) Khadka - entry-level SOC Analyst in New York. Hands-on labs: honeypot alert triage, phishing analysis, malware scanning, Windows forensics. FPV drone pilot.">
 <title>Yogendra Khadka Portfolio</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..100,500..800&family=Public+Sans:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Public+Sans:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap">
 <style>
 /* Layout: an analyst's case file. Quick facts and a working terminal up top, then experience, then each project as a hands-on lab with a build journal. */
 :root{
-  --bg:#F5F7FA; --surface:#FFFFFF; --ink:#0F2236; --muted:#4F5F72; --line:#D8DFE8;
-  --accent:#B45309; --accent-soft:#FDF1E3; --navy:#16395C; --code-bg:#EEF2F7;
-  --term-bg:#0F2236; --term-fg:#DCE6F0; --term-dim:#8FA3B8; --term-acc:#F2A541;
-  --sev-high:#B42318; --sev-high-bg:#FDECEA; --sev-med:#9A6700; --sev-med-bg:#FFF6DB;
-  --sev-low:#1F6F43; --sev-low-bg:#E6F4EC; --info:#1D4E89; --info-bg:#E7EFF9;
+  /* Night-flight palette: dark-first, OSD amber for signal, HUD cyan for telemetry */
+  --bg:#0A1016; --surface:#111A23; --ink:#E9EFF5; --muted:#93A4B5; --line:#203040;
+  --accent:#FFB224; --accent-soft:#2B2210; --on-accent:#1A1204; --navy:#7CC4E8; --code-bg:#070C11; --hud:#7CE3F0;
+  --term-bg:#060A0E; --term-fg:#DCE6F0; --term-dim:#7F93A8; --term-acc:#FFB224;
+  --sev-high:#FF8A80; --sev-high-bg:#3A1A19; --sev-med:#F5C451; --sev-med-bg:#352B12;
+  --sev-low:#6FD39A; --sev-low-bg:#132E20; --info:#8DB8E8; --info-bg:#15263A;
   --f-display:"Archivo","Arial Narrow",system-ui,sans-serif;
   --f-body:"Public Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
   --f-mono:"JetBrains Mono",ui-monospace,"SFMono-Regular",Menlo,Consolas,monospace;
-  --radius:10px;
+  --radius:12px; color-scheme:dark;
 }
-@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
-  --bg:#0D1520; --surface:#131E2C; --ink:#E6EDF5; --muted:#9AA9BA; --line:#25364A;
-  --accent:#F2A541; --accent-soft:#2A2114; --navy:#8DB8E8; --code-bg:#0A111A;
-  --term-bg:#070C13; --term-fg:#DCE6F0; --term-dim:#7F93A8; --term-acc:#F2A541;
-  --sev-high:#FF8A80; --sev-high-bg:#3A1A19; --sev-med:#F5C451; --sev-med-bg:#352B12;
-  --sev-low:#6FD39A; --sev-low-bg:#132E20; --info:#8DB8E8; --info-bg:#15263A; color-scheme:dark}}
-:root[data-theme="dark"]{
-  --bg:#0D1520; --surface:#131E2C; --ink:#E6EDF5; --muted:#9AA9BA; --line:#25364A;
-  --accent:#F2A541; --accent-soft:#2A2114; --navy:#8DB8E8; --code-bg:#0A111A;
-  --term-bg:#070C13; --term-fg:#DCE6F0; --term-dim:#7F93A8; --term-acc:#F2A541;
-  --sev-high:#FF8A80; --sev-high-bg:#3A1A19; --sev-med:#F5C451; --sev-med-bg:#352B12;
-  --sev-low:#6FD39A; --sev-low-bg:#132E20; --info:#8DB8E8; --info-bg:#15263A; color-scheme:dark}
+@media (prefers-color-scheme: light){:root:not([data-theme="dark"]){
+  --bg:#EEF2F5; --surface:#FFFFFF; --ink:#0B1A2A; --muted:#4D5E70; --line:#D3DCE5;
+  --accent:#B45309; --accent-soft:#FBEBD6; --on-accent:#FFFFFF; --navy:#145E8A; --code-bg:#E6ECF2; --hud:#0E7490;
+  --sev-high:#B42318; --sev-high-bg:#FDECEA; --sev-med:#9A6700; --sev-med-bg:#FFF6DB;
+  --sev-low:#1F6F43; --sev-low-bg:#E6F4EC; --info:#1D4E89; --info-bg:#E7EFF9; color-scheme:light}}
+:root[data-theme="light"]{
+  --bg:#EEF2F5; --surface:#FFFFFF; --ink:#0B1A2A; --muted:#4D5E70; --line:#D3DCE5;
+  --accent:#B45309; --accent-soft:#FBEBD6; --on-accent:#FFFFFF; --navy:#145E8A; --code-bg:#E6ECF2; --hud:#0E7490;
+  --sev-high:#B42318; --sev-high-bg:#FDECEA; --sev-med:#9A6700; --sev-med-bg:#FFF6DB;
+  --sev-low:#1F6F43; --sev-low-bg:#E6F4EC; --info:#1D4E89; --info-bg:#E7EFF9; color-scheme:light}
 
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
@@ -44,7 +43,7 @@ a:hover{color:var(--accent)}
 button{font:inherit;color:inherit}
 .wrap{max-width:1100px;margin:0 auto;padding-inline:20px}
 h1,h2,h3,h4{font-family:var(--f-display);text-wrap:balance;margin:0;line-height:1.15}
-h2{font-size:clamp(1.6rem,3.2vw,2.1rem);font-weight:800;font-stretch:85%;letter-spacing:-.01em}
+h2{font-size:clamp(2rem,5vw,3.4rem);font-weight:800;font-stretch:112%;letter-spacing:-.02em;line-height:1.02}
 h3{font-size:1.25rem;font-weight:700;font-stretch:90%}
 p{margin:0}
 .eyebrow{font-family:var(--f-mono);font-size:.74rem;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);font-weight:500}
@@ -75,7 +74,7 @@ p{margin:0}
 .btn{display:inline-flex;align-items:center;gap:8px;font-weight:600;font-size:.93rem;padding:10px 16px;border-radius:8px;border:1px solid var(--line);background:var(--surface);color:var(--ink);text-decoration:none;cursor:pointer;font-family:var(--f-body);line-height:1.3}
 .btn:hover{border-color:var(--accent);color:var(--ink)}
 .btn.primary{background:var(--ink);color:var(--bg);border-color:var(--ink)}
-.btn.primary:hover{background:var(--accent);border-color:var(--accent);color:#fff}
+.btn.primary:hover{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
 .btn:disabled{opacity:.5;cursor:not-allowed}
 .btn.sm{padding:6px 11px;font-size:.84rem}
 .facts{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden}
@@ -375,10 +374,117 @@ table.tl{width:100%;border-collapse:collapse;font-size:.83rem;min-width:540px}
 @media (max-width:760px){.contact{grid-template-columns:1fr;padding:24px}}
 footer{padding-block:28px;font-size:.82rem;color:var(--muted)}
 footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+
+/* ===== Redesign layer: flight HUD ===== */
+body{overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.035;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+main,footer,.nav,.hero{position:relative;z-index:1}
+.progress{position:fixed;top:env(safe-area-inset-top,0px);left:0;height:2px;width:0;background:var(--accent);z-index:40}
+.hero{padding-block:0 28px;overflow:hidden}
+.hud-stage{position:relative;min-height:min(78vh,760px);display:flex;align-items:flex-end;border-bottom:1px solid var(--line)}
+#hudCanvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.osd{position:absolute;font-family:var(--f-mono);font-size:.74rem;letter-spacing:.08em;color:var(--hud);text-transform:uppercase;line-height:1.7;pointer-events:none;font-variant-numeric:tabular-nums}
+.osd b{color:var(--ink);font-weight:500}
+.osd.tl{top:22px;left:20px}.osd.tr{top:22px;right:20px;text-align:right}
+.osd.bl{bottom:22px;left:20px}.osd.br{bottom:22px;right:20px;text-align:right}
+.rec{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--sev-high);margin-right:6px;animation:pulse 1.4s infinite;vertical-align:1px}
+.hero-inner{position:relative;width:100%;padding-block:120px 64px}
+.coord{font-family:var(--f-mono);font-size:.74rem;letter-spacing:.14em;color:var(--muted);text-transform:uppercase;margin-top:18px}
+.mega{font-family:var(--f-display);font-weight:900;text-transform:uppercase;font-size:clamp(2.7rem,11.5vw,10rem);line-height:.86;letter-spacing:-.035em;margin:14px 0 0;font-stretch:125%;animation:widen 1.6s cubic-bezier(.2,.7,.1,1) both}
+.mega .l2{display:block;color:transparent;-webkit-text-stroke:1.5px var(--ink)}
+@keyframes widen{from{font-stretch:62%;letter-spacing:.02em}to{font-stretch:125%;letter-spacing:-.035em}}
+.hero-sub{display:grid;grid-template-columns:1.2fr 1fr;gap:32px;margin-top:30px;align-items:end}
+.hero-sub .tag-line{font-family:var(--f-display);font-size:clamp(1.15rem,2.2vw,1.6rem);font-weight:600;font-stretch:100%;line-height:1.25;max-width:30ch}
+.hero-sub .tag-line em{font-style:normal;color:var(--accent)}
+.hero-sub .lede{margin-top:0;font-size:1rem;color:var(--muted)}
+@media (max-width:860px){.hero-sub{grid-template-columns:1fr}.osd.tr,.osd.br{display:none}.hero-inner{padding-top:150px}}
+.facts-strip{display:grid;grid-template-columns:repeat(6,1fr);border-bottom:1px solid var(--line)}
+.facts-strip div{padding:16px 18px;border-right:1px solid var(--line);min-width:0}
+.facts-strip div:last-child{border-right:0}
+.facts-strip dt{font-family:var(--f-mono);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--hud);margin-bottom:6px}
+.facts-strip dd{margin:0;font-size:.9rem;font-weight:500}
+@media (max-width:980px){.facts-strip{grid-template-columns:repeat(3,1fr)}.facts-strip div:nth-child(3n){border-right:0}.facts-strip div:nth-child(-n+3){border-bottom:1px solid var(--line)}}
+@media (max-width:520px){.facts-strip{grid-template-columns:1fr 1fr}.facts-strip div{border-right:0;border-bottom:1px solid var(--line)}}
+.marquee{overflow:hidden;border-block:1px solid var(--line);background:var(--surface);position:relative;z-index:1}
+.marquee .track{display:flex;width:max-content;animation:scroll 38s linear infinite}
+.marquee span{font-family:var(--f-display);font-weight:800;font-stretch:118%;font-size:clamp(1.3rem,3vw,2.2rem);text-transform:uppercase;padding:14px 22px;white-space:nowrap;letter-spacing:-.01em}
+.marquee span:nth-child(even){color:transparent;-webkit-text-stroke:1px var(--muted)}
+.marquee i{color:var(--accent);font-style:normal;align-self:center}
+@keyframes scroll{to{transform:translateX(-50%)}}
+.marquee:hover .track{animation-play-state:paused}
+.rv.in{animation:rise .8s cubic-bezier(.2,.7,.1,1)}
+@keyframes rise{from{transform:translateY(26px);opacity:.4}to{transform:none;opacity:1}}
+.reticle{position:fixed;left:0;top:0;width:34px;height:34px;margin:-17px 0 0 -17px;border:1px solid var(--accent);border-radius:50%;pointer-events:none;z-index:50;mix-blend-mode:difference;transition:width .2s,height .2s,margin .2s,background .2s;display:none}
+.reticle::before,.reticle::after{content:"";position:absolute;background:var(--accent)}
+.reticle::before{left:50%;top:-6px;bottom:-6px;width:1px}
+.reticle::after{top:50%;left:-6px;right:-6px;height:1px}
+.reticle.big{width:56px;height:56px;margin:-28px 0 0 -28px;background:color-mix(in srgb,var(--accent) 18%,transparent)}
+@media (pointer:fine){.reticle{display:block}}
+@media (prefers-reduced-motion: reduce){.reticle{display:none!important}}
+
+/* certificate showcase */
+.showcase{display:grid;grid-template-columns:1fr 1.6fr;gap:22px;margin-bottom:26px}
+.tilt{position:relative;border-radius:16px;border:1px solid var(--line);background:var(--surface);overflow:hidden;transform-style:preserve-3d;transition:transform .25s ease;will-change:transform;min-width:0}
+.tilt::after{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(420px circle at var(--mx,50%) var(--my,30%),color-mix(in srgb,#fff 26%,transparent),transparent 45%);mix-blend-mode:overlay;opacity:.0;transition:opacity .3s}
+.tilt:hover::after{opacity:1}
+.badge-card{display:grid;place-items:center;padding:34px 20px 22px;gap:16px;background:radial-gradient(circle at 50% 35%,color-mix(in srgb,var(--hud) 16%,transparent),transparent 60%),var(--surface)}
+.holo{position:relative;width:min(210px,70%);aspect-ratio:1;border-radius:22px;overflow:hidden;animation:float 6s ease-in-out infinite;box-shadow:0 30px 60px -20px color-mix(in srgb,#000 60%,transparent)}
+.holo img{width:100%;height:100%;display:block}
+.holo::after{content:"";position:absolute;inset:-40%;background:conic-gradient(from var(--ang,0deg),transparent 0 20%,rgba(255,255,255,.55) 25%,transparent 32% 60%,rgba(124,227,240,.4) 66%,transparent 72%);mix-blend-mode:soft-light;animation:spin 7s linear infinite}
+@keyframes float{50%{transform:translateY(-10px) rotate(-1.5deg)}}
+@keyframes spin{to{transform:rotate(360deg)}}
+.badge-card figcaption,.cert-card figcaption{text-align:center;display:grid;gap:4px}
+.badge-card b,.cert-card b{font-family:var(--f-display);font-stretch:105%;font-size:1.05rem}
+.badge-card span,.cert-card span{font-family:var(--f-mono);font-size:.72rem;color:var(--muted);letter-spacing:.06em}
+.cert-card{padding:18px;display:grid;gap:14px;cursor:zoom-in;margin:0}
+.cert-card .frame{border-radius:8px;overflow:hidden;border:1px solid var(--line);box-shadow:0 24px 50px -24px color-mix(in srgb,#000 70%,transparent);background:#fff}
+.cert-card img{display:block;width:100%;height:auto}
+.verified{position:absolute;top:16px;right:16px;font-family:var(--f-mono);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;background:var(--sev-low-bg);color:var(--sev-low);padding:4px 10px;border-radius:999px;z-index:2}
+@media (max-width:820px){.showcase{grid-template-columns:1fr}}
+.lb{position:fixed;inset:0;z-index:60;background:color-mix(in srgb,#000 82%,transparent);display:grid;place-items:center;padding:24px}
+.lb img{max-width:min(1100px,100%);max-height:86vh;border-radius:8px;box-shadow:0 30px 80px #000}
+.lb button{position:absolute;top:18px;right:18px}
+
+/* FPV section */
+.fpv{display:grid;grid-template-columns:1fr 1.05fr;gap:34px;align-items:start}
+.fpv > div{min-width:0}
+.fpv-copy p{color:var(--muted);max-width:60ch}
+.fpv-copy p + p{margin-top:12px}
+.fpv-copy strong{color:var(--ink);font-weight:600}
+.why{display:grid;gap:10px;margin-top:22px}
+.why div{display:grid;grid-template-columns:auto 1fr;gap:12px;padding:14px;border:1px solid var(--line);border-radius:10px;background:var(--surface)}
+.why b{font-family:var(--f-mono);font-size:.72rem;color:var(--hud);letter-spacing:.08em;padding-top:3px}
+.why span{font-size:.92rem}
+.quad{border:1px solid var(--line);border-radius:16px;background:radial-gradient(circle at 50% 50%,color-mix(in srgb,var(--hud) 10%,transparent),transparent 65%),var(--surface);overflow:hidden}
+.quad-bar{display:flex;justify-content:space-between;gap:8px;padding:10px 14px;border-bottom:1px solid var(--line);font-family:var(--f-mono);font-size:.72rem;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;flex-wrap:wrap}
+.quad svg{display:block;width:100%;height:auto;max-height:380px}
+.quad .pt{cursor:pointer;outline:none}
+.quad .pt .hit{fill:transparent}
+.quad .pt:hover .ln,.quad .pt:focus-visible .ln,.quad .pt.on .ln{stroke:var(--accent)}
+.quad .pt:focus-visible .hit{stroke:var(--accent);stroke-dasharray:3 3}
+.quad .ln{stroke:var(--ink);stroke-width:1.6;fill:none;transition:stroke .2s}
+.quad .fill{fill:color-mix(in srgb,var(--ink) 10%,transparent)}
+.quad .prop{stroke:var(--muted);stroke-dasharray:4 5;fill:none;transform-box:fill-box;transform-origin:center;animation:spin 1.2s linear infinite}
+.quad text{font-family:var(--f-mono);font-size:10px;fill:var(--muted);letter-spacing:.06em}
+.part-info{padding:16px 18px;border-top:1px solid var(--line);display:grid;gap:8px;min-height:150px}
+.part-info h4{font-family:var(--f-display);font-size:1.1rem;font-stretch:105%}
+.part-info p{font-size:.9rem}
+.part-info .sec{font-size:.86rem;color:var(--muted);border-left:2px solid var(--accent);padding-left:10px}
+.part-chips{display:flex;flex-wrap:wrap;gap:6px;padding:12px 14px;border-top:1px solid var(--line)}
+@media (max-width:900px){.fpv{grid-template-columns:1fr}}
+.beyond{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:30px}
+.beyond div{padding:18px;border:1px solid var(--line);border-radius:12px;background:var(--surface);min-width:0}
+.beyond b{display:block;font-family:var(--f-display);font-stretch:105%;font-size:1.05rem;margin-bottom:6px}
+.beyond span{font-size:.9rem;color:var(--muted)}
+.beyond .k{font-family:var(--f-mono);font-size:.68rem;letter-spacing:.1em;color:var(--hud);text-transform:uppercase;margin-bottom:8px;display:block}
+@media (max-width:760px){.beyond{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
 
+<div class="progress" id="progress" aria-hidden="true"></div>
+<div class="reticle" id="reticle" aria-hidden="true"></div>
 <nav class="nav" aria-label="Main">
   <div class="wrap">
     <a class="brand" href="#top">Y.KHADKA<span>/</span>SOC</a>
@@ -388,38 +494,46 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
       <li><a href="#process">Triage process</a></li>
       <li><a href="#skills">Skills</a></li>
       <li><a href="#certs">Certifications</a></li>
+      <li><a href="#offline">Off the clock</a></li>
       <li><a href="#contact">Contact</a></li>
     </ul>
   </div>
 </nav>
 
 <header class="hero" id="top">
-  <div class="wrap">
-    <div class="hero-grid">
-      <div>
-        <span class="status"><i></i>Open to entry-level SOC Analyst roles</span>
-        <h1>Yogendra Khadka<span class="alias">Roman · Security Operations</span></h1>
-        <p class="lede">I triage alerts, read logs, and write up what happened. I've monitored Splunk SIEM events for an agency with 15,000+ employees, and I run my own SSH honeypot to study real attacker behavior. Every project below has a hands-on demo and a journal of what broke and how I fixed it.</p>
-        <div class="cta">
-          <a class="btn primary" href="Yogendra_Khadka_Resume.pdf" target="_blank" rel="noopener">View resume (PDF)</a>
-          <a class="btn" href="#projects">Try the project labs</a>
-          <a class="btn" href="https://github.com/Romankdk" target="_blank" rel="noopener">GitHub</a>
-          <a class="btn" href="https://www.linkedin.com/in/roman-khadka1/" target="_blank" rel="noopener">LinkedIn</a>
+  <div class="hud-stage">
+    <canvas id="hudCanvas" aria-hidden="true"></canvas>
+    <div class="osd tl" aria-hidden="true"><span class="rec"></span>REC · CH SOC-01<br>RSSI <b>99</b> · LQ <b>100%</b></div>
+    <div class="osd tr" aria-hidden="true">BAT <b id="osdBat">16.8V</b><br>MODE <b>ACRO</b></div>
+    <div class="osd bl" aria-hidden="true">ALT <b id="osdAlt">012M</b> · SPD <b id="osdSpd">00KM/H</b><br>HDG <b id="osdHdg">045°</b></div>
+    <div class="osd br" aria-hidden="true">FLIGHT TIME<br><b id="osdTime">00:00</b></div>
+    <div class="wrap hero-inner">
+      <span class="status"><i></i>Open to entry-level SOC Analyst roles</span>
+      <p class="coord">40.7454° N · 73.9055° W · Queens, New York</p>
+      <h1 class="mega">Yogendra<span class="l2">Khadka</span></h1>
+      <div class="hero-sub">
+        <div>
+          <p class="tag-line">"Roman." SOC analyst in training. I keep my eyes on the <em>telemetry</em>, whether it's a SIEM alert queue or a drone's flight display.</p>
+          <div class="cta">
+            <a class="btn primary" href="Yogendra_Khadka_Resume.pdf" target="_blank" rel="noopener">View resume (PDF)</a>
+            <a class="btn" href="#projects">Try the project labs</a>
+            <a class="btn" href="https://github.com/Romankdk" target="_blank" rel="noopener">GitHub</a>
+            <a class="btn" href="https://www.linkedin.com/in/roman-khadka1/" target="_blank" rel="noopener">LinkedIn</a>
+          </div>
         </div>
+        <p class="lede">I triage alerts, read logs, and write up what happened. I've monitored Splunk SIEM events for an agency with 15,000+ employees, and I run my own SSH honeypot to study real attacker behavior. Every project below has a hands-on demo and a journal of what broke and how I fixed it.</p>
       </div>
-      <aside class="facts" aria-label="Quick facts for recruiters">
-        <div class="facts-head"><b style="font-size:.9rem">Quick facts</b><span class="mono">for recruiters</span></div>
-        <dl>
-          <dt>Target</dt><dd>SOC Analyst I · Cybersecurity Analyst</dd>
-          <dt>Location</dt><dd>New York City (Queens) · on-site or hybrid</dd>
-          <dt>Degree</dt><dd>B.S. Computer Science &amp; Information Security, Dec 2026</dd>
-          <dt>Experience</dt><dd>Cybersecurity Analyst Intern, NYC DSS</dd>
-          <dt>Certs</dt><dd>Google Cybersecurity · Cisco Intro to Cybersecurity · Security+ in progress</dd>
-          <dt>Tools</dt><dd>Splunk, Wireshark, Autopsy, Linux, Python</dd>
-        </dl>
-      </aside>
     </div>
-
+  </div>
+  <dl class="facts-strip" aria-label="Quick facts for recruiters">
+    <div><dt>Target</dt><dd>SOC Analyst I · Cybersecurity Analyst</dd></div>
+    <div><dt>Location</dt><dd>New York City · on-site or hybrid</dd></div>
+    <div><dt>Degree</dt><dd>B.S. CS &amp; Information Security, Dec 2026</dd></div>
+    <div><dt>Experience</dt><dd>Cybersecurity Analyst Intern, NYC DSS</dd></div>
+    <div><dt>Certs</dt><dd>Google Cybersecurity · Cisco · Security+ in progress</dd></div>
+    <div><dt>Tools</dt><dd>Splunk, Wireshark, Autopsy, Linux, Python</dd></div>
+  </dl>
+  <div class="wrap">
     <div class="term" aria-label="Interactive terminal">
       <div class="term-bar"><div class="dots"><i></i><i></i><i></i></div><span>roman@soc-lab: ~ · type a command or tap one below</span></div>
       <div class="term-out" id="termOut" aria-live="polite"></div>
@@ -431,6 +545,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
     </div>
   </div>
 </header>
+<div class="marquee" aria-hidden="true"><div class="track"><span>Splunk SIEM</span><i>✦</i><span>Alert triage</span><i>✦</i><span>Phishing analysis</span><i>✦</i><span>Incident response</span><i>✦</i><span>NIST 800-53</span><i>✦</i><span>Python</span><i>✦</i><span>AWS</span><i>✦</i><span>Digital forensics</span><i>✦</i><span>FPV pilot</span><i>✦</i><span>Splunk SIEM</span><i>✦</i><span>Alert triage</span><i>✦</i><span>Phishing analysis</span><i>✦</i><span>Incident response</span><i>✦</i><span>NIST 800-53</span><i>✦</i><span>Python</span><i>✦</i><span>AWS</span><i>✦</i><span>Digital forensics</span><i>✦</i><span>FPV pilot</span><i>✦</i></div></div>
 
 <main>
 <section id="experience">
@@ -481,7 +596,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
     </nav>
 
     <!-- 1. HONEYPOT -->
-    <article class="proj" id="p-lab" data-proj="lab">
+    <article class="proj rv" id="p-lab" data-proj="lab">
       <div class="proj-top">
         <div><span class="eyebrow">Home lab · Raspberry Pi</span><h3>Home SOC &amp; Honeypot Lab</h3>
           <p>A Raspberry Pi that works as a small security operations center for my home network. It baits attackers with a fake SSH server, filters DNS, watches traffic, and sends everything to one dashboard.</p></div>
@@ -546,7 +661,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
     </article>
 
     <!-- 2. PHISHING -->
-    <article class="proj" id="p-phish" data-proj="phish">
+    <article class="proj rv" id="p-phish" data-proj="phish">
       <div class="proj-top">
         <div><span class="eyebrow">From my internship at NYC DSS</span><h3>Phishing Analysis Trainer</h3>
           <p>At NYC DSS I analyzed reported emails and turned the patterns into staff training. This trainer walks you through the same checks on three emails: one phish, one legitimate message, and one business email compromise.</p></div>
@@ -575,7 +690,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
     </article>
 
     <!-- 3. SCANNER -->
-    <article class="proj" id="p-scan" data-proj="scan">
+    <article class="proj rv" id="p-scan" data-proj="scan">
       <div class="proj-top">
         <div><span class="eyebrow">Python · AWS EC2 · 2024</span><h3>Cloud Malware Scanner &amp; Threat Intel Platform</h3>
           <p>A Python service on AWS EC2 that takes a file, hashes it, scans it with ClamAV, checks the hash against VirusTotal, and writes an analyst-ready report with Pandas and Matplotlib charts.</p></div>
@@ -611,7 +726,7 @@ Pick a file and press "Run scan".</pre></div>
     </article>
 
     <!-- 4. FORENSICS -->
-    <article class="proj" id="p-dfir" data-proj="dfir">
+    <article class="proj rv" id="p-dfir" data-proj="dfir">
       <div class="proj-top">
         <div><span class="eyebrow">Computer Security &amp; Forensics · Capstone II</span><h3>Windows Artifact Investigation</h3>
           <p>I reconstructed user activity from Windows artifacts using Eric Zimmerman's JumpList Explorer and ShellBags Explorer, and analyzed disk images in Autopsy. This case shows how separate artifacts combine into one story.</p></div>
@@ -635,7 +750,7 @@ Pick a file and press "Run scan".</pre></div>
     </article>
 
     <!-- 5. SEED -->
-    <article class="proj" id="p-seed" data-proj="seed">
+    <article class="proj rv" id="p-seed" data-proj="seed">
       <div class="proj-top">
         <div><span class="eyebrow">Cybersecurity Capstone II · Fall 2026</span><h3>Attack &amp; Cryptography Labs (SEED Labs)</h3>
           <p>Hands-on attack labs in an isolated Ubuntu VM. Learning how each attack works helps me recognize it from the defender's side. Our team project rebuilds the Morris Worm across Docker containers, and each week we present an analysis of a recent real-world breach.</p></div>
@@ -670,19 +785,30 @@ Pick a file and press "Run scan".</pre></div>
   <div class="wrap">
     <div class="sec-head"><span class="eyebrow">Skills</span><h2>What I can do, and where you can see it</h2></div>
     <div class="skills">
-      <div class="skill"><h3>Security operations</h3><div class="tags" style="margin-top:0"><span class="tag">Splunk SIEM</span><span class="tag">Alert triage</span><span class="tag">Log analysis</span><span class="tag">Phishing analysis</span><span class="tag">Incident response</span><span class="tag">MITRE ATT&amp;CK</span></div><p class="proof">See it in: <a href="#p-lab">Honeypot lab</a> · <a href="#p-phish">Phishing trainer</a> · NYC DSS internship</p></div>
-      <div class="skill"><h3>Network security &amp; monitoring</h3><div class="tags" style="margin-top:0"><span class="tag">TCP/IP</span><span class="tag">DNS</span><span class="tag">IPsec</span><span class="tag">Firewalls</span><span class="tag">IDS/IPS</span><span class="tag">Wireshark</span><span class="tag">tcpdump</span><span class="tag">ntopng</span></div><p class="proof">See it in: <a href="#p-lab">Honeypot lab</a> · Network Security &amp; Forensics course</p></div>
-      <div class="skill"><h3>Digital forensics</h3><div class="tags" style="margin-top:0"><span class="tag">Autopsy</span><span class="tag">JumpList Explorer</span><span class="tag">ShellBags Explorer</span><span class="tag">Windows artifacts</span><span class="tag">Timeline analysis</span></div><p class="proof">See it in: <a href="#p-dfir">Windows artifact case</a></p></div>
-      <div class="skill"><h3>GRC &amp; frameworks</h3><div class="tags" style="margin-top:0"><span class="tag">NIST CSF</span><span class="tag">NIST SP 800-53</span><span class="tag">Risk assessment</span><span class="tag">Control testing</span><span class="tag">Compliance reporting</span></div><p class="proof">See it in: NYC DSS internship</p></div>
-      <div class="skill"><h3>Systems &amp; cloud</h3><div class="tags" style="margin-top:0"><span class="tag">Linux (Ubuntu)</span><span class="tag">Windows 10/11/Server</span><span class="tag">AWS EC2</span><span class="tag">Azure</span><span class="tag">Docker</span><span class="tag">VMware</span><span class="tag">VirtualBox</span></div><p class="proof">See it in: <a href="#p-scan">Malware scanner</a> · <a href="#p-seed">SEED labs</a></p></div>
-      <div class="skill"><h3>Scripting &amp; tools</h3><div class="tags" style="margin-top:0"><span class="tag">Python</span><span class="tag">PowerShell</span><span class="tag">Bash</span><span class="tag">SQL</span><span class="tag">Git</span><span class="tag">Azure DevOps</span></div><p class="proof">See it in: <a href="#p-scan">Malware scanner</a></p></div>
+      <div class="skill rv"><h3>Security operations</h3><div class="tags" style="margin-top:0"><span class="tag">Splunk SIEM</span><span class="tag">Alert triage</span><span class="tag">Log analysis</span><span class="tag">Phishing analysis</span><span class="tag">Incident response</span><span class="tag">MITRE ATT&amp;CK</span></div><p class="proof">See it in: <a href="#p-lab">Honeypot lab</a> · <a href="#p-phish">Phishing trainer</a> · NYC DSS internship</p></div>
+      <div class="skill rv"><h3>Network security &amp; monitoring</h3><div class="tags" style="margin-top:0"><span class="tag">TCP/IP</span><span class="tag">DNS</span><span class="tag">IPsec</span><span class="tag">Firewalls</span><span class="tag">IDS/IPS</span><span class="tag">Wireshark</span><span class="tag">tcpdump</span><span class="tag">ntopng</span></div><p class="proof">See it in: <a href="#p-lab">Honeypot lab</a> · Network Security &amp; Forensics course</p></div>
+      <div class="skill rv"><h3>Digital forensics</h3><div class="tags" style="margin-top:0"><span class="tag">Autopsy</span><span class="tag">JumpList Explorer</span><span class="tag">ShellBags Explorer</span><span class="tag">Windows artifacts</span><span class="tag">Timeline analysis</span></div><p class="proof">See it in: <a href="#p-dfir">Windows artifact case</a></p></div>
+      <div class="skill rv"><h3>GRC &amp; frameworks</h3><div class="tags" style="margin-top:0"><span class="tag">NIST CSF</span><span class="tag">NIST SP 800-53</span><span class="tag">Risk assessment</span><span class="tag">Control testing</span><span class="tag">Compliance reporting</span></div><p class="proof">See it in: NYC DSS internship</p></div>
+      <div class="skill rv"><h3>Systems &amp; cloud</h3><div class="tags" style="margin-top:0"><span class="tag">Linux (Ubuntu)</span><span class="tag">Windows 10/11/Server</span><span class="tag">AWS EC2</span><span class="tag">Azure</span><span class="tag">Docker</span><span class="tag">VMware</span><span class="tag">VirtualBox</span></div><p class="proof">See it in: <a href="#p-scan">Malware scanner</a> · <a href="#p-seed">SEED labs</a></p></div>
+      <div class="skill rv"><h3>Scripting &amp; tools</h3><div class="tags" style="margin-top:0"><span class="tag">Python</span><span class="tag">PowerShell</span><span class="tag">Bash</span><span class="tag">SQL</span><span class="tag">Git</span><span class="tag">Azure DevOps</span></div><p class="proof">See it in: <a href="#p-scan">Malware scanner</a></p></div>
     </div>
   </div>
 </section>
 
 <section id="certs">
   <div class="wrap">
-    <div class="sec-head"><span class="eyebrow">Certifications &amp; education</span><h2>Credentials</h2></div>
+    <div class="sec-head"><span class="eyebrow">Certifications &amp; education</span><h2>Credentials</h2><p>Earned badges and certificates. Hover to inspect, click the certificate to view it full size.</p></div>
+    <div class="showcase">
+      <figure class="tilt badge-card rv" style="margin:0">
+        <span class="verified">Verified</span>
+        <div class="holo"><img src="certs/cisco-badge.png" alt="Cisco Networking Academy verified badge: Introduction to Cybersecurity" width="192" height="192"></div>
+        <figcaption><b>Introduction to Cybersecurity</b><span>CISCO NETWORKING ACADEMY · SEP 2026</span></figcaption>
+      </figure>
+      <figure class="tilt cert-card rv" id="certCard" tabindex="0" role="button" aria-label="View Cisco Introduction to Cybersecurity certificate full size">
+        <div class="frame"><img src="certs/cisco-certificate.jpg" alt="Certificate of completion: Introduction to Cybersecurity, awarded to Yogendra Khadka by Cisco Networking Academy, September 6, 2026" width="1210" height="935" loading="lazy"></div>
+        <figcaption><b>Certificate of completion</b><span>CERT ID be4bd88a-2d44-436c-8b9d-b0e803d241d9</span></figcaption>
+      </figure>
+    </div>
     <div class="certs">
       <div class="cert"><div><b>Google Cybersecurity Professional Certificate</b><span>Google · Coursera</span></div><span class="pill done">Earned</span></div>
       <div class="cert"><div><b>Introduction to Cybersecurity</b><span>Cisco Networking Academy · completed Sep 6, 2026 · Cert ID <span class="mono">be4bd88a-2d44-436c-8b9d-b0e803d241d9</span></span></div><span class="pill done">Earned</span></div>
@@ -693,6 +819,50 @@ Pick a file and press "Run scan".</pre></div>
     <div class="edu">
       <div><span class="when">Expected Dec 2026</span><h3 style="margin-top:6px">B.S. Computer Science &amp; Information Security</h3><p>CUNY John Jay College of Criminal Justice. Coursework: Network Security &amp; Forensics, Computer Security &amp; Forensics, Cryptography &amp; Cryptanalysis, Linux System Administration &amp; Security, Computer Networking, Operating Systems, Cybersecurity Capstone I &amp; II.</p></div>
       <div><span class="when">Jul 2024</span><h3 style="margin-top:6px">A.S. Computer Science</h3><p>CUNY LaGuardia Community College · Dean's List</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="offline">
+  <div class="wrap">
+    <div class="sec-head"><span class="eyebrow">Off the clock</span><h2>I build and fly FPV drones.</h2></div>
+    <div class="fpv">
+      <div class="fpv-copy rv">
+        <p>FPV means first-person view: you fly through goggles that show a live feed from the drone's camera. I fly a <strong>DJI Avata</strong> and a <strong>DJI FPV</strong>, I've been learning acro (manual) mode in the <strong>Uncrashed</strong> simulator, and I build my own quads from parts.</p>
+        <p>In acro mode nothing levels itself. Every correction is yours, and the flight display is the only thing telling you how the drone is doing. That habit carries straight into security work.</p>
+        <div class="why">
+          <div><b>01</b><span><strong>Read telemetry fast.</strong> Battery sag, signal quality and altitude on an OSD are a lot like alerts on a SIEM dashboard. You learn to spot what's off in a second.</span></div>
+          <div><b>02</b><span><strong>Debug the whole stack.</strong> A build that won't arm could be wiring, firmware, a setting or the radio link. Working through it layer by layer is the same as root-cause analysis.</span></div>
+          <div><b>03</b><span><strong>Stay calm when it goes wrong.</strong> Things fail at speed in the air. You stabilize first, then figure out why. Incident response works the same way.</span></div>
+        </div>
+      </div>
+      <div class="quad rv">
+        <div class="quad-bar"><span>Anatomy of a 5-inch build</span><span>Tap a part</span></div>
+        <svg viewBox="0 0 400 380" role="group" aria-label="Top-down diagram of an FPV quad with selectable parts">
+          <g class="pt" data-p="props" tabindex="0" role="button" aria-label="Propellers">
+            <circle class="prop" cx="95" cy="95" r="62"/><circle class="prop" cx="305" cy="95" r="62"/><circle class="prop" cx="95" cy="285" r="62"/><circle class="prop" cx="305" cy="285" r="62"/>
+            <circle class="hit" cx="95" cy="95" r="62"/><circle class="hit" cx="305" cy="285" r="62"/></g>
+          <g class="pt" data-p="frame" tabindex="0" role="button" aria-label="Frame">
+            <path class="ln" d="M95 95 L170 160 M305 95 L230 160 M95 285 L170 220 M305 285 L230 220" stroke-width="7" stroke-linecap="round"/>
+            <rect class="ln fill" x="150" y="140" width="100" height="100" rx="16"/></g>
+          <g class="pt" data-p="motors" tabindex="0" role="button" aria-label="Motors">
+            <circle class="ln fill" cx="95" cy="95" r="22"/><circle class="ln fill" cx="305" cy="95" r="22"/><circle class="ln fill" cx="95" cy="285" r="22"/><circle class="ln fill" cx="305" cy="285" r="22"/></g>
+          <g class="pt" data-p="esc" tabindex="0" role="button" aria-label="ESC"><rect class="ln" x="164" y="154" width="72" height="72" rx="6" stroke-dasharray="5 4"/></g>
+          <g class="pt" data-p="fc" tabindex="0" role="button" aria-label="Flight controller"><rect class="ln fill" x="178" y="168" width="44" height="44" rx="4"/><circle class="ln" cx="200" cy="190" r="6"/></g>
+          <g class="pt" data-p="cam" tabindex="0" role="button" aria-label="Camera"><rect class="ln fill" x="186" y="118" width="28" height="22" rx="4"/><circle class="ln" cx="200" cy="129" r="6"/></g>
+          <g class="pt" data-p="vtx" tabindex="0" role="button" aria-label="Video transmitter"><path class="ln" d="M200 240 L200 290"/><circle class="ln fill" cx="200" cy="298" r="9"/></g>
+          <g class="pt" data-p="rx" tabindex="0" role="button" aria-label="Receiver"><path class="ln" d="M182 240 L160 300 M218 240 L240 300"/><circle class="hit" cx="171" cy="270" r="14"/><circle class="hit" cx="229" cy="270" r="14"/></g>
+          <g class="pt" data-p="bat" tabindex="0" role="button" aria-label="Battery"><rect class="ln fill" x="150" y="330" width="100" height="30" rx="6"/><path class="ln" d="M200 330 L200 312"/></g>
+          <text x="200" y="374" text-anchor="middle">BATTERY</text><text x="200" y="108" text-anchor="middle">CAMERA</text>
+        </svg>
+        <div class="part-chips" id="partChips"></div>
+        <div class="part-info" id="partInfo" aria-live="polite"></div>
+      </div>
+    </div>
+    <div class="beyond">
+      <div class="rv"><span class="k">Outdoors</span><b>Hiking &amp; backpacking</b><span>Trips with friends whenever I can get away. Planning gear and routes is its own kind of risk assessment.</span></div>
+      <div class="rv"><span class="k">Currently learning</span><b>Security+ · TryHackMe SOC L1</b><span>Working through both alongside Cisco's Ethical Hacker course and my Capstone SEED labs.</span></div>
+      <div class="rv"><span class="k">Creative side</span><b>Photoshop · Illustrator · Premiere</b><span>From design and video coursework. Handy for editing flight footage, too.</span></div>
     </div>
   </div>
 </section>
@@ -1076,6 +1246,101 @@ const JOURNALS = {
     const done=()=>{cb.textContent='Copied';setTimeout(()=>cb.textContent='Copy',1600);};
     const fb=()=>{const r=document.createRange();r.selectNodeContents(span);const sel=getSelection();sel.removeAllRanges();sel.addRange(r);cb.textContent='Selected';setTimeout(()=>cb.textContent='Copy',1600);};
     try{navigator.clipboard.writeText(txt).then(done,fb);}catch(e){fb();}}));
+})();
+</script>
+<script>
+(function(){
+  const $=(q,r=document)=>r.querySelector(q), $$=(q,r=document)=>[...r.querySelectorAll(q)];
+  const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const css=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+
+  /* scroll progress */
+  const bar=$('#progress');
+  const onScroll=()=>{const h=document.documentElement;const p=h.scrollTop/((h.scrollHeight-h.clientHeight)||1);bar.style.width=(p*100)+'%';};
+  addEventListener('scroll',onScroll,{passive:true}); onScroll();
+
+  /* reveal (elements are visible by default; this only adds motion) */
+  if(!reduce && 'IntersectionObserver' in window){
+    const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}}),{threshold:.12});
+    $$('.rv').forEach(el=>{const r=el.getBoundingClientRect(); if(r.top>innerHeight) io.observe(el);});
+  }
+
+  /* HUD canvas */
+  const cv=$('#hudCanvas'), ctx=cv.getContext('2d'); let W=0,H=0,mx=0,my=0,t0=performance.now();
+  const size=()=>{const r=cv.getBoundingClientRect();const d=Math.min(devicePixelRatio||1,2);W=r.width;H=r.height;cv.width=W*d;cv.height=H*d;ctx.setTransform(d,0,0,d,0,0);};
+  size(); addEventListener('resize',()=>{size();if(reduce)draw(0);});
+  cv.parentElement.addEventListener('pointermove',e=>{const r=cv.getBoundingClientRect();mx=(e.clientX-r.left)/r.width-.5;my=(e.clientY-r.top)/r.height-.5;});
+  function draw(t){
+    const c=css('--hud')||'#7CE3F0'; ctx.clearRect(0,0,W,H);
+    const narrow=W<760; const cx=W*0.68, cy=H*0.42;
+    const _r=0, roll=(Math.sin(t/2600)*7+mx*14)*Math.PI/180, pitch=Math.sin(t/3400)*14+my*40;
+    ctx.save(); ctx.globalAlpha=.10; ctx.strokeStyle=c; ctx.lineWidth=1;
+    for(let x=(t/60)%48;x<W;x+=48){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke();}
+    for(let y=0;y<H;y+=48){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();}
+    ctx.restore();
+    if(narrow) return;
+    ctx.save(); ctx.translate(cx,cy+pitch); ctx.rotate(roll); ctx.strokeStyle=c; ctx.fillStyle=c; ctx.globalAlpha=.55; ctx.lineWidth=1.5;
+    ctx.beginPath(); ctx.moveTo(-Math.min(W*.42,520),0); ctx.lineTo(-70,0); ctx.moveTo(70,0); ctx.lineTo(Math.min(W*.42,520),0); ctx.stroke();
+    ctx.font='10px "JetBrains Mono", monospace'; ctx.globalAlpha=.4;
+    for(const k of [-2,-1,1,2]){const y=k*-46; ctx.beginPath(); ctx.moveTo(-60,y); ctx.lineTo(-24,y); ctx.moveTo(24,y); ctx.lineTo(60,y); ctx.stroke(); ctx.fillText(String(Math.abs(k*10)),66,y+3);}
+    ctx.restore();
+    ctx.save(); ctx.translate(cx,cy); ctx.strokeStyle=css('--accent')||'#FFB224'; ctx.globalAlpha=.9; ctx.lineWidth=2;
+    ctx.beginPath(); ctx.moveTo(-28,0); ctx.lineTo(-10,0); ctx.lineTo(0,8); ctx.lineTo(10,0); ctx.lineTo(28,0); ctx.stroke();
+    ctx.globalAlpha=.35; ctx.beginPath(); ctx.arc(0,0,92,Math.PI*1.15,Math.PI*1.85); ctx.stroke(); ctx.restore();
+    // heading tape
+    ctx.save(); ctx.globalAlpha=.35; ctx.strokeStyle=c; ctx.fillStyle=c; ctx.font='10px "JetBrains Mono", monospace';
+    const hdg=(45+t/400)%360, tx=cx, ty=26;
+    for(let d=-60; d<=60; d+=10){const v=Math.round((hdg+d)/10)*10; const x=tx+(v-hdg)*3; ctx.beginPath(); ctx.moveTo(x,ty); ctx.lineTo(x,ty+(v%30===0?10:5)); ctx.stroke(); if(v%30===0) ctx.fillText(String((v+360)%360).padStart(3,'0'),x-9,ty+22);}
+    ctx.restore();
+  }
+  const osd={bat:$('#osdBat'),alt:$('#osdAlt'),spd:$('#osdSpd'),hdg:$('#osdHdg'),time:$('#osdTime')};
+  function osdTick(t){const s=Math.floor(t/1000); osd.time.textContent=String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0');
+    osd.bat.textContent=Math.max(14.8,16.8-s*0.004).toFixed(1)+'V'; osd.alt.textContent=String(Math.round(12+Math.sin(t/2200)*6)).padStart(3,'0')+'M';
+    osd.spd.textContent=String(Math.round(34+Math.sin(t/1700)*18)).padStart(2,'0')+'KM/H'; osd.hdg.textContent=String(Math.round((45+t/400)%360)).padStart(3,'0')+'°';}
+  if(reduce){draw(4000);osdTick(0);} else {let vis=true; new IntersectionObserver(e=>vis=e[0].isIntersecting).observe(cv);
+    const loop=now=>{const t=now-t0; if(vis){draw(t);} osdTick(t); requestAnimationFrame(loop);}; requestAnimationFrame(loop);}
+
+  /* reticle cursor */
+  const ret=$('#reticle');
+  if(!reduce && matchMedia('(pointer:fine)').matches){let x=-100,y=-100,rx=-100,ry=-100;
+    addEventListener('pointermove',e=>{x=e.clientX;y=e.clientY;});
+    addEventListener('pointerover',e=>{ret.classList.toggle('big',!!e.target.closest('a,button,[role=button],.pt,.part'));});
+    const f=()=>{rx+=(x-rx)*.22;ry+=(y-ry)*.22;ret.style.transform=`translate(${rx}px,${ry}px)`;requestAnimationFrame(f);};f();}
+
+  /* tilt + glare */
+  $$('.tilt').forEach(el=>{ if(reduce) return;
+    el.addEventListener('pointermove',e=>{const r=el.getBoundingClientRect();const px=(e.clientX-r.left)/r.width,py=(e.clientY-r.top)/r.height;
+      el.style.transform=`perspective(900px) rotateX(${(.5-py)*9}deg) rotateY(${(px-.5)*11}deg)`;el.style.setProperty('--mx',px*100+'%');el.style.setProperty('--my',py*100+'%');});
+    el.addEventListener('pointerleave',()=>{el.style.transform='';});});
+
+  /* lightbox */
+  const card=$('#certCard');
+  const open=()=>{const lb=document.createElement('div');lb.className='lb';lb.setAttribute('role','dialog');lb.setAttribute('aria-label','Certificate');
+    lb.innerHTML='<img src="certs/cisco-certificate.jpg" alt="Cisco Introduction to Cybersecurity certificate, full size"><button class="btn" type="button">Close</button>';
+    const close=()=>{lb.remove();removeEventListener('keydown',esc);card.focus();}; const esc=e=>{if(e.key==='Escape')close();};
+    lb.addEventListener('click',e=>{if(e.target===lb||e.target.tagName==='BUTTON')close();}); addEventListener('keydown',esc);
+    document.body.appendChild(lb); lb.querySelector('button').focus();};
+  card.addEventListener('click',open); card.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();open();}});
+
+  /* FPV parts */
+  const PARTS={
+    fc:['Flight controller','The brain. It runs firmware like Betaflight, reads the gyro, and adjusts every motor thousands of times a second.','Security angle: firmware is the attack surface. Only flash firmware from trusted sources and check what you install.'],
+    esc:['ESC (speed controller)','Turns the flight controller’s commands into power for each motor.','Troubleshooting angle: one bad setting here can cause a failure mid-flight, just like one misconfigured component can take a system down.'],
+    motors:['Brushless motors','Size and KV rating decide the trade-off between punch and efficiency.','Monitoring angle: a hot or noisy motor after a flight is an early warning, like an odd entry in a log.'],
+    props:['Propellers','Pitch and blade count change grip, speed and noise. Cheap to swap, easy to break.','Ops angle: keep spares and replace before failure. Patching works the same way.'],
+    frame:['Frame','Carbon fiber arms and plates. The layout decides how the quad handles and how well it survives a crash.','Design angle: good architecture limits how far damage spreads, on a quad or a network.'],
+    rx:['Radio receiver','The control link from my radio to the drone, usually on protocols like ExpressLRS.','Security angle: radio links can be jammed or hijacked if poorly set up. Binding and encryption keep the link yours.'],
+    vtx:['Video transmitter','Sends the live camera feed to my goggles.','Security angle: analog video is broadcast in the clear, so anyone tuned to the channel can watch. DJI’s digital link is encrypted. It’s HTTP vs HTTPS in the air.'],
+    cam:['FPV camera','A low-latency camera built for flying, not filming. Every millisecond of delay matters.','Monitoring angle: latency in what you see is like delay in your logs. Late data means late decisions.'],
+    bat:['LiPo battery','High-power battery. Voltage sag on the OSD tells you how hard you’re pushing it.','Safety angle: LiPos need careful charging and storage. You watch the numbers the whole flight, like a capacity dashboard.']};
+  const order=['fc','esc','motors','props','frame','rx','vtx','cam','bat'];
+  const info=$('#partInfo'), chips=$('#partChips');
+  chips.innerHTML=order.map(k=>`<button class="chip pchip" data-p="${k}" aria-pressed="false">${PARTS[k][0]}</button>`).join('');
+  function pick(k){const p=PARTS[k]; info.innerHTML=`<h4>${p[0]}</h4><p>${p[1]}</p><p class="sec">${p[2]}</p>`;
+    $$('.quad .pt').forEach(g=>g.classList.toggle('on',g.dataset.p===k)); $$('.pchip',chips).forEach(b=>b.setAttribute('aria-pressed',b.dataset.p===k));}
+  $$('.quad .pt').forEach(g=>{g.addEventListener('click',()=>pick(g.dataset.p)); g.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();pick(g.dataset.p);}});});
+  chips.addEventListener('click',e=>{const b=e.target.closest('.pchip'); if(b) pick(b.dataset.p);});
+  pick('vtx');
 })();
 </script>
 
